@@ -23,8 +23,8 @@ body{background:var(--cream);color:var(--ink);font-family:'EB Garamond',Georgia,
 .lupa{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:#333;border:1px solid #4a4a4a;color:#e7e2d8;font-size:1.05rem;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none}
 .lupa:hover{border-color:var(--gold);color:#fff}
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;background:var(--carbon);border-top:1px solid #3a3a38;padding-bottom:env(safe-area-inset-bottom,0)}
-.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:.5rem 0 .55rem;text-decoration:none;color:#9a948a;font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.01em;border-top:2px solid transparent}
-.tabbar a .ic{font-size:1.2rem;line-height:1}
+.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:.5rem 0 .55rem;text-decoration:none;color:#9a948a;font-family:'Inter',sans-serif;font-size:.55rem;letter-spacing:0;border-top:2px solid transparent}
+.tabbar a .ic{font-size:1.12rem;line-height:1}
 .tabbar a.act{color:var(--gold);border-top-color:var(--gold)}
 body{padding-bottom:74px}
 .brand{display:flex;align-items:center;gap:.55rem;color:#fff;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.15rem;white-space:nowrap;text-decoration:none}
@@ -533,6 +533,7 @@ setTimeout(() => { if(!fbUser && !nombre && !localStorage.getItem(LS_BV)) docume
   <a href="biblioteca.html"><span class="ic">📚</span>Biblioteca</a>
   <a href="videos.html"><span class="ic">🎬</span>Videos</a>
   <a href="comunidad.html" class="act"><span class="ic">👥</span>Comunidad</a>
+  <a href="notas.html"><span class="ic">📝</span>Notas</a>
 </nav>
 </body>
 </html>
