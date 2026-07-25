@@ -145,8 +145,8 @@ function fechaBonita(iso){
 function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
 
 /* ===== estado (offline-first: localStorage manda; la nube sincroniza) ===== */
-const LS = 'af_notas';
-let notas = JSON.parse(localStorage.getItem(LS) || '[]');
+const LS = 'af_cuaderno';
+let notas = (() => { try { const v = JSON.parse(localStorage.getItem(LS) || '[]'); return Array.isArray(v) ? v : []; } catch(e){ return []; } })();
 let editId = null;
 let fbUser = null, fbDB = null;
 function guardarLocal(){ localStorage.setItem(LS, JSON.stringify(notas)); }
