@@ -19,7 +19,14 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--cream);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:19px;line-height:1.7}
 
-.topbar{position:sticky;top:0;z-index:100;background:var(--carbon);display:flex;align-items:center;gap:1rem;padding:.55rem 1rem;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.topbar{position:sticky;top:0;z-index:100;background:var(--carbon);display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.55rem 1rem;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.lupa{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:#333;border:1px solid #4a4a4a;color:#e7e2d8;font-size:1.05rem;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none}
+.lupa:hover{border-color:var(--gold);color:#fff}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;background:var(--carbon);border-top:1px solid #3a3a38;padding-bottom:env(safe-area-inset-bottom,0)}
+.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:.5rem 0 .55rem;text-decoration:none;color:#9a948a;font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.01em;border-top:2px solid transparent}
+.tabbar a .ic{font-size:1.2rem;line-height:1}
+.tabbar a.act{color:var(--gold);border-top-color:var(--gold)}
+body{padding-bottom:74px}
 .brand{display:flex;align-items:center;gap:.55rem;color:#fff;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.15rem;white-space:nowrap;text-decoration:none}
 .brand img{width:30px;height:30px;border-radius:7px}
 .brand small{font-family:'Inter',sans-serif;font-size:.55rem;letter-spacing:.25em;color:var(--gold-light);display:block;line-height:1}
@@ -129,12 +136,8 @@ h1.dia-titulo{font-family:'Cormorant Garamond',serif;font-size:clamp(1.7rem,4.5v
 <body>
 
 <div class="topbar">
-  <a class="brand" href="plan.html"><img src="Logo%20Ad%20Fontes.png" alt=""><div>Ad Fontes<small>PLAN</small></div></a>
-  <div class="buscador"><button onclick="abrirBuscar()">🔍 Buscar pasaje, palabra o tema… <span class="atajo">Ctrl K</span></button></div>
-  <a class="enlace-top" href="biblia.html">📖 Biblia</a>
-  <a class="enlace-top" href="biblioteca.html">📚 Biblioteca</a>
-  <a class="enlace-top" href="videos.html">🎬 Videos</a>
-  <a class="enlace-top" href="comunidad.html">👥 Comunidad</a>
+  <a class="brand" href="index.html"><img src="Logo%20Ad%20Fontes.png" alt=""><div>Ad Fontes<small>PLAN</small></div></a>
+  <a class="lupa" role="button" tabindex="0" onclick="abrirBuscar()" title="Buscar pasaje, palabra o tema" aria-label="Buscar">🔍</a>
 </div>
 <div class="progreso-linea"><div id="progFill"></div></div>
 
@@ -452,5 +455,13 @@ if(location.hash){
 cargarEstado();
 pintarDia();
 </script>
+
+<nav class="tabbar">
+  <a href="biblia.html"><span class="ic">📖</span>Biblia</a>
+  <a href="plan.html" class="act"><span class="ic">📅</span>Plan</a>
+  <a href="biblioteca.html"><span class="ic">📚</span>Biblioteca</a>
+  <a href="videos.html"><span class="ic">🎬</span>Videos</a>
+  <a href="comunidad.html"><span class="ic">👥</span>Comunidad</a>
+</nav>
 </body>
 </html>
