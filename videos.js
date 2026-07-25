@@ -3,6 +3,16 @@
    Para anadir texto explicativo o pasajes a un video, usa recursos.js */
 const VIDEOS = [
  {
+  "yt": "zioT9LHTmts",
+  "titulo": "1689 · Capítulo 2 — De Dios y de la Santa Trinidad",
+  "fecha": "2026-07-25",
+  "desc": "",
+  "serie": "lbc",
+  "caps": [
+   2
+  ]
+ },
+ {
   "yt": "H2rdUYN2I60",
   "titulo": "Introducción a la Serie de Confesión Bautista de Fe de Londres 1689",
   "fecha": "2026-07-23",
