@@ -90,6 +90,18 @@ body{padding-bottom:74px}
 .ref-chip:hover{background:#efe4c8}
 .nota-pie{font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:.8rem;margin-top:1.3rem}
 
+/* Grupos de credos / confesiones */
+.grupo-conf{margin-bottom:.9rem}
+.grupo-conf .filas{margin-bottom:.4rem}
+.grupo-lbl{display:block;font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+/* Credos (documento breve) */
+.credo-intro{font-family:'EB Garamond',serif;font-style:italic;color:var(--ink-soft);border-left:3px solid var(--gold);padding:.2rem 0 .2rem .9rem;margin:0 0 1.2rem;line-height:1.55}
+.doc p.credo-par{margin-bottom:.9rem;line-height:1.75}
+.credo-notas{border-top:1px solid var(--line);margin-top:1.4rem;padding-top:1rem}
+.credo-notas h4{font-family:'Inter',sans-serif;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 .5rem}
+.credo-notas p{font-family:'Inter',sans-serif;font-size:.82rem;color:var(--ink-soft);line-height:1.55;margin:0 0 .6rem}
+.credo-notas strong{color:var(--carbon)}
+
 .tarjeta-lib{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:1.1rem 1.3rem;margin-bottom:.8rem}
 .tarjeta-lib h4{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--carbon)}
 .tarjeta-lib .met{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
@@ -162,9 +174,9 @@ body{padding-bottom:74px}
     </div>
     <div class="estantes">
       <a class="estante" onclick="verConfesiones()">
-        <div class="ic">📜</div><h3>Confesiones y credos</h3>
-        <p>La Confesión Bautista de Londres (1689) completa, con sus pruebas bíblicas clicables. Westminster en preparación.</p>
-        <div class="meta">32 capítulos · 160 párrafos</div>
+        <div class="ic">📜</div><h3>Credos y confesiones</h3>
+        <p>Los cuatro credos ecuménicos (Apóstoles, Niceno, Atanasiano, Calcedonia) y la Confesión Bautista de Londres (1689) completa, con sus pruebas bíblicas clicables.</p>
+        <div class="meta">4 credos · 2 confesiones</div>
       </a>
       <a class="estante" onclick="verAutores()">
         <div class="ic">🖋</div><h3>Autores</h3>
@@ -192,9 +204,21 @@ body{padding-bottom:74px}
   <!-- Confesiones -->
   <div class="vista" id="v-conf">
     <div class="miga"><a onclick="portada()">Biblioteca</a> › Confesiones</div>
-    <div class="filas">
-      <button class="pill act" id="pLbc" onclick="setConf('lbc')">Bautista de Londres · 1689</button>
-      <button class="pill" id="pWest" onclick="setConf('west')">Westminster · 1647</button>
+    <div class="grupo-conf">
+      <span class="grupo-lbl">Credos ecuménicos</span>
+      <div class="filas">
+        <button class="pill" data-conf="apostoles" onclick="setConf('apostoles')">Apóstoles</button>
+        <button class="pill" data-conf="niceno" onclick="setConf('niceno')">Niceno</button>
+        <button class="pill" data-conf="atanasio" onclick="setConf('atanasio')">Atanasiano</button>
+        <button class="pill" data-conf="calcedonia" onclick="setConf('calcedonia')">Calcedonia</button>
+      </div>
+    </div>
+    <div class="grupo-conf">
+      <span class="grupo-lbl">Confesiones reformadas</span>
+      <div class="filas">
+        <button class="pill" data-conf="lbc" onclick="setConf('lbc')">Bautista de Londres · 1689</button>
+        <button class="pill" data-conf="west" onclick="setConf('west')">Westminster · 1647</button>
+      </div>
     </div>
     <div class="num-grid" id="capsConf"></div>
     <div id="docConf"></div>
@@ -239,6 +263,7 @@ body{padding-bottom:74px}
   </div>
 </div>
 
+<script src="credos.js"></script>
 <script src="confesiones.js"></script>
 <script src="videos.js"></script>
 <script src="estudio.js"></script>
@@ -263,8 +288,8 @@ function vista(id){
 }
 function portada(){ vista('v-portada'); location.hash = ''; }
 
-/* ===== Confesiones ===== */
-let confId = 'lbc', confCap = 0;
+/* ===== Credos y Confesiones ===== */
+let confId = 'apostoles', confCap = 0;
 function verConfesiones(){ vista('v-conf'); location.hash = 'confesiones'; pintarConf(); }
 function setConf(id){ confId = id; confCap = 0; pintarConf(); }
 function verCapConf(i){ confCap = i; pintarConf(); document.getElementById('docConf').scrollIntoView({behavior:'smooth', block:'start'}); }
@@ -294,10 +319,25 @@ function tarjetaVideo(serie, n, titCap){
   }).join('') + '</div>';
 }
 function pintarConf(){
+  document.querySelectorAll('#v-conf .pill').forEach(b => b.classList.toggle('act', b.dataset.conf === confId));
+
+  /* ¿es un credo ecuménico? (documento breve, sin capítulos ni pruebas bíblicas) */
+  if(typeof CREDOS !== 'undefined' && CREDOS[confId]){
+    document.getElementById('capsConf').innerHTML = '';
+    const cr = CREDOS[confId];
+    document.getElementById('docConf').innerHTML =
+      '<div class="doc"><h2>' + cr.titulo + '</h2><div class="doc-sub">' + cr.sub + '</div>' +
+      '<p class="credo-intro">' + cr.intro + '</p>' +
+      cr.texto.map(t => '<p class="par credo-par">' + t + '</p>').join('') +
+      (cr.notas && cr.notas.length
+        ? '<div class="credo-notas"><h4>Notas</h4>' + cr.notas.map(n => '<p><strong>' + n.t + '</strong> — ' + n.d + '</p>').join('') + '</div>'
+        : '') +
+      '</div>';
+    return;
+  }
+
   if(typeof CONFESIONES === 'undefined') return;
   const c = CONFESIONES[confId];
-  document.getElementById('pLbc').classList.toggle('act', confId === 'lbc');
-  document.getElementById('pWest').classList.toggle('act', confId === 'west');
   document.getElementById('capsConf').innerHTML = c.caps.map((cap, i) =>
     '<button class="' + (i === confCap ? 'act' : '') + (videosDeCap(confId, i+1).length ? ' con-vid' : '') + '" title="' + cap.t + (videosDeCap(confId, i+1).length ? ' — tiene video' : '') + '" onclick="verCapConf(' + i + ')">' + (i+1) + '</button>').join('');
   const cap = c.caps[confCap];
@@ -410,6 +450,11 @@ function buscar(q){
     }));
     if(rc.length) h += '<div class="grupo-res"><h5>Confesiones</h5>' + rc.slice(0,8).map(r =>
       '<div class="res" onclick="cerrarYConf(\'' + r.id + '\',' + r.i + ')"><b>Cap. ' + (r.i+1) + '</b><span>' + r.t + '</span></div>').join('') + '</div>';
+  }
+  if(typeof CREDOS !== 'undefined'){
+    const rk = CREDOS_ORDEN.filter(id => normTxt(CREDOS[id].titulo + ' ' + CREDOS[id].intro + ' ' + CREDOS[id].texto.join(' ')).includes(nq));
+    if(rk.length) h += '<div class="grupo-res"><h5>Credos</h5>' + rk.map(id =>
+      '<div class="res" onclick="cerrarYConf(\'' + id + '\',0)"><b>' + CREDOS[id].titulo.replace(/^(El|La) /, '') + '</b><span>Credo ecuménico</span></div>').join('') + '</div>';
   }
   if(typeof ESTUDIO !== 'undefined'){
     const re = ESTUDIO.filter(e => normTxt(e.ref + ' ' + e.tema + ' ' + e.citas.map(c => c.txt + ' ' + c.autor + ' ' + c.obra).join(' ') + ' ' + (e.cruzadas||'')).includes(nq));
