@@ -101,6 +101,42 @@ body{padding-bottom:74px}
 .credo-notas h4{font-family:'Inter',sans-serif;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 .5rem}
 .credo-notas p{font-family:'Inter',sans-serif;font-size:.82rem;color:var(--ink-soft);line-height:1.55;margin:0 0 .6rem}
 .credo-notas strong{color:var(--carbon)}
+#v-conf.sin-notas .credo-notas{display:none}
+
+/* Ficha de estudio del documento */
+.ficha{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:1rem 1.1rem;margin:0 auto 1.3rem;max-width:760px}
+.ficha-cab{display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;margin-bottom:.4rem}
+.ficha-t{font-family:'Inter',sans-serif;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.ficha-tog{font-family:'Inter',sans-serif;font-size:.72rem;background:#fff;border:1px solid var(--line);border-radius:20px;padding:.3rem .7rem;cursor:pointer;color:var(--ink-soft)}
+.ficha-tog.on{background:#eef5ef;border-color:#bcd8c0;color:var(--green)}
+.fsec{border-top:1px solid var(--line)}
+.fsec > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.5rem;padding:.7rem .1rem;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:600;color:var(--carbon)}
+.fsec > summary::-webkit-details-marker{display:none}
+.fs-fl{margin-left:auto;color:var(--ink-soft);transition:transform .2s}
+.fsec[open] .fs-fl{transform:rotate(90deg)}
+.fs-cuerpo{padding:0 .1rem 1rem;font-family:'EB Garamond',serif;font-size:.98rem;line-height:1.7;color:var(--ink)}
+.fs-cuerpo p{margin:0 0 .7rem}
+.ref-inline{color:#7a5b1e;border-bottom:1px dotted #c9ab6d;cursor:pointer;white-space:nowrap}
+.ref-inline:hover{background:#f6f0e0}
+/* Línea de tiempo */
+.tl{position:relative;padding-left:.3rem}
+.tl-i{display:flex;gap:.9rem;padding:.35rem 0}
+.tl-a{flex:0 0 4.6rem;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;color:#8a6a24;text-align:right;border-right:2px solid var(--gold);padding-right:.7rem}
+.tl-h{flex:1;font-size:.92rem}
+/* Autores e influencias */
+.au-i,.inf-i{padding:.5rem 0;border-bottom:1px dashed var(--line)}
+.au-i:last-child,.inf-i:last-child{border-bottom:none}
+.au-i b,.inf-i b{display:block;font-family:'Inter',sans-serif;font-size:.86rem;color:var(--carbon)}
+.au-i span,.inf-i span{font-size:.9rem;color:var(--ink-soft)}
+/* Comparación */
+.comp-intro{font-style:italic;color:var(--ink-soft);margin-bottom:.9rem !important}
+.comp-fila{border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem;margin-bottom:.6rem}
+.comp-tema{font-family:'Inter',sans-serif;font-size:.8rem;font-weight:600;color:var(--carbon);margin-bottom:.4rem}
+.comp-col{font-size:.9rem;padding:.35rem 0}
+.comp-col + .comp-col{border-top:1px dashed var(--line)}
+.comp-lbl{display:inline-block;font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;border-radius:5px;padding:.05rem .4rem;margin-right:.4rem}
+.comp-west .comp-lbl{background:#e8eef6;color:#2e5a8a}
+.comp-lbc .comp-lbl{background:#f3ecdb;color:#8a6a24}
 
 .tarjeta-lib{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:1.1rem 1.3rem;margin-bottom:.8rem}
 .tarjeta-lib h4{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--carbon)}
@@ -220,6 +256,7 @@ body{padding-bottom:74px}
         <button class="pill" data-conf="west" onclick="setConf('west')">Westminster · 1647</button>
       </div>
     </div>
+    <div id="fichaDoc"></div>
     <div class="num-grid" id="capsConf"></div>
     <div id="docConf"></div>
   </div>
@@ -264,6 +301,7 @@ body{padding-bottom:74px}
 </div>
 
 <script src="credos.js"></script>
+<script src="dossier.js"></script>
 <script src="confesiones.js"></script>
 <script src="videos.js"></script>
 <script src="estudio.js"></script>
@@ -290,7 +328,7 @@ function portada(){ vista('v-portada'); location.hash = ''; }
 
 /* ===== Credos y Confesiones ===== */
 let confId = 'apostoles', confCap = 0;
-function verConfesiones(){ vista('v-conf'); location.hash = 'confesiones'; pintarConf(); }
+function verConfesiones(){ vista('v-conf'); location.hash = 'confesiones'; aplicarNotasConf(); pintarConf(); }
 function setConf(id){ confId = id; confCap = 0; pintarConf(); }
 function verCapConf(i){ confCap = i; pintarConf(); document.getElementById('docConf').scrollIntoView({behavior:'smooth', block:'start'}); }
 function partirRefs(tx){
@@ -318,8 +356,41 @@ function tarjetaVideo(serie, n, titCap){
       '</div><span class="vid-play">▶</span></a>';
   }).join('') + '</div>';
 }
+/* ----- Ficha de estudio del documento (introducción, línea de tiempo, autores, etc.) ----- */
+let notasConfOn = localStorage.getItem('af_conf_notas') !== '0';
+function aplicarNotasConf(){ document.getElementById('v-conf').classList.toggle('sin-notas', !notasConfOn); }
+function toggleNotasConf(){ notasConfOn = !notasConfOn; localStorage.setItem('af_conf_notas', notasConfOn ? '1' : '0'); aplicarNotasConf(); pintarFicha(confId); }
+function enlazarRefs(t){
+  return String(t).replace(/\{\{([^}]+)\}\}/g, (m, ref) =>
+    '<span class="ref-inline" onclick="verVerso(\'' + ref.replace(/'/g, "\\'") + '\')">' + ref + '</span>');
+}
+function fsec(titulo, cuerpo, abierto){
+  return '<details class="fsec"' + (abierto ? ' open' : '') + '><summary>' + titulo + '<span class="fs-fl">›</span></summary><div class="fs-cuerpo">' + cuerpo + '</div></details>';
+}
+function pintarFicha(id){
+  const el = document.getElementById('fichaDoc');
+  const d = (typeof DOSSIER !== 'undefined') ? DOSSIER[id] : null;
+  if(!d){ el.innerHTML = ''; return; }
+  let h = '<div class="ficha"><div class="ficha-cab"><span class="ficha-t">Ficha del documento</span>' +
+    '<button class="ficha-tog' + (notasConfOn ? ' on' : '') + '" onclick="toggleNotasConf()">💬 Notas explicativas: ' + (notasConfOn ? 'Activadas' : 'Desactivadas') + '</button></div>';
+  if(d.intro) h += fsec('📖 Introducción histórica', d.intro.map(p => '<p>' + enlazarRefs(p) + '</p>').join(''), true);
+  if(d.timeline) h += fsec('⏳ Línea de tiempo', '<div class="tl">' + d.timeline.map(t =>
+    '<div class="tl-i"><span class="tl-a">' + t.a + '</span><span class="tl-h">' + enlazarRefs(t.h) + '</span></div>').join('') + '</div>');
+  if(d.autores) h += fsec('👤 Principales autores', d.autores.map(a => '<div class="au-i"><b>' + a.n + '</b><span>' + a.r + '</span></div>').join(''));
+  if(d.influencias) h += fsec('📚 Influencias y documentos relacionados', d.influencias.map(x => '<div class="inf-i"><b>' + x.t + '</b><span>' + x.d + '</span></div>').join(''));
+  if(d.comparacion){
+    const c = d.comparacion;
+    h += fsec('📑 Comparación con ' + c.con, '<p class="comp-intro">' + c.intro + '</p>' +
+      c.filas.map(f => '<div class="comp-fila"><div class="comp-tema">' + f.tema + '</div>' +
+        '<div class="comp-col comp-west"><span class="comp-lbl">Westminster</span>' + f.west + '</div>' +
+        '<div class="comp-col comp-lbc"><span class="comp-lbl">1689</span>' + f.lbc + '</div></div>').join(''));
+  }
+  el.innerHTML = h + '</div>';
+}
+
 function pintarConf(){
   document.querySelectorAll('#v-conf .pill').forEach(b => b.classList.toggle('act', b.dataset.conf === confId));
+  pintarFicha(confId);
 
   /* ¿es un credo ecuménico? (documento breve, sin capítulos ni pruebas bíblicas) */
   if(typeof CREDOS !== 'undefined' && CREDOS[confId]){

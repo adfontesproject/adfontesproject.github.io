@@ -1,6 +1,6 @@
 /* Service Worker — La Biblia en un Año (PWA: sin conexión + notificaciones) */
-const CACHE = 'adfontes-v26';
-const FILES = ['./', 'index.html', 'biblia.html', 'plan.html', 'biblioteca.html', 'comunidad.html', 'videos.html', 'notas.html', 'plan.js', 'planes.js', 'comentarios.js', 'credos.js', 'confesiones.js', 'estudio.js', 'contextos.js', 'referencias.js', 'videos.js', 'recursos.js', 'manifest.json', 'Logo Ad Fontes.png'];
+const CACHE = 'adfontes-v27';
+const FILES = ['./', 'index.html', 'biblia.html', 'plan.html', 'biblioteca.html', 'comunidad.html', 'videos.html', 'notas.html', 'plan.js', 'planes.js', 'comentarios.js', 'credos.js', 'dossier.js', 'confesiones.js', 'estudio.js', 'contextos.js', 'referencias.js', 'videos.js', 'recursos.js', 'manifest.json', 'Logo Ad Fontes.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
