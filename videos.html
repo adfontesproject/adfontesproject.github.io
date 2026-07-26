@@ -50,6 +50,19 @@ body{padding-bottom:74px}
 .serie-panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:1.3rem 1.5rem;margin-bottom:1.6rem}
 .serie-panel h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--carbon);margin:0}
 .serie-sub{font-family:'Inter',sans-serif;font-size:.78rem;color:var(--ink-soft);margin:.15rem 0 .7rem}
+/* Serie de la Confesión, compacta y plegable */
+.serie-det{background:var(--paper);border:1px solid var(--line);border-radius:12px;margin-bottom:1rem;overflow:hidden}
+.serie-det > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;font-family:'Inter',sans-serif}
+.serie-det > summary::-webkit-details-marker{display:none}
+.sd-ic{font-size:1rem}
+.sd-tit{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--carbon);flex:0 1 auto}
+.sd-sub{font-size:.72rem;color:#8a6a24;white-space:nowrap}
+.sd-barra{flex:1;min-width:40px;max-width:160px;height:5px;border-radius:3px;background:#e6e0d6;overflow:hidden}
+.sd-barra span{display:block;height:100%;background:var(--gold)}
+.sd-flecha{color:var(--ink-soft);transition:transform .2s;margin-left:auto}
+.serie-det[open] .sd-flecha{transform:rotate(180deg)}
+.serie-det .serie-rejilla{padding:0 1rem .3rem}
+.serie-det .serie-pie{padding:0 1rem 1rem;margin-top:.6rem}
 .serie-barra{height:5px;border-radius:3px;background:#e6e0d6;overflow:hidden;margin-bottom:1rem}
 .serie-barra div{height:100%;background:var(--gold)}
 .serie-rejilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.45rem}
@@ -190,11 +203,15 @@ function panelConfesion(lista, id){
       ? '<a class="cel hay" href="https://www.youtube.com/watch?v=' + v.yt + '" target="_blank" rel="noopener"><b>Cap. ' + n + '</b><span>' + t + '</span></a>'
       : '<div class="cel"><b>Cap. ' + n + '</b><span>En preparación</span></div>';
   }
-  return '<div class="serie-panel"><h3>' + (id === 'lbc' ? 'La Confesión de 1689, capítulo por capítulo' : 'La Confesión de Westminster, capítulo por capítulo') + '</h3>' +
-    '<div class="serie-sub">' + hechos + ' de ' + total + ' publicados</div>' +
-    '<div class="serie-barra"><div style="width:' + Math.round(hechos / total * 100) + '%"></div></div>' +
+  const pct = Math.round(hechos / total * 100);
+  const titulo = (id === 'lbc' ? 'La Confesión de 1689 en video' : 'La Confesión de Westminster en video');
+  return '<details class="serie-det"><summary><span class="sd-ic">📖</span>' +
+    '<span class="sd-tit">' + titulo + '</span>' +
+    '<span class="sd-sub">' + hechos + ' de ' + total + '</span>' +
+    '<span class="sd-barra"><span style="width:' + pct + '%"></span></span>' +
+    '<span class="sd-flecha">▾</span></summary>' +
     '<div class="serie-rejilla">' + celdas + '</div>' +
-    '<div class="serie-pie">Cada capítulo con video también lo muestra dentro de la <a href="biblioteca.html#confesiones">Confesión en la Biblioteca</a>.</div></div>';
+    '<div class="serie-pie">Cada capítulo con video también aparece dentro de la <a href="biblioteca.html#confesiones">Confesión en la Biblioteca</a>.</div></details>';
 }
 let filtro = '', busca = '';
 function pintar(){

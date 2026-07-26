@@ -108,6 +108,12 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:2rem;text-al
 .mini-caja p{font-family:'Inter',sans-serif;font-size:.8rem;color:var(--ink-soft);margin:0 0 .8rem}
 .mini-caja input{width:100%;font-family:'EB Garamond',serif;font-size:1rem;padding:.55rem .7rem;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
 .mini-caja input:focus{outline:none;border-color:var(--gold)}
+.sel-fila{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.55rem}
+.sel-lab{font-family:'Inter',sans-serif;font-size:.82rem;color:var(--ink-soft);display:flex;align-items:center;gap:.35rem}
+.mini-caja select{font-family:'EB Garamond',serif;font-size:1rem;padding:.5rem .6rem;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);cursor:pointer}
+.mini-caja select:focus{outline:none;border-color:var(--gold)}
+#selLibro{flex:1;min-width:140px}
+#selCap{flex:0 0 auto;min-width:110px}
 .mini-acc{display:flex;gap:.6rem;margin-top:.9rem}
 #insMsg{font-family:'Inter',sans-serif;font-size:.78rem;margin-top:.5rem;min-height:1rem}
 #insMsg.err{color:#c0392b}
@@ -180,11 +186,18 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:2rem;text-al
 <div class="mini-ov" id="ovInsertar" onclick="if(event.target===this)cerrarInsertar()">
   <div class="mini-caja">
     <h4>📖 Insertar pasaje</h4>
-    <p>Se pegará el texto en <b>Reina-Valera 1909</b>, como cita.</p>
-    <input id="insRef" placeholder="p. ej. Juan 3:16-17  ·  Salmos 23  ·  Jonás 4:2" onkeydown="if(event.key==='Enter')hacerInsertar()">
+    <p>Elige el pasaje; se pegará en <b>Reina-Valera 1909</b> como cita.</p>
+    <div class="sel-fila">
+      <select id="selLibro" onchange="alElegirLibro()"></select>
+      <select id="selCap" onchange="alElegirCap()"><option value="">Capítulo…</option></select>
+    </div>
+    <div class="sel-fila" id="selVersos" style="display:none">
+      <label class="sel-lab">Del versículo <select id="selV1" onchange="alElegirV1()"></select></label>
+      <label class="sel-lab">hasta el <select id="selV2"></select></label>
+    </div>
     <div id="insMsg"></div>
     <div class="mini-acc">
-      <button class="btn btn-pri" onclick="hacerInsertar()">Insertar</button>
+      <button class="btn btn-pri" id="btnInsertar" onclick="hacerInsertar()" disabled>Insertar</button>
       <button class="btn" onclick="cerrarInsertar()">Cancelar</button>
     </div>
   </div>
@@ -364,35 +377,66 @@ function cita(ev){
 let rangoGuardado = null;
 function guardarRango(){ const s = window.getSelection(); if(s && s.rangeCount && $('edCuerpo').contains(s.anchorNode)) rangoGuardado = s.getRangeAt(0).cloneRange(); }
 function restaurarRango(){ $('edCuerpo').focus(); if(rangoGuardado){ const s = window.getSelection(); s.removeAllRanges(); s.addRange(rangoGuardado); } }
-function abrirInsertar(ev){ ev.preventDefault(); guardarRango(); $('insRef').value = $('edPasaje').value || ''; $('insMsg').textContent=''; $('insMsg').className=''; $('ovInsertar').classList.add('on'); setTimeout(()=>$('insRef').focus(),60); return false; }
+/* Capítulos por libro (orden de NOMBRES) */
+const CAPNUM = [50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,12,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22];
 function cerrarInsertar(){ $('ovInsertar').classList.remove('on'); }
-async function hacerInsertar(){
-  const ref = $('insRef').value.trim();
-  const msg = $('insMsg');
-  const m = ref.match(/^([123]?\s?[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+)\.?\s+(\d+)(?::([\d,\-]+))?$/);
-  if(!m){ msg.className='err'; msg.textContent='Escribe algo como «Juan 3:16» o «Salmos 23».'; return; }
-  const clave = normTxt(m[1]);
-  const num = NUMLIB[clave];
-  if(!num){ msg.className='err'; msg.textContent='No reconozco ese libro. Usa el nombre completo.'; return; }
-  let cap = parseInt(m[2],10), vv = m[3];
-  if(LIBROS_UNICAP[clave] && !vv){ vv = String(cap); cap = 1; }
-  msg.className=''; msg.textContent='Cargando…';
+function llenarLibros(){
+  const s = $('selLibro');
+  if(s.options.length > 1) return;
+  s.innerHTML = '<option value="">Libro…</option>' + NOMBRES.map((n,i) => '<option value="'+i+'">'+n+'</option>').join('');
+}
+function abrirInsertar(ev){
+  ev.preventDefault(); guardarRango(); llenarLibros();
+  $('selLibro').value = ''; $('selCap').innerHTML = '<option value="">Capítulo…</option>';
+  $('selVersos').style.display = 'none'; $('btnInsertar').disabled = true;
+  $('insMsg').textContent = ''; $('insMsg').className = '';
+  $('ovInsertar').classList.add('on');
+  return false;
+}
+function alElegirLibro(){
+  const i = parseInt($('selLibro').value, 10);
+  $('selVersos').style.display = 'none'; $('btnInsertar').disabled = true; $('insMsg').textContent = '';
+  if(isNaN(i)){ $('selCap').innerHTML = '<option value="">Capítulo…</option>'; return; }
+  let o = '<option value="">Capítulo…</option>';
+  for(let c = 1; c <= CAPNUM[i]; c++) o += '<option value="'+c+'">'+c+'</option>';
+  $('selCap').innerHTML = o;
+}
+async function alElegirCap(){
+  const i = parseInt($('selLibro').value, 10), c = parseInt($('selCap').value, 10);
+  $('selVersos').style.display = 'none'; $('btnInsertar').disabled = true;
+  if(isNaN(i) || isNaN(c)) return;
+  const msg = $('insMsg'); msg.className = ''; msg.textContent = 'Cargando versículos…';
   try{
-    const url = 'https://api.getbible.net/v2/valera/'+num+'/'+cap+'.json';
+    const url = 'https://api.getbible.net/v2/valera/'+(i+1)+'/'+c+'.json';
     if(!cacheV[url]){ const r = await fetch(url); if(!r.ok) throw 0; cacheV[url] = await r.json(); }
-    const todos = cacheV[url].verses || [];
-    let nums = [];
-    if(vv) vv.split(',').forEach(seg => { const ab = seg.split('-').map(Number); for(let i=ab[0]; i<=(ab[1]||ab[0]); i++) nums.push(i); });
-    const sel = nums.length ? todos.filter(v => nums.includes(v.verse)) : todos;
-    if(!sel.length){ msg.className='err'; msg.textContent='No encontré esos versículos.'; return; }
-    const etiqueta = IDX[clave] + ' ' + cap + (vv ? ':'+vv : '');
-    const cuerpo = sel.map(v => '<span class="vn">'+v.verse+'</span>'+esc(v.text.trim())+' ').join('');
-    const html = '<blockquote>'+cuerpo+'<span class="cita-ref">— '+esc(etiqueta)+' (RV1909)</span></blockquote><p><br></p>';
-    restaurarRango();
-    document.execCommand('insertHTML', false, html);
-    if(!$('edPasaje').value.trim()) $('edPasaje').value = etiqueta;
-    cerrarInsertar();
-  }catch(e){ msg.className='err'; msg.textContent='No pude cargar el texto. Revisa tu conexión.'; }
+    const N = (cacheV[url].verses || []).length;
+    if(!N) throw 0;
+    let o = ''; for(let v = 1; v <= N; v++) o += '<option value="'+v+'">'+v+'</option>';
+    $('selV1').innerHTML = o; $('selV1').value = '1';
+    alElegirV1();
+    $('selVersos').style.display = 'flex'; msg.textContent = ''; $('btnInsertar').disabled = false;
+  }catch(e){ msg.className = 'err'; msg.textContent = 'No pude cargar ese capítulo. Revisa tu conexión.'; }
+}
+function alElegirV1(){
+  const v1 = parseInt($('selV1').value, 10), N = $('selV1').options.length;
+  let o = ''; for(let v = v1; v <= N; v++) o += '<option value="'+v+'">'+v+'</option>';
+  $('selV2').innerHTML = o; $('selV2').value = String(v1);
+}
+function hacerInsertar(){
+  const i = parseInt($('selLibro').value, 10), c = parseInt($('selCap').value, 10);
+  const v1 = parseInt($('selV1').value, 10), v2 = parseInt($('selV2').value, 10);
+  if(isNaN(i) || isNaN(c) || isNaN(v1)) return;
+  const url = 'https://api.getbible.net/v2/valera/'+(i+1)+'/'+c+'.json';
+  const todos = (cacheV[url] && cacheV[url].verses) || [];
+  const sel = todos.filter(v => v.verse >= v1 && v.verse <= v2);
+  if(!sel.length){ $('insMsg').className='err'; $('insMsg').textContent='No encontré esos versículos.'; return; }
+  const etiqueta = NOMBRES[i] + ' ' + c + ':' + v1 + (v2 > v1 ? '-'+v2 : '');
+  const cuerpo = sel.map(v => '<span class="vn">'+v.verse+'</span>'+esc(v.text.trim())+' ').join('');
+  const html = '<blockquote>'+cuerpo+'<span class="cita-ref">— '+esc(etiqueta)+' (RV1909)</span></blockquote><p><br></p>';
+  restaurarRango();
+  document.execCommand('insertHTML', false, html);
+  if(!$('edPasaje').value.trim()) $('edPasaje').value = etiqueta;
+  cerrarInsertar();
 }
 
 /* ===== render ===== */
