@@ -93,6 +93,12 @@ h1.cap-titulo{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weigh
 .nota-caja.abierta{display:block}
 .nota-caja textarea{width:100%;padding:.55rem .65rem;border:1px solid var(--line);border-radius:8px;font-family:'EB Garamond',serif;font-size:.95rem;resize:vertical}
 .nota-caja .fila-n{display:flex;gap:.35rem;margin-top:.35rem}
+.rango-caja{padding:0 1.1rem .8rem;display:none;align-items:center;gap:.4rem;flex-wrap:wrap}
+.rango-caja.abierta{display:flex}
+.rango-caja .et{font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-soft)}
+.rango-caja select{font-family:'Inter',sans-serif;font-size:.8rem;padding:.35rem .5rem;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--carbon)}
+#versos.rango-sel .verso:not(.en-rango){opacity:.45}
+.verso.en-rango{background:#fdf6e3}
 .verso.marcado{background:#fdf3d8;box-shadow:inset 3px 0 0 var(--gold)}
 .verso.con-nota .n::after{content:'📝';font-size:.6rem;display:block}
 .cx{display:block;font-family:'Inter',sans-serif;font-size:.78rem;color:var(--carbon);background:var(--cream);border:1px solid var(--line);border-radius:8px;padding:.45rem .6rem;margin-top:.35rem;cursor:pointer;text-decoration:none}
@@ -455,6 +461,48 @@ function compartirVerso(v){
   if(navigator.share) navigator.share({ text: t }).catch(()=>{});
   else window.open('https://wa.me/?text=' + encodeURIComponent(t), '_blank', 'noopener');
 }
+/* ---- Selección de rango: copiar o enviar a Notas ---- */
+function maxVerso(){ const a = [...document.querySelectorAll('.verso')].map(e => parseInt(e.id.slice(1),10)); return a.length ? Math.max(...a) : 1; }
+function opcionesFin(v){ let o = '', mx = maxVerso(); for(let i = v; i <= mx; i++) o += '<option value="'+i+'">'+i+'</option>'; return o; }
+function limpiarRango(){
+  const c = document.getElementById('versos'); if(c) c.classList.remove('rango-sel');
+  document.querySelectorAll('.verso.en-rango').forEach(e => e.classList.remove('en-rango'));
+}
+function abrirRango(v){
+  const c = document.getElementById('rangoCaja'); if(!c) return;
+  if(c.classList.toggle('abierta')) pintarRango(v); else limpiarRango();
+}
+function pintarRango(v1){
+  const fin = parseInt((document.getElementById('rangoFin')||{}).value || v1, 10);
+  const cont = document.getElementById('versos'); if(cont) cont.classList.add('rango-sel');
+  document.querySelectorAll('.verso').forEach(e => { const n = parseInt(e.id.slice(1),10); e.classList.toggle('en-rango', n >= v1 && n <= fin); });
+}
+function refRango(v1,v2){ return LIBROS[L][0] + ' ' + C + ':' + v1 + (v2 > v1 ? '-' + v2 : ''); }
+function textoRango(v1,v2){ const t = []; for(let i = v1; i <= v2; i++){ const s = textoVerso(i); if(s) t.push((v2 > v1 ? i + ' ' : '') + s); } return t.join(' '); }
+function copiarRango(v1){
+  const v2 = parseInt((document.getElementById('rangoFin')||{}).value || v1, 10);
+  const ref = refRango(v1,v2);
+  const t = '«' + textoRango(v1,v2) + '»\n— ' + ref + ' (RV 1909)\nadfontesproject.github.io/biblia.html#' + encodeURIComponent(LIBROS[L][0]) + '/' + C + '/' + v1;
+  if(navigator.clipboard) navigator.clipboard.writeText(t).then(() => toast('Pasaje copiado ✓  (' + ref + ')')).catch(() => toast('No se pudo copiar'));
+  else toast('Tu navegador no permite copiar aquí');
+}
+function aNota(v1,v2){ crearNotaCuaderno(v1, v2); }
+function aNotaRango(v1){ const v2 = parseInt((document.getElementById('rangoFin')||{}).value || v1, 10); crearNotaCuaderno(v1, v2); }
+function crearNotaCuaderno(v1,v2){
+  const ref = refRango(v1,v2);
+  const cuerpo = [];
+  for(let i = v1; i <= v2; i++){ const s = textoVerso(i); if(s) cuerpo.push('<span class="vn">' + i + '</span>' + s + ' '); }
+  const html = '<blockquote>' + cuerpo.join('') + '<span class="cita-ref">— ' + ref + ' (RV1909)</span></blockquote><p><br></p>';
+  const id = Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+  const d = new Date(), f = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  const n = { id: id, t: ref, f: f, p: ref, c: html, u: Date.now() };
+  let lista = []; try{ const v = JSON.parse(localStorage.getItem('af_cuaderno') || '[]'); if(Array.isArray(v)) lista = v; }catch(e){}
+  lista.unshift(n);
+  localStorage.setItem('af_cuaderno', JSON.stringify(lista));
+  if(fbUser && fbDB){ try{ fbDB.collection('notas').doc(fbUser.uid).collection('items').doc(id).set(n); }catch(e){} }
+  limpiarRango();
+  toast('Enviado a Notas ✓  (' + ref + ')');
+}
 function marcarVerso(v){
   const k = claveV(v);
   if(marcas[k]) delete marcas[k]; else marcas[k] = 1;
@@ -524,9 +572,11 @@ function recursosDe(v){
 function cerrarPanel(){
   document.getElementById('panel').classList.remove('abierto');
   document.querySelectorAll('.verso').forEach(v => v.classList.remove('activo'));
+  limpiarRango();
   versoActivo = null;
 }
 function abrirPanel(v){
+  limpiarRango();
   versoActivo = v;
   const nombre = LIBROS[L][0];
   document.querySelectorAll('.verso').forEach(x => x.classList.remove('activo'));
@@ -544,10 +594,16 @@ function abrirPanel(v){
   /* 0. Acciones sobre el versículo */
   h += '<div class="acciones-v">' +
     '<button class="acc" onclick="copiarVerso(' + v + ')">📋 Copiar</button>' +
+    '<button class="acc" onclick="abrirRango(' + v + ')">⇕ Rango…</button>' +
+    '<button class="acc" onclick="aNota(' + v + ',' + v + ')">📓 A Notas</button>' +
     '<button class="acc" onclick="compartirVerso(' + v + ')">📱 Compartir</button>' +
     '<button class="acc ' + (marcas[k] ? 'on' : '') + '" onclick="marcarVerso(' + v + ')">🖍 ' + (marcas[k] ? 'Marcado' : 'Marcar') + '</button>' +
     '<button class="acc ' + (notas[k] ? 'on' : '') + '" onclick="toggleNota()">📝 ' + (notas[k] ? 'Mi nota' : 'Nota') + '</button>' +
     '</div>' +
+    '<div class="rango-caja" id="rangoCaja"><span class="et">Desde el v.' + v + '  hasta el v.</span>' +
+    '<select id="rangoFin" onchange="pintarRango(' + v + ')">' + opcionesFin(v) + '</select>' +
+    '<button class="acc" onclick="copiarRango(' + v + ')">📋 Copiar</button>' +
+    '<button class="acc" onclick="aNotaRango(' + v + ')">📓 A Notas</button></div>' +
     '<div class="nota-caja ' + (notas[k] ? 'abierta' : '') + '" id="notaCaja">' +
     '<textarea id="notaTxt" rows="3" placeholder="Tu nota sobre este versículo…">' + (notas[k] || '') + '</textarea>' +
     '<div class="fila-n"><button class="acc" onclick="guardarNota(' + v + ')">Guardar</button>' +

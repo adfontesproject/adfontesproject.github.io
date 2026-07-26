@@ -349,7 +349,16 @@ function borrarNota(id, ev){
 /* ----- barra de formato (execCommand: máxima compatibilidad, incl. Android) ----- */
 function fmt(ev, cmd){ ev.preventDefault(); document.execCommand(cmd, false, null); $('edCuerpo').focus(); return false; }
 function tam(ev, k){ ev.preventDefault(); document.execCommand('fontSize', false, {small:'2', normal:'3', grande:'5'}[k] || '3'); $('edCuerpo').focus(); return false; }
-function cita(ev){ ev.preventDefault(); document.execCommand('formatBlock', false, 'blockquote'); $('edCuerpo').focus(); return false; }
+function cita(ev){
+  ev.preventDefault();
+  /* Interruptor: si el cursor ya está dentro de una cita, la quita; si no, la pone */
+  const sel = window.getSelection();
+  let node = sel && sel.anchorNode, dentro = false;
+  while(node && node !== $('edCuerpo')){ if(node.nodeName === 'BLOCKQUOTE'){ dentro = true; break; } node = node.parentNode; }
+  document.execCommand('formatBlock', false, dentro ? 'div' : 'blockquote');
+  $('edCuerpo').focus();
+  return false;
+}
 
 /* ----- insertar un pasaje (RV1909) como cita ----- */
 let rangoGuardado = null;
