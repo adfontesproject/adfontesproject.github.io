@@ -3,6 +3,36 @@
    Para anadir texto explicativo o pasajes a un video, usa recursos.js */
 const VIDEOS = [
  {
+  "yt": "H-VfcUyMQoA",
+  "titulo": "1689 · Capítulo 5 — De la divina providencia",
+  "fecha": "2026-07-26",
+  "desc": "",
+  "serie": "lbc",
+  "caps": [
+   5
+  ]
+ },
+ {
+  "yt": "HpWpH_9sGrY",
+  "titulo": "1689 · Capítulo 4 — De la creación",
+  "fecha": "2026-07-26",
+  "desc": "",
+  "serie": "lbc",
+  "caps": [
+   4
+  ]
+ },
+ {
+  "yt": "u-8B2rwP6x0",
+  "titulo": "1689 · Capítulo 3 — Del decreto de Dios",
+  "fecha": "2026-07-26",
+  "desc": "",
+  "serie": "lbc",
+  "caps": [
+   3
+  ]
+ },
+ {
   "yt": "zioT9LHTmts",
   "titulo": "1689 · Capítulo 2 — De Dios y de la Santa Trinidad",
   "fecha": "2026-07-25",
