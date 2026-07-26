@@ -55,6 +55,18 @@ const DOSSIER = {
       { a: '1646', h: 'Se completa la Confesión de Fe.' },
       { a: '1647', h: 'La Asamblea General de la Iglesia de Escocia la adopta.' },
       { a: '1648', h: 'Se aprueban los Catecismos Mayor y Menor que la acompañan.' }
+    ],
+    autores: [
+      { n: 'William Twisse', r: 'Prolocutor (moderador) de la Asamblea en sus primeros años.' },
+      { n: 'Samuel Rutherford', r: 'Comisionado escocés, teólogo del pacto y de la ley y el evangelio.' },
+      { n: 'George Gillespie', r: 'Comisionado escocés, joven y brillante debatiente sobre el gobierno de la iglesia.' },
+      { n: 'Alexander Henderson', r: 'Líder escocés, arquitecto de la Liga y Pacto Solemne entre Escocia e Inglaterra.' },
+      { n: 'La Asamblea (121 teólogos)', r: 'Un cuerpo de pastores y eruditos ingleses, con comisionados escoceses, reunido más de mil veces.' }
+    ],
+    influencias: [
+      { t: 'Los Artículos Irlandeses (1615)', d: 'Redactados por James Ussher, un antecedente calvinista directo en estructura y contenido.' },
+      { t: 'La tradición reformada continental', d: 'Calvino, Bullinger y las confesiones reformadas del continente como trasfondo doctrinal.' },
+      { t: 'Los 39 Artículos de Inglaterra', d: 'El punto de partida que la Asamblea buscaba profundizar y reformar.' }
     ]
   },
 
@@ -66,6 +78,11 @@ const DOSSIER = {
     timeline: [
       { a: 's. II–III', h: 'El Antiguo Símbolo Romano se usa como confesión bautismal.' },
       { a: 's. VIII', h: 'Se fija la forma recibida (textus receptus) del credo.' }
+    ],
+    influencias: [
+      { t: 'El Antiguo Símbolo Romano', d: 'Su forma matriz, más breve, sobre la que creció el texto actual.' },
+      { t: 'La catequesis bautismal', d: 'Base del examen de fe de los que se bautizaban en Occidente.' },
+      { t: 'El Catecismo de Heidelberg (1563)', d: 'La Reforma lo hereda y lo comenta como resumen de la fe cristiana.' }
     ]
   },
 
@@ -78,6 +95,18 @@ const DOSSIER = {
       { a: '325', h: 'Concilio de Nicea: se condena el arrianismo y se confiesa la deidad del Hijo.' },
       { a: '381', h: 'Concilio de Constantinopla: se amplía el credo, especialmente sobre el Espíritu Santo.' },
       { a: 's. VI–XI', h: 'La iglesia de Occidente añade progresivamente el «Filioque» (y del Hijo).' }
+    ],
+    autoresTit: '👤 Figuras clave',
+    autores: [
+      { n: 'Atanasio de Alejandría', r: 'El gran defensor de la plena deidad del Hijo frente al arrianismo, durante décadas y contra el mundo.' },
+      { n: 'Arrio', r: 'El presbítero cuya enseñanza —el Hijo como criatura, inferior al Padre— condena el credo.' },
+      { n: 'Constantino', r: 'El emperador que convocó el Concilio de Nicea en 325.' },
+      { n: 'Los Padres Capadocios', r: 'Basilio y los dos Gregorios: decisivos en Constantinopla (381) y en la doctrina del Espíritu Santo.' }
+    ],
+    influencias: [
+      { t: 'El Concilio de Nicea (325)', d: 'Su base directa; el credo de 381 lo amplía y completa.' },
+      { t: 'La liturgia de la iglesia', d: 'Recibido por Oriente y Occidente, se recita en la celebración de la Cena.' },
+      { t: 'Las confesiones reformadas', d: 'Fundamento de la doctrina trinitaria de Westminster, la 1689 y las demás.' }
     ]
   },
 
@@ -89,6 +118,16 @@ const DOSSIER = {
     timeline: [
       { a: 's. V–VI', h: 'Se compone en el occidente latino, probablemente en la Galia.' },
       { a: 'Edad Media', h: 'Amplio uso litúrgico y catequético; la Reforma lo conserva.' }
+    ],
+    autoresTit: '👤 Figuras clave',
+    autores: [
+      { n: 'Atanasio', r: 'Le da nombre por su fe trinitaria, aunque no fue su autor; vivió mucho antes de que se escribiera.' },
+      { n: 'Agustín de Hipona', r: 'Su obra «Sobre la Trinidad» está detrás de la precisión de las formulaciones del credo.' }
+    ],
+    influencias: [
+      { t: 'La fe de Nicea', d: 'Recoge y afila la doctrina trinitaria definida en los concilios anteriores.' },
+      { t: 'La teología agustiniana', d: 'Su lenguaje sobre las personas y la sustancia refleja a Agustín.' },
+      { t: 'El oficio divino de Occidente', d: 'Se rezaba en la liturgia; la Reforma lo mantuvo entre los tres credos ecuménicos.' }
     ]
   },
 
@@ -101,6 +140,18 @@ const DOSSIER = {
       { a: '431', h: 'Concilio de Éfeso: se condena el nestorianismo y se afirma «Theotokos».' },
       { a: '449', h: 'El «Sínodo del Latrocinio» de Éfeso respalda a Eutiques; luego es rechazado.' },
       { a: '451', h: 'Concilio de Calcedonia: se define a Cristo como una persona en dos naturalezas.' }
+    ],
+    autoresTit: '👤 Figuras clave',
+    autores: [
+      { n: 'León I (León Magno)', r: 'Su «Tomo a Flaviano» fue el texto decisivo que el concilio hizo suyo.' },
+      { n: 'Cirilo de Alejandría', r: 'Su cristología —una sola persona en Cristo— marcó el rumbo del concilio.' },
+      { n: 'Nestorio', r: 'Cuyo error, separar en exceso las dos naturalezas, se rechaza.' },
+      { n: 'Eutiques', r: 'Cuyo error opuesto, mezclarlas en una sola, también se rechaza.' }
+    ],
+    influencias: [
+      { t: 'El Concilio de Éfeso (431)', d: 'Que ya había afirmado «Theotokos» y condenado a Nestorio.' },
+      { t: 'El Tomo de León I', d: 'La carta que sirvió de texto base a la definición.' },
+      { t: 'Toda la cristología posterior', d: 'Fundamento de Westminster (cap. 8) y de la 1689 (cap. 8) sobre Cristo el Mediador.' }
     ]
   }
 
