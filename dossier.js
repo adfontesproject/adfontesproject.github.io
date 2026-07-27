@@ -98,6 +98,14 @@ const DOSSIER = {
       { t: 'La catequesis bautismal', d: 'Base del examen de fe de los que se bautizaban en Occidente.' },
       { t: 'El Catecismo de Heidelberg (1563)', d: 'La Reforma lo hereda y lo comenta como resumen de la fe cristiana.' }
     ],
+    datos: [
+      { t: 'El «símbolo» era una contraseña', d: 'La palabra <em>símbolo</em> (symbolon) designaba una ficha partida que encajaba con su otra mitad. El credo funcionaba así: como seña para reconocer a un cristiano verdadero frente a los impostores.' },
+      { t: 'La leyenda de los doce artículos', d: 'Una tradición medieval decía que cada apóstol aportó una frase —Pedro la primera, y así los doce—. Es piadosa pero no histórica; ya Rufino de Aquileya, hacia el año 404, escribió el comentario más antiguo que conservamos.' },
+      { t: '«Descendió a los infiernos»', d: 'Esta cláusula se añadió tarde (aparece primero en Aquileya, s. IV). Calvino, lejos de un descenso local, la entendió como que Cristo padeció en la cruz el peso del juicio y la ira de Dios en lugar de los suyos — un caso donde la Reforma dio contenido bíblico a una frase discutida.' },
+      { t: 'No se recitaba: se preguntaba', d: 'En el bautismo era un interrogatorio: «¿Crees en Dios Padre...?», y el bautizando respondía «Creo» mientras se le sumergía tres veces.' },
+      { t: 'El texto que hoy usamos', d: 'La forma recibida se fijó en el mundo franco bajo Carlomagno y desde allí volvió a Roma; la iglesia oriental nunca lo empleó como Occidente.' },
+      { t: '«La comunión de los santos»', d: 'La frase entró siglos después. En clave reformada señala la unión de todos los creyentes con Cristo y entre sí — no una mediación de santos difuntos.' }
+    ],
     fuentes: [
       { n: 'Zacarías Ursino — <em>Comentario del Catecismo de Heidelberg</em>', r: 'Expone el Credo de los Apóstoles como resumen de la fe reformada.' },
       { n: 'Nick Needham — <em>2000 Years of Christ\'s Power</em>, vol. 1', r: 'Historiador bautista reformado; origen del símbolo bautismal.' },
@@ -127,6 +135,15 @@ const DOSSIER = {
       { t: 'La liturgia de la iglesia', d: 'Recibido por Oriente y Occidente, se recita en la celebración de la Cena.' },
       { t: 'Las confesiones reformadas', d: 'Fundamento de la doctrina trinitaria de Westminster, la 1689 y las demás.' }
     ],
+    datos: [
+      { t: 'Una guerra por una sola letra', d: 'La ortodoxia confesó que el Hijo es <em>homoousios</em> (de la misma sustancia) que el Padre; los semiarrianos proponían <em>homoioúsios</em> (de sustancia semejante). La diferencia era una iota (ι) — de ahí el dicho de que la iglesia se dividió por una sola letra.' },
+      { t: 'Las canciones de Arrio', d: 'Arrio difundió su error con cancioncillas pegadizas (la <em>Thalía</em>) que cantaban marineros, molineros y viajeros. Su lema: «Hubo un tiempo en que el Hijo no existía».' },
+      { t: 'Atanasio contra el mundo', d: 'Nicea no terminó la disputa: el arrianismo dominó décadas con apoyo imperial. Atanasio fue desterrado cinco veces por defender la deidad del Hijo — de ahí la frase «Athanasius contra mundum» (Atanasio contra el mundo).' },
+      { t: '«El mundo entero gimió»', d: 'Jerónimo describió el avance arriano tras Nicea: «El mundo entero gimió y se asombró de hallarse arriano».' },
+      { t: 'La bofetada de Nicolás', d: 'Una tradición cuenta que Nicolás de Mira —el obispo que dio origen a la figura de «Santa Claus»— abofeteó a Arrio en el concilio. Es leyenda tardía, no consta en las actas, pero retrata el ardor del debate.' },
+      { t: 'En realidad es del año 381', d: 'El credo que recitamos es la forma ampliada en el Concilio de Constantinopla (381), sobre todo en la sección del Espíritu Santo, aunque por costumbre lo llamamos «Niceno».' },
+      { t: 'El Filioque y el gran cisma', d: 'Occidente añadió «y del Hijo» (Filioque), afianzado en el Concilio de Toledo (589). Oriente nunca aceptó esa adición unilateral, y fue una de las causas del cisma que separó a Roma y Constantinopla en 1054.' }
+    ],
     fuentes: [
       { n: 'B. B. Warfield — estudios sobre la Trinidad y los concilios', r: 'Insuperable sobre Nicea y la deidad del Hijo, desde Princeton.' },
       { n: 'Robert Letham — <em>The Holy Trinity</em>', r: 'Tratamiento reformado, sólido y actual, de Nicea y la Trinidad.' },
@@ -153,6 +170,13 @@ const DOSSIER = {
       { t: 'La fe de Nicea', d: 'Recoge y afila la doctrina trinitaria definida en los concilios anteriores.' },
       { t: 'La teología agustiniana', d: 'Su lenguaje sobre las personas y la sustancia refleja a Agustín.' },
       { t: 'El oficio divino de Occidente', d: 'Se rezaba en la liturgia; la Reforma lo mantuvo entre los tres credos ecuménicos.' }
+    ],
+    datos: [
+      { t: '«Quicumque vult»', d: 'Se le conoce por sus primeras palabras en latín: «Todo el que quiera salvarse...». Muchos manuscritos ni siquiera lo llaman credo, sino «fe» (fides).' },
+      { t: 'La prueba de que no lo escribió Atanasio', d: 'Atanasio escribía en griego; este símbolo nació en latín, en Occidente —probablemente en el sur de la Galia— un siglo o más después de su muerte. El nombre honra su fe trinitaria, no su pluma.' },
+      { t: 'Las cláusulas condenatorias', d: 'Empieza y termina advirtiendo que quien no guarde esta fe íntegra «sin duda perecerá para siempre». Su severidad incomodó a algunos —los anglicanos llegaron a debatir si quitarlo—, pero la tradición reformada lo conservó como fiel a la Escritura.' },
+      { t: 'Precisión de relojero', d: 'Es el más exacto de los credos antiguos sobre la Trinidad y las dos naturalezas de Cristo. Su estructura casi rítmica delata un uso litúrgico y de memorización.' },
+      { t: 'Tres credos, una sola fe', d: 'Con el de los Apóstoles y el Niceno forma los «tres credos ecuménicos» que las iglesias reformadas (las Tres Formas de Unidad) reciben como resúmenes fieles de la Palabra.' }
     ],
     fuentes: [
       { n: 'B. B. Warfield — sobre la Trinidad y el Credo Atanasiano', r: 'Análisis reformado de su precisión trinitaria.' },
@@ -182,6 +206,16 @@ const DOSSIER = {
       { t: 'El Concilio de Éfeso (431)', d: 'Que ya había afirmado «Theotokos» y condenado a Nestorio.' },
       { t: 'El Tomo de León I', d: 'La carta que sirvió de texto base a la definición.' },
       { t: 'Toda la cristología posterior', d: 'Fundamento de Westminster (cap. 8) y de la 1689 (cap. 8) sobre Cristo el Mediador.' }
+    ],
+    datos: [
+      { t: 'No es un credo, es una «Definición»', d: 'Calcedonia no compuso un credo nuevo, sino un <em>horos</em> (definición) que fijó los límites: cómo hablar de Cristo sin caer en error por exceso ni por defecto.' },
+      { t: 'Los cuatro «sin»', d: 'El corazón de la definición: en la única persona del Hijo, las dos naturalezas se unen «sin confusión, sin cambio, sin división y sin separación». Cuatro adverbios que cierran la puerta a los dos errores opuestos.' },
+      { t: '«¡Pedro ha hablado por León!»', d: 'Cuando se leyó el <em>Tomo</em> del obispo León I de Roma —su carta a Flaviano—, los padres del concilio aclamaron que aquella carta expresaba la fe apostólica. Fue el texto que inclinó la balanza. (La tradición reformada recibe el Tomo por su cristología, no por las pretensiones posteriores de Roma.)' },
+      { t: 'El «Concilio del Latrocinio» (449)', d: 'Dos años antes, en un sínodo en Éfeso, Dióscoro de Alejandría impuso a Eutiques por la fuerza; Flaviano de Constantinopla fue agredido físicamente y murió poco después a causa de sus heridas. León bautizó aquel sínodo como <em>Latrocinium</em>: «cueva de ladrones».' },
+      { t: 'El error de Eutiques', d: 'Enseñaba que, tras la unión, en Cristo quedaba una sola naturaleza —su humanidad absorbida por la divinidad, como una gota de miel disuelta en el mar (monofisismo).' },
+      { t: 'El error de Nestorio y la «Theotokos»', d: 'Separaba tanto las naturalezas que Cristo parecía dos personas, y rechazaba llamar a María <em>Theotokos</em> («la que dio a luz a Dios», cf. {{Lucas 1:43}}), prefiriendo «madre de Cristo». El concilio defendió el título para proteger la unión de la persona de Cristo, no para exaltar a María.' },
+      { t: 'Una herida que aún dura', d: 'Las iglesias orientales no calcedonias (coptos, armenios, sirios, etíopes) rechazaron la definición y se separaron. Ese cisma sobre las dos naturalezas persiste hasta hoy.' },
+      { t: 'El concilio más grande de la antigüedad', d: 'Reunió a más de quinientos obispos, convocados por el emperador Marciano y la emperatriz Pulqueria — la mayor asamblea de la iglesia antigua.' }
     ],
     fuentes: [
       { n: 'B. B. Warfield — <em>The Person of Christ</em> y estudios cristológicos', r: 'Las dos naturalezas en una persona, desde la teología reformada.' },

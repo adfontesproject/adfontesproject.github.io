@@ -377,6 +377,7 @@ function pintarFicha(id){
     '<div class="tl-i"><span class="tl-a">' + t.a + '</span><span class="tl-h">' + enlazarRefs(t.h) + '</span></div>').join('') + '</div>');
   if(d.autores) h += fsec(d.autoresTit || '👤 Principales autores', d.autores.map(a => '<div class="au-i"><b>' + a.n + '</b><span>' + a.r + '</span></div>').join(''));
   if(d.influencias) h += fsec('📚 Influencias y documentos relacionados', d.influencias.map(x => '<div class="inf-i"><b>' + x.t + '</b><span>' + x.d + '</span></div>').join(''));
+  if(d.datos) h += fsec('🔎 Datos, disputas y cartas', d.datos.map(x => '<div class="inf-i"><b>' + x.t + '</b><span>' + enlazarRefs(x.d) + '</span></div>').join(''));
   if(d.comparacion){
     const c = d.comparacion;
     h += fsec('📑 Comparación con ' + c.con, '<p class="comp-intro">' + c.intro + '</p>' +
