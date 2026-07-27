@@ -32,6 +32,16 @@ const DOSSIER = {
       { t: 'Declaración de Saboya (1658)', d: 'De los congregacionalistas hereda el capítulo sobre la iglesia y su gobierno independiente.' },
       { t: 'Primera Confesión de Londres (1644)', d: 'La raíz bautista particular anterior, que ya la precedía en doctrina y distintivos.' }
     ],
+    datos: [
+      { t: 'Se publicó en la clandestinidad', d: 'Apareció anónima en 1677, cuando reunirse a adorar fuera de la iglesia oficial era delito bajo el Código de Clarendon. Era la época en que Juan Bunyan escribía <em>El progreso del peregrino</em> desde la cárcel por predicar sin licencia.' },
+      { t: 'La firmaron 37 pastores por más de cien iglesias', d: 'En 1689, tras el Acta de Tolerancia, los representantes se reunieron en Londres y la suscribieron. Entre ellos, Hanserd Knollys, ya de unos noventa años, veterano de toda una vida de persecución.' },
+      { t: 'Keach en el cepo por un catecismo', d: 'Benjamin Keach, uno de los firmantes, fue condenado a la picota (el cepo público) y vio quemar sus libros por publicar un catecismo para niños con doctrina bautista. Predicó igualmente desde el cepo.' },
+      { t: 'La guerra por cantar himnos', d: 'El mismo Keach introdujo el canto congregacional de himnos —no solo salmos—, y desató tal polémica que parte de su iglesia se separó. La Confesión de Filadelfia (1742) añadiría después un capítulo sobre el canto.' },
+      { t: 'Kiffin y el préstamo al rey', d: 'William Kiffin, próspero comerciante y firmante, cuenta la tradición que ante la petición de un gran préstamo de Carlos II le ofreció una suma menor como regalo — «así conservé el resto», pues un préstamo al rey jamás se recuperaba.' },
+      { t: 'Copiada de Westminster a propósito', d: 'Sigue a la Confesión de Westminster y a la Declaración de Saboya casi palabra por palabra en la mayoría de capítulos. No fue pereza, sino estrategia: proclamar su plena unidad con la fe reformada frente a la sospecha de ser «anabautistas».' },
+      { t: 'El pacto según Nehemiah Coxe', d: 'El probable editor principal escribió un tratado sobre los pactos que da al capítulo 7 su matiz bautista: el pacto de gracia se revela progresivamente y queda plenamente establecido en Cristo, no formalizado ya desde Abraham.' },
+      { t: 'Spurgeon la rescató del olvido', d: 'En 1855, Charles Spurgeon reimprimió esta confesión para su congregación, comendándola como «la doctrina de nuestras iglesias» y un baluarte contra el error de su tiempo.' }
+    ],
     fuentes: [
       { n: 'Samuel E. Waldron — <em>A Modern Exposition of the 1689 Baptist Confession of Faith</em>', r: 'La exposición reformada bautista estándar, capítulo por capítulo.' },
       { n: 'James M. Renihan — <em>For the Vindication of the Truth</em> y estudios sobre el texto de 1677/89', r: 'El mayor especialista actual en la historia y la letra de la confesión.' },
@@ -75,6 +85,16 @@ const DOSSIER = {
       { t: 'Los Artículos Irlandeses (1615)', d: 'Redactados por James Ussher, un antecedente calvinista directo en estructura y contenido.' },
       { t: 'La tradición reformada continental', d: 'Calvino, Bullinger y las confesiones reformadas del continente como trasfondo doctrinal.' },
       { t: 'Los 39 Artículos de Inglaterra', d: 'El punto de partida que la Asamblea buscaba profundizar y reformar.' }
+    ],
+    datos: [
+      { t: 'Más de mil sesiones en la Abadía', d: 'La Asamblea se reunió cerca de 1.163 veces a lo largo de más de cinco años, buena parte en la Cámara de Jerusalén de la Abadía de Westminster, donde se refugiaban del frío del invierno.' },
+      { t: 'La convocó el Parlamento, no el rey', d: 'Nació en plena Guerra Civil inglesa, por decisión del Parlamento y contra la voluntad de Carlos I, para reformar la iglesia. Unos 121 teólogos ingleses, más asesores laicos y comisionados escoceses.' },
+      { t: 'Los escoceses mandaban sin votar', d: 'Los comisionados de Escocia (Rutherford, Gillespie, Henderson, Baillie) no tenían voto, pero su influencia fue enorme, sellada por la Liga y Pacto Solemne de 1643 entre ambos reinos.' },
+      { t: '«Da luz, Señor»: Gillespie contra Selden', d: 'Se cuenta que el joven George Gillespie desmontó un discurso erastiano del erudito John Selden improvisando; al mirar sus apuntes, solo había escrito una y otra vez «Da lucem, Domine» — «Da luz, Señor». Tradición piadosa, pero retrata su fervor.' },
+      { t: 'El Parlamento exigió las pruebas bíblicas', d: 'Los teólogos entregaron primero la Confesión sin citas al margen; el Parlamento les exigió respaldar cada afirmación con textos de la Escritura, y así se añadieron los <em>proof texts</em>.' },
+      { t: 'Escocia sí, Inglaterra a medias', d: 'La Iglesia de Escocia la adoptó plenamente en 1647. El Parlamento inglés, receloso en los capítulos sobre el gobierno y la disciplina de la iglesia, la aprobó con reservas.' },
+      { t: 'Nunca se disolvió formalmente', d: 'La Asamblea no fue clausurada con un acto solemne: se fue apagando. Además de la Confesión, produjo los Catecismos Mayor y Menor y el Directorio para el Culto Público, que reemplazó al Libro de Oración Común.' },
+      { t: '«El fin principal del hombre»', d: 'De la misma Asamblea salió la pregunta que resume toda su teología: «¿Cuál es el fin principal del hombre? Glorificar a Dios y gozar de Él para siempre».' }
     ],
     fuentes: [
       { n: 'A. A. Hodge — <em>The Confession of Faith</em>', r: 'Comentario presbiteriano clásico, claro y fiel.' },
