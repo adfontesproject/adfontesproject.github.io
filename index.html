@@ -25,8 +25,8 @@ body{background:var(--cream);color:var(--ink);font-family:'EB Garamond',Georgia,
 .lupa{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:#333;border:1px solid #4a4a4a;color:#e7e2d8;font-size:1.05rem;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none}
 .lupa:hover{border-color:var(--gold);color:#fff}
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;background:var(--carbon);border-top:1px solid #3a3a38;padding-bottom:env(safe-area-inset-bottom,0)}
-.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:.5rem 0 .55rem;text-decoration:none;color:#9a948a;font-family:'Inter',sans-serif;font-size:.55rem;letter-spacing:0;border-top:2px solid transparent}
-.tabbar a .ic{font-size:1.12rem;line-height:1}
+.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:.5rem 0 .55rem;text-decoration:none;color:#9a948a;font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.01em;border-top:2px solid transparent}
+.tabbar a .ic{font-size:1.3rem;line-height:1}
 .tabbar a.act{color:var(--gold);border-top-color:var(--gold)}
 body{padding-bottom:74px}
 .brand{display:flex;align-items:center;gap:.55rem;color:#fff;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.15rem;white-space:nowrap;text-decoration:none}
@@ -37,36 +37,24 @@ body{padding-bottom:74px}
 .buscador>button:hover{border-color:var(--gold)}
 .avatar{width:34px;height:34px;border-radius:50%;border:2px solid var(--gold);background:#444 center/cover;flex-shrink:0;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;font-size:.9rem}
 
-.hero{text-align:center;padding:2.6rem 1rem 1.4rem;max-width:760px;margin:0 auto}
-.hero .lema{font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
-.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.1rem,6vw,3.1rem);font-weight:600;color:var(--carbon);line-height:1.1;margin:.35rem 0 .5rem}
-.hero p.sub{color:var(--ink-soft);font-style:italic;font-size:1.05rem;max-width:600px;margin:0 auto}
-.citas{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink-soft);font-size:.9rem;margin-top:.9rem;line-height:1.5}
-.citas b{font-family:'Inter',sans-serif;font-style:normal;font-weight:500;font-size:.6rem;letter-spacing:.08em;color:#9a948a}
-
-.pagina{max-width:1000px;margin:0 auto;padding:0 1rem 5rem}
-
-/* Tarjeta "hoy" */
-.hoy{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:1.5rem 1.6rem;margin-bottom:1.4rem;box-shadow:0 3px 16px rgba(0,0,0,.05)}
-.hoy .et{font-family:'Inter',sans-serif;font-size:.64rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
-.hoy h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.45rem,3.6vw,1.95rem);font-weight:600;color:var(--carbon);line-height:1.2;margin:.3rem 0 .1rem}
-.hoy .lect{font-family:'Inter',sans-serif;font-size:.85rem;color:var(--ink-soft);margin-bottom:1rem}
-.hoy .acciones{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center}
-.btn{font-family:'Inter',sans-serif;font-size:.83rem;font-weight:600;text-decoration:none;padding:.62rem 1.15rem;border-radius:10px;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:.4rem}
-.btn-pri{background:var(--carbon);color:#fff}.btn-pri:hover{background:var(--carbon2)}
-.btn-sec{background:#fff;color:var(--carbon);border:1.5px solid var(--line)}.btn-sec:hover{border-color:var(--gold)}
-.mini-prog{margin-top:1rem}
-.mini-prog .b{height:7px;background:#efe9dc;border-radius:4px;overflow:hidden}
-.mini-prog .b div{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));width:0%}
-.mini-prog .t{font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-soft);margin-top:.35rem}
-
-/* Puertas */
-.puertas{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem}
-.puerta{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:1.3rem 1.4rem;text-decoration:none;color:inherit;transition:border-color .15s,transform .15s;display:block}
-.puerta:hover{border-color:var(--gold);transform:translateY(-2px)}
-.puerta .ic{font-size:1.5rem}
-.puerta h3{font-family:'Cormorant Garamond',serif;font-size:1.32rem;font-weight:700;color:var(--carbon);margin:.4rem 0 .2rem}
-.puerta p{font-family:'Inter',sans-serif;font-size:.79rem;color:var(--ink-soft);line-height:1.55}
+/* Portada calmada: una sola acción */
+.inicio{max-width:560px;margin:0 auto;padding:2.4rem 1.1rem 3rem;text-align:center}
+.hoy-card{padding:1rem 0}
+.hoy-card .et{font-family:'Inter',sans-serif;font-size:.66rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.hoy-card h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,7vw,2.7rem);font-weight:600;color:var(--carbon);line-height:1.15;margin:.5rem 0 .3rem}
+.hoy-card .lect{font-family:'Inter',sans-serif;font-size:.9rem;color:var(--ink-soft)}
+.hoy-card .fecha{font-family:'EB Garamond',serif;font-style:italic;color:var(--ink-soft);font-size:.95rem;margin-top:.15rem}
+.btn-leer{display:inline-block;margin-top:1.6rem;background:var(--carbon);color:#fff;font-family:'Inter',sans-serif;font-size:1rem;font-weight:500;text-decoration:none;padding:.9rem 2.6rem;border-radius:28px;box-shadow:0 6px 20px rgba(38,38,38,.18)}
+.btn-leer:hover{background:var(--carbon2)}
+.btn-leer.hecho{background:var(--green)}
+.hoy-estudio{display:block;margin-top:1rem;font-family:'Inter',sans-serif;font-size:.82rem;color:#8a6a24;text-decoration:none}
+.hoy-estudio:hover{text-decoration:underline}
+.mini-prog{margin-top:2rem;max-width:320px;margin-left:auto;margin-right:auto}
+.mini-prog .b{height:6px;background:#efe9dc;border-radius:3px;overflow:hidden}
+.mini-prog .b div{height:100%;background:var(--gold);width:0%}
+.mini-prog .t{font-family:'Inter',sans-serif;font-size:.74rem;color:var(--ink-soft);margin-top:.4rem}
+.abrir-biblia{display:inline-block;margin-top:2.4rem;font-family:'Inter',sans-serif;font-size:.82rem;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--line)}
+.abrir-biblia:hover{color:var(--carbon);border-color:var(--gold)}
 
 footer{background:var(--carbon);color:#a8a29a;text-align:center;font-family:'Inter',sans-serif;font-size:.72rem;padding:1.8rem 1rem;line-height:1.9}
 footer a{color:var(--gold-light);text-decoration:none}
@@ -116,39 +104,10 @@ footer a{color:var(--gold-light);text-decoration:none}
   </div>
 </div>
 
-<div class="hero">
-  <div class="lema">Ad fontes · a las fuentes</div>
-  <h1>La Escritura, estudiada en serio</h1>
-  <p class="sub">Toda la Biblia en un año, con contexto histórico y cultural, análisis narrativo, teología pactual y las voces de la Iglesia — en español, gratis, sin distracciones.</p>
-  <p class="citas">«Lámpara es a mis pies tu palabra, y lumbrera a mi camino» <b>SAL 119:105</b>&ensp;·&ensp;«La discreción del hombre le hace lento para la ira, y su gloria es pasar por alto una ofensa» <b>PR 19:11</b></p>
-</div>
-
-<div class="pagina">
-  <div class="hoy" id="tarjetaHoy"></div>
-
-  <div class="puertas">
-    <a class="puerta" href="biblia.html">
-      <div class="ic">📖</div><h3>Biblia</h3>
-      <p>Los 66 libros, capítulo a capítulo. Toca un versículo y estúdialo: significado, referencias, autores, recursos. RV 1909 y Reina Valera SBT.</p>
-    </a>
-    <a class="puerta" href="plan.html">
-      <div class="ic">📅</div><h3>Plan de lectura</h3>
-      <p>Cuatro planes: cronológico (365 días, con estudio completo), canónico, Nuevo Testamento en 90 días, y Salmos y Proverbios. Marca tu avance y recibe tu recordatorio diario.</p>
-    </a>
-    <a class="puerta" href="biblioteca.html">
-      <div class="ic">📚</div><h3>Biblioteca</h3>
-      <p>Confesión de 1689, autores puritanos y reformados, e introducciones a cada libro — todo conectado con los pasajes.</p>
-    </a>
-    <a class="puerta" href="videos.html">
-      <div class="ic">🎬</div><h3>Videos</h3>
-      <p>Conceptos bíblicos explicados: pactos, tipología, cómo leer cada género, la ley y el evangelio.</p>
-    </a>
-    <a class="puerta" href="comunidad.html">
-      <div class="ic">👥</div><h3>Comunidad</h3>
-      <p>Tu avance, los hermanos en el camino, el muro de reflexiones y tus ajustes.</p>
-    </a>
-  </div>
-</div>
+<main class="inicio">
+  <div class="hoy-card" id="tarjetaHoy"></div>
+  <a class="abrir-biblia" href="biblia.html">o abre la Biblia libremente</a>
+</main>
 
 <footer>
   <strong>Ad Fontes Project</strong> · Plan cronológico de lectura y estudio bíblico<br>
@@ -194,18 +153,19 @@ function urlBiblia(lectura){
   if(!m || !IDX[normTxt(m[1])]) return 'biblia.html';
   return 'biblia.html#' + encodeURIComponent(IDX[normTxt(m[1])]) + '/' + m[2];
 }
+function fechaBonita(){ return new Date().toLocaleDateString('es', { weekday:'long', day:'numeric', month:'long' }); }
 function pintarHoy(){
   const d = diaHoy(), p = DIAS[d-1], c = (PL.estudio && typeof COMENTARIOS !== 'undefined') ? COMENTARIOS[d] : null;
   const pct = Math.round(done.size / TOT * 100);
+  const hecho = done.has(d);
   document.getElementById('tarjetaHoy').innerHTML =
-    '<div class="et">Tu lectura de hoy · Plan ' + PL.nombre + ' · Día ' + d + ' de ' + TOT + '</div>' +
-    '<h2>' + (c ? c.t : p.lecturas.join(' · ')) + '</h2>' +
-    '<div class="lect">' + p.lecturas.join(' · ') + (done.has(d) ? ' &nbsp;✓ leído' : '') + '</div>' +
-    '<div class="acciones">' +
-      '<a class="btn btn-pri" href="' + urlBiblia(p.lecturas[0]) + '">📖 Leer el pasaje</a>' +
-      '<a class="btn btn-sec" href="plan.html">' + (PL.estudio ? '✒ Ver el estudio del día' : '✒ Ver el plan') + '</a>' +
-    '</div>' +
-    '<div class="mini-prog"><div class="b"><div style="width:' + pct + '%"></div></div><div class="t">' + done.size + ' de ' + TOT + ' días leídos · ' + pct + '%</div></div>';
+    '<div class="et">Día ' + d + ' de ' + TOT + ' · Plan ' + PL.nombre + '</div>' +
+    '<h1>' + (c ? c.t : p.lecturas.join(' · ')) + '</h1>' +
+    '<div class="lect">' + p.lecturas.join(' · ') + '</div>' +
+    '<div class="fecha">' + fechaBonita() + '</div>' +
+    '<a class="btn-leer' + (hecho ? ' hecho' : '') + '" href="' + urlBiblia(p.lecturas[0]) + '">' + (hecho ? '✓ Leído — repasar' : 'Leer hoy') + '</a>' +
+    (PL.estudio ? '<a class="hoy-estudio" href="plan.html">Ver el estudio del día →</a>' : '') +
+    '<div class="mini-prog"><div class="b"><div style="width:' + pct + '%"></div></div><div class="t">' + done.size + ' de ' + TOT + ' días · ' + pct + '%</div></div>';
 }
 /* sincronía silenciosa del avance */
 try{
@@ -261,12 +221,10 @@ pintarHoy();
 </script>
 
 <nav class="tabbar">
-  <a href="biblia.html"><span class="ic">📖</span>Biblia</a>
-  <a href="plan.html"><span class="ic">📅</span>Plan</a>
-  <a href="biblioteca.html"><span class="ic">📚</span>Biblioteca</a>
-  <a href="videos.html"><span class="ic">🎬</span>Videos</a>
-  <a href="comunidad.html"><span class="ic">👥</span>Comunidad</a>
+  <a href="index.html" class="act"><span class="ic">📖</span>Leer</a>
+  <a href="biblioteca.html"><span class="ic">📚</span>Estudio</a>
   <a href="notas.html"><span class="ic">📝</span>Notas</a>
+  <a href="comunidad.html"><span class="ic">👥</span>Comunidad</a>
 </nav>
 </body>
 </html>

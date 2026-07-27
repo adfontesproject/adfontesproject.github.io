@@ -24,8 +24,8 @@ body{background:var(--cream);color:var(--ink);font-family:'EB Garamond',Georgia,
 .lupa{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:#333;border:1px solid #4a4a4a;color:#e7e2d8;font-size:1.05rem;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none}
 .lupa:hover{border-color:var(--gold);color:#fff}
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;background:var(--carbon);border-top:1px solid #3a3a38;padding-bottom:env(safe-area-inset-bottom,0)}
-.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:.5rem 0 .55rem;text-decoration:none;color:#9a948a;font-family:'Inter',sans-serif;font-size:.55rem;letter-spacing:0;border-top:2px solid transparent}
-.tabbar a .ic{font-size:1.12rem;line-height:1}
+.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:.5rem 0 .55rem;text-decoration:none;color:#9a948a;font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.01em;border-top:2px solid transparent}
+.tabbar a .ic{font-size:1.3rem;line-height:1}
 .tabbar a.act{color:var(--gold);border-top-color:var(--gold)}
 body{padding-bottom:74px}
 .brand{display:flex;align-items:center;gap:.55rem;color:#fff;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.15rem;white-space:nowrap;text-decoration:none}
@@ -85,7 +85,9 @@ h1.cap-titulo{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weigh
 .rec small{color:var(--ink-soft);display:block;font-size:.66rem}
 .cita-p{border-bottom:1px dashed var(--line);padding:.45rem 0}
 .cita-p:last-of-type{border-bottom:none}
-.acciones-v{display:flex;gap:.3rem;padding:.6rem 1.1rem;border-bottom:1px solid #f0ebe0;flex-wrap:wrap}
+.acciones-v{display:flex;gap:.3rem;padding:.6rem 1.1rem;flex-wrap:wrap}
+.acc-mas{display:none;gap:.3rem;padding:0 1.1rem .6rem;flex-wrap:wrap}
+.acc-mas.on{display:flex}
 .acc{font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;background:var(--cream);border:1px solid var(--line);border-radius:8px;padding:.4rem .6rem;cursor:pointer;color:var(--carbon);display:inline-flex;align-items:center;gap:.25rem}
 .acc:hover{border-color:var(--gold)}
 .acc.on{background:#fdf3d8;border-color:var(--gold);color:#7a5b1e}
@@ -511,6 +513,7 @@ function marcarVerso(v){
   toast(marcas[k] ? 'Versículo marcado 🖍' : 'Marca quitada');
 }
 function toggleNota(){ document.getElementById('notaCaja').classList.toggle('abierta'); }
+function toggleMas(){ const m = document.getElementById('accMas'); if(m) m.classList.toggle('on'); }
 function guardarNota(v){
   const k = claveV(v), t = document.getElementById('notaTxt').value.trim();
   if(t) notas[k] = t; else delete notas[k];
@@ -595,11 +598,14 @@ function abrirPanel(v){
   /* 0. Acciones sobre el versículo */
   h += '<div class="acciones-v">' +
     '<button class="acc" onclick="copiarVerso(' + v + ')">📋 Copiar</button>' +
+    '<button class="acc ' + (notas[k] ? 'on' : '') + '" onclick="toggleNota()">📝 ' + (notas[k] ? 'Mi nota' : 'Nota') + '</button>' +
+    '<button class="acc" onclick="toggleMas()">··· Más</button>' +
+    '</div>' +
+    '<div class="acc-mas" id="accMas">' +
     '<button class="acc" onclick="abrirRango(' + v + ')">⇕ Rango…</button>' +
     '<button class="acc" onclick="aNota(' + v + ',' + v + ')">📓 A Notas</button>' +
     '<button class="acc" onclick="compartirVerso(' + v + ')">📱 Compartir</button>' +
     '<button class="acc ' + (marcas[k] ? 'on' : '') + '" onclick="marcarVerso(' + v + ')">🖍 ' + (marcas[k] ? 'Marcado' : 'Marcar') + '</button>' +
-    '<button class="acc ' + (notas[k] ? 'on' : '') + '" onclick="toggleNota()">📝 ' + (notas[k] ? 'Mi nota' : 'Nota') + '</button>' +
     '</div>' +
     '<div class="rango-caja" id="rangoCaja"><span class="et">Desde el v.' + v + '  hasta el v.</span>' +
     '<select id="rangoFin" onchange="pintarRango(' + v + ')">' + opcionesFin(v) + '</select>' +
@@ -820,12 +826,10 @@ if(location.search.indexOf('buscar') >= 0) setTimeout(abrirBuscar, 300);
 </script>
 
 <nav class="tabbar">
-  <a href="biblia.html" class="act"><span class="ic">📖</span>Biblia</a>
-  <a href="plan.html"><span class="ic">📅</span>Plan</a>
-  <a href="biblioteca.html"><span class="ic">📚</span>Biblioteca</a>
-  <a href="videos.html"><span class="ic">🎬</span>Videos</a>
-  <a href="comunidad.html"><span class="ic">👥</span>Comunidad</a>
+  <a href="index.html" class="act"><span class="ic">📖</span>Leer</a>
+  <a href="biblioteca.html"><span class="ic">📚</span>Estudio</a>
   <a href="notas.html"><span class="ic">📝</span>Notas</a>
+  <a href="comunidad.html"><span class="ic">👥</span>Comunidad</a>
 </nav>
 </body>
 </html>
