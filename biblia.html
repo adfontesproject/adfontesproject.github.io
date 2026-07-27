@@ -831,5 +831,9 @@ if(location.search.indexOf('buscar') >= 0) setTimeout(abrirBuscar, 300);
   <a href="notas.html"><span class="ic">📝</span>Notas</a>
   <a href="comunidad.html"><span class="ic">👥</span>Comunidad</a>
 </nav>
+<script>
+/* leer-inteligente: la pestaña «Leer» devuelve al texto si ya leíste hoy */
+(function(){try{var l=document.querySelector('.tabbar a[href="index.html"]');if(!l)return;var p=sessionStorage.getItem('af_biblia_pos');var lh=localStorage.getItem('biblia365_lh')||'';var n=new Date(),h=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');if(p&&lh===h)l.href='biblia.html';}catch(e){}})();
+</script>
 </body>
 </html>
