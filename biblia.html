@@ -380,6 +380,7 @@ function marcarDia(d){
 }
 async function cargarCapitulo(versoSel){
   const nombre = LIBROS[L][0];
+  try{ sessionStorage.setItem('af_biblia_pos', nombre + '/' + C); }catch(e){}
   document.getElementById('selLibro').textContent = nombre;
   document.getElementById('selCap').textContent = C;
   document.getElementById('titulo').textContent = nombre + ' ' + C;
@@ -780,14 +781,42 @@ function abrirLecturaDeHoy(){
   location.hash = encodeURIComponent(LIBROS[L][0]) + '/' + C;
   return true;
 }
+/* Recuerda el capítulo donde estabas al cambiar de pestaña y volver (dentro de la sesión) */
+function restaurarPos(){
+  let p; try{ p = sessionStorage.getItem('af_biblia_pos'); }catch(e){}
+  if(!p) return false;
+  const m = p.match(/^(.+)\/(\d+)$/);
+  if(!m) return false;
+  const idx = IDX_LIBRO[normTxt(m[1])];
+  if(idx === undefined) return false;
+  L = idx; C = parseInt(m[2], 10);
+  location.hash = encodeURIComponent(LIBROS[L][0]) + '/' + C;
+  return true;
+}
 const v0 = leerHash();
-if(!location.hash && abrirLecturaDeHoy()){
+if(location.hash){
+  cargarCapitulo(v0);
+} else if(restaurarPos()){
+  cargarCapitulo(null);
+} else if(abrirLecturaDeHoy()){
   cargarCapitulo(null);
 } else {
   cargarCapitulo(v0);
 }
 /* La lupa de Videos y Comunidad llega aquí con ?buscar y abre la búsqueda */
 if(location.search.indexOf('buscar') >= 0) setTimeout(abrirBuscar, 300);
+
+/* Si vienes escribiendo una nota, ofrece volver a ella */
+(function(){
+  let vn; try{ vn = sessionStorage.getItem('af_volver_notas'); }catch(e){}
+  if(vn !== '1') return;
+  const b = document.createElement('a');
+  b.href = 'notas.html';
+  b.textContent = '← Volver a mi nota';
+  b.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:86px;z-index:120;background:var(--carbon);color:#fff;font-family:Inter,sans-serif;font-size:.82rem;font-weight:600;padding:.6rem 1.1rem;border-radius:22px;box-shadow:0 6px 20px rgba(0,0,0,.28);text-decoration:none';
+  b.onclick = function(){ try{ sessionStorage.removeItem('af_volver_notas'); }catch(e){} };
+  document.body.appendChild(b);
+})();
 </script>
 
 <nav class="tabbar">

@@ -323,11 +323,13 @@ function vista(id){
   document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
   document.getElementById(id).classList.add('activa');
   window.scrollTo({ top: 0 });
+  try{ sessionStorage.setItem('af_bib_vista', id); }catch(e){}
 }
 function portada(){ vista('v-portada'); location.hash = ''; }
 
 /* ===== Credos y Confesiones ===== */
-let confId = 'apostoles', confCap = 0;
+let confId = (function(){ try{ return sessionStorage.getItem('af_conf_id') || 'apostoles'; }catch(e){ return 'apostoles'; } })();
+let confCap = (function(){ try{ return parseInt(sessionStorage.getItem('af_conf_cap') || '0', 10) || 0; }catch(e){ return 0; } })();
 function verConfesiones(){ vista('v-conf'); location.hash = 'confesiones'; aplicarNotasConf(); pintarConf(); }
 function setConf(id){ confId = id; confCap = 0; pintarConf(); }
 function verCapConf(i){ confCap = i; pintarConf(); document.getElementById('docConf').scrollIntoView({behavior:'smooth', block:'start'}); }
@@ -389,6 +391,7 @@ function pintarFicha(id){
 }
 
 function pintarConf(){
+  try{ sessionStorage.setItem('af_conf_id', confId); sessionStorage.setItem('af_conf_cap', confCap); }catch(e){}
   document.querySelectorAll('#v-conf .pill').forEach(b => b.classList.toggle('act', b.dataset.conf === confId));
   pintarFicha(confId);
 
@@ -425,9 +428,9 @@ function pintarConf(){
 }
 
 /* ===== Autores ===== */
-let filtroAutor = '';
+let filtroAutor = (function(){ try{ return sessionStorage.getItem('af_autor') || ''; }catch(e){ return ''; } })();
 function verAutores(){ vista('v-autores'); location.hash = 'autores'; pintarAutores(); }
-function setAutor(a){ filtroAutor = (filtroAutor === a) ? '' : a; pintarAutores(); }
+function setAutor(a){ filtroAutor = (filtroAutor === a) ? '' : a; try{ sessionStorage.setItem('af_autor', filtroAutor); }catch(e){} pintarAutores(); }
 function pintarAutores(){
   if(typeof ESTUDIO === 'undefined') return;
   const autores = [...new Set(ESTUDIO.flatMap(e => e.citas.map(c => c.autor)))].sort();
@@ -446,9 +449,9 @@ function pintarAutores(){
 }
 
 /* ===== Libros ===== */
-let testamento = 'at';
+let testamento = (function(){ try{ return sessionStorage.getItem('af_test') || 'at'; }catch(e){ return 'at'; } })();
 function verLibros(){ vista('v-libros'); location.hash = 'libros'; pintarLibros(); }
-function setTest(t){ testamento = t; pintarLibros(); }
+function setTest(t){ testamento = t; try{ sessionStorage.setItem('af_test', t); }catch(e){} pintarLibros(); }
 function pintarLibros(){
   if(typeof CONTEXTOS === 'undefined') return;
   document.getElementById('pAT').classList.toggle('act', testamento === 'at');
@@ -552,12 +555,14 @@ document.addEventListener('keydown', e => {
   if(e.key === 'Escape') document.querySelectorAll('.overlay.abierto').forEach(o => o.classList.remove('abierto'));
 });
 
-/* Arranque por hash */
+/* Arranque: hash explícito manda; si no, recuerda dónde estabas (sesión) */
+function metaInit(){ if(typeof ESTUDIO !== 'undefined') document.getElementById('metaAutores').textContent = ESTUDIO.length + ' pasajes · ' + ESTUDIO.reduce((a,e) => a + e.citas.length, 0) + ' citas'; }
 const h0 = location.hash.slice(1);
-if(h0 === 'confesiones') verConfesiones();
-else if(h0 === 'autores') verAutores();
-else if(h0 === 'libros') verLibros();
-else if(typeof ESTUDIO !== 'undefined') document.getElementById('metaAutores').textContent = ESTUDIO.length + ' pasajes · ' + ESTUDIO.reduce((a,e) => a + e.citas.length, 0) + ' citas';
+let vguard = ''; try{ vguard = sessionStorage.getItem('af_bib_vista') || ''; }catch(e){}
+if(h0 === 'confesiones' || (!h0 && vguard === 'v-conf')) verConfesiones();
+else if(h0 === 'autores' || (!h0 && vguard === 'v-autores')) verAutores();
+else if(h0 === 'libros' || (!h0 && vguard === 'v-libros')) verLibros();
+else metaInit();
 </script>
 
 <nav class="tabbar">

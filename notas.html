@@ -155,6 +155,7 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:2rem;text-al
 <div class="ed-full" id="editor">
   <div class="ed-top">
     <button class="ed-x" onclick="cerrarEditor()">✕&nbsp; Cancelar</button>
+    <button class="ed-x" onclick="irABiblia()" title="Consultar la Biblia sin perder esta nota">📖 Biblia</button>
     <span class="guardado" id="guardadoMsg"></span>
     <button class="btn btn-pri" onclick="guardarNota()">Guardar</button>
   </div>
@@ -303,7 +304,30 @@ function stripHTML(html){
 }
 function esHTML(s){ return /<[a-z][\s\S]*>/i.test(String(s || '')); }
 
-function abrirEditor(){ $('editor').classList.add('on'); document.body.style.overflow = 'hidden'; }
+function abrirEditor(){ $('editor').classList.add('on'); document.body.style.overflow = 'hidden'; try{ sessionStorage.setItem('af_nota_open', '1'); }catch(e){} }
+/* Guardar/reabrir el borrador para el ida y vuelta a la Biblia */
+function guardarDraft(){
+  try{ sessionStorage.setItem('af_nota_draft', JSON.stringify({ editId: editId, t: $('edTitulo').value, f: $('edFecha').value, p: $('edPasaje').value, c: $('edCuerpo').innerHTML })); }catch(e){}
+}
+function restaurarDraft(){
+  let raw = null;
+  try{ if(sessionStorage.getItem('af_nota_open') === '1') raw = sessionStorage.getItem('af_nota_draft'); }catch(e){}
+  if(!raw) return;
+  let d; try{ d = JSON.parse(raw); }catch(e){ return; }
+  editId = d.editId || null;
+  $('edTitulo').value = d.t || '';
+  $('edFecha').value = d.f || hoyISO();
+  $('edPasaje').value = d.p || '';
+  $('edCuerpo').innerHTML = sanitizeHTML(d.c || '');
+  $('guardadoMsg').textContent = '';
+  abrirEditor();
+}
+function irABiblia(){
+  guardarDraft();
+  try{ sessionStorage.setItem('af_nota_open', '1'); sessionStorage.setItem('af_volver_notas', '1'); }catch(e){}
+  const p = $('edPasaje').value.trim();
+  location.href = (p && urlPasaje(p)) || 'biblia.html';
+}
 function nuevaNota(){
   editId = null;
   $('edTitulo').value = '';
@@ -326,7 +350,7 @@ function editarNota(id){
   $('guardadoMsg').textContent = '';
   abrirEditor();
 }
-function cerrarEditor(){ $('editor').classList.remove('on'); document.body.style.overflow = ''; editId = null; }
+function cerrarEditor(){ $('editor').classList.remove('on'); document.body.style.overflow = ''; editId = null; try{ sessionStorage.removeItem('af_nota_open'); sessionStorage.removeItem('af_nota_draft'); sessionStorage.removeItem('af_volver_notas'); }catch(e){} }
 function guardarNota(){
   const t = $('edTitulo').value.trim();
   const html = sanitizeHTML($('edCuerpo').innerHTML);
@@ -477,8 +501,11 @@ document.addEventListener('keydown', e => {
     else if($('editor').classList.contains('on')) cerrarEditor();
   }
 });
+['edTitulo','edFecha','edPasaje'].forEach(id => { const el = $(id); if(el) el.addEventListener('input', guardarDraft); });
+$('edCuerpo').addEventListener('input', guardarDraft);
 pintarAviso();
 pintarLista();
+restaurarDraft();
 </script>
 </body>
 </html>

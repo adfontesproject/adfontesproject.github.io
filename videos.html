@@ -213,7 +213,8 @@ function panelConfesion(lista, id){
     '<div class="serie-rejilla">' + celdas + '</div>' +
     '<div class="serie-pie">Cada capítulo con video también aparece dentro de la <a href="biblioteca.html#confesiones">Confesión en la Biblioteca</a>.</div></details>';
 }
-let filtro = '', busca = '';
+let filtro = (function(){ try{ return sessionStorage.getItem('af_vid_filtro') || ''; }catch(e){ return ''; } })();
+let busca = (function(){ try{ return sessionStorage.getItem('af_vid_busca') || ''; }catch(e){ return ''; } })();
 function pintar(){
   const lista = todos();
   const series = [...new Set(lista.map(v => v.serie).filter(Boolean))].sort();
@@ -247,8 +248,8 @@ function pintar(){
       '<div class="serie-card"><b>' + s.t + '</b><span>' + s.d + '</span></div>').join('')) + '</div></div>';
   window.__vis = vis;
 }
-function setF(s){ filtro = s; pintar(); }
-function setB(v){ busca = v; pintar(); }
+function setF(s){ filtro = s; try{ sessionStorage.setItem('af_vid_filtro', s); }catch(e){} pintar(); }
+function setB(v){ busca = v; try{ sessionStorage.setItem('af_vid_busca', v); }catch(e){} pintar(); }
 function abrir(i){
   const v = window.__vis[i];
   const txt = v.texto || v.ytDesc || '';
