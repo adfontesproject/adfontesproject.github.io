@@ -128,6 +128,8 @@ body{padding-bottom:74px}
 .au-i:last-child,.inf-i:last-child{border-bottom:none}
 .au-i b,.inf-i b{display:block;font-family:'Inter',sans-serif;font-size:.86rem;color:var(--carbon)}
 .au-i span,.inf-i span{font-size:.9rem;color:var(--ink-soft)}
+.au-i b em{font-style:italic;font-weight:600;color:#7a5b1e}
+.fuentes-nota{font-family:'Inter',sans-serif;font-size:.74rem;color:var(--ink-soft);font-style:italic;margin-top:.7rem;padding-top:.6rem;border-top:1px solid var(--line)}
 /* Comparación */
 .comp-intro{font-style:italic;color:var(--ink-soft);margin-bottom:.9rem !important}
 .comp-fila{border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem;margin-bottom:.6rem}
@@ -382,6 +384,7 @@ function pintarFicha(id){
         '<div class="comp-col comp-west"><span class="comp-lbl">Westminster</span>' + f.west + '</div>' +
         '<div class="comp-col comp-lbc"><span class="comp-lbl">1689</span>' + f.lbc + '</div></div>').join(''));
   }
+  if(d.fuentes) h += fsec('📕 Fuentes (autores reformados)', d.fuentes.map(a => '<div class="au-i"><b>' + a.n + '</b><span>' + a.r + '</span></div>').join('') + '<p class="fuentes-nota">Ad Fontes cita solo a autores reformados, de sana doctrina, para el estudio de estos documentos.</p>');
   el.innerHTML = h + '</div>';
 }
 

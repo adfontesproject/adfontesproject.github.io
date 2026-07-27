@@ -32,6 +32,14 @@ const DOSSIER = {
       { t: 'Declaración de Saboya (1658)', d: 'De los congregacionalistas hereda el capítulo sobre la iglesia y su gobierno independiente.' },
       { t: 'Primera Confesión de Londres (1644)', d: 'La raíz bautista particular anterior, que ya la precedía en doctrina y distintivos.' }
     ],
+    fuentes: [
+      { n: 'Samuel E. Waldron — <em>A Modern Exposition of the 1689 Baptist Confession of Faith</em>', r: 'La exposición reformada bautista estándar, capítulo por capítulo.' },
+      { n: 'James M. Renihan — <em>For the Vindication of the Truth</em> y estudios sobre el texto de 1677/89', r: 'El mayor especialista actual en la historia y la letra de la confesión.' },
+      { n: 'Richard C. Barcellos — obras sobre la teología del pacto', r: 'Trasfondo pactual del capítulo 7, desde la tradición bautista reformada.' },
+      { n: 'Michael A. G. Haykin — <em>Kiffin, Knollys and Keach</em>', r: 'Semblanzas históricas de los pastores y firmantes.' },
+      { n: 'Tom J. Nettles — <em>By His Grace and For His Glory</em>', r: 'Historia de la identidad teológica bautista reformada.' },
+      { n: 'Founders Ministries / Stan Reeves — edición con pruebas bíblicas', r: 'Texto de referencia para verificar las citas de la Escritura.' }
+    ],
     comparacion: {
       con: 'la Confesión de Westminster',
       intro: 'La 1689 sigue a Westminster tan de cerca que en muchos capítulos el texto es casi idéntico. Las diferencias se concentran en unos pocos puntos, casi todos sobre el bautismo, la iglesia y la libertad de conciencia.',
@@ -67,6 +75,12 @@ const DOSSIER = {
       { t: 'Los Artículos Irlandeses (1615)', d: 'Redactados por James Ussher, un antecedente calvinista directo en estructura y contenido.' },
       { t: 'La tradición reformada continental', d: 'Calvino, Bullinger y las confesiones reformadas del continente como trasfondo doctrinal.' },
       { t: 'Los 39 Artículos de Inglaterra', d: 'El punto de partida que la Asamblea buscaba profundizar y reformar.' }
+    ],
+    fuentes: [
+      { n: 'A. A. Hodge — <em>The Confession of Faith</em>', r: 'Comentario presbiteriano clásico, claro y fiel.' },
+      { n: 'G. I. Williamson — <em>The Westminster Confession of Faith for Study Classes</em>', r: 'Exposición sencilla para estudio, muy usada.' },
+      { n: 'Chad Van Dixhoorn — <em>Confessing the Faith</em>', r: 'Comentario reformado moderno y estudio de las actas de la Asamblea.' },
+      { n: 'Robert Letham — <em>The Westminster Assembly: Reading Its Theology in Historical Context</em>', r: 'Contexto histórico y teológico desde la tradición reformada.' }
     ]
   },
 
@@ -83,6 +97,11 @@ const DOSSIER = {
       { t: 'El Antiguo Símbolo Romano', d: 'Su forma matriz, más breve, sobre la que creció el texto actual.' },
       { t: 'La catequesis bautismal', d: 'Base del examen de fe de los que se bautizaban en Occidente.' },
       { t: 'El Catecismo de Heidelberg (1563)', d: 'La Reforma lo hereda y lo comenta como resumen de la fe cristiana.' }
+    ],
+    fuentes: [
+      { n: 'Zacarías Ursino — <em>Comentario del Catecismo de Heidelberg</em>', r: 'Expone el Credo de los Apóstoles como resumen de la fe reformada.' },
+      { n: 'Nick Needham — <em>2000 Years of Christ\'s Power</em>, vol. 1', r: 'Historiador bautista reformado; origen del símbolo bautismal.' },
+      { n: 'Louis Berkhof — <em>Historia de las doctrinas cristianas</em>', r: 'Panorama reformado de la formación de los credos.' }
     ]
   },
 
@@ -107,6 +126,12 @@ const DOSSIER = {
       { t: 'El Concilio de Nicea (325)', d: 'Su base directa; el credo de 381 lo amplía y completa.' },
       { t: 'La liturgia de la iglesia', d: 'Recibido por Oriente y Occidente, se recita en la celebración de la Cena.' },
       { t: 'Las confesiones reformadas', d: 'Fundamento de la doctrina trinitaria de Westminster, la 1689 y las demás.' }
+    ],
+    fuentes: [
+      { n: 'B. B. Warfield — estudios sobre la Trinidad y los concilios', r: 'Insuperable sobre Nicea y la deidad del Hijo, desde Princeton.' },
+      { n: 'Robert Letham — <em>The Holy Trinity</em>', r: 'Tratamiento reformado, sólido y actual, de Nicea y la Trinidad.' },
+      { n: 'Nick Needham — <em>2000 Years of Christ\'s Power</em>, vol. 1', r: 'La crisis arriana narrada por un bautista reformado.' },
+      { n: 'Louis Berkhof — <em>Teología sistemática</em> e <em>Historia de las doctrinas</em>', r: 'Síntesis reformada de la doctrina trinitaria.' }
     ]
   },
 
@@ -128,6 +153,11 @@ const DOSSIER = {
       { t: 'La fe de Nicea', d: 'Recoge y afila la doctrina trinitaria definida en los concilios anteriores.' },
       { t: 'La teología agustiniana', d: 'Su lenguaje sobre las personas y la sustancia refleja a Agustín.' },
       { t: 'El oficio divino de Occidente', d: 'Se rezaba en la liturgia; la Reforma lo mantuvo entre los tres credos ecuménicos.' }
+    ],
+    fuentes: [
+      { n: 'B. B. Warfield — sobre la Trinidad y el Credo Atanasiano', r: 'Análisis reformado de su precisión trinitaria.' },
+      { n: 'Nick Needham — <em>2000 Years of Christ\'s Power</em>, vols. 1–2', r: 'Contexto histórico desde la tradición bautista reformada.' },
+      { n: 'Louis Berkhof — <em>Historia de las doctrinas cristianas</em>', r: 'La Trinidad y las dos naturalezas en clave reformada.' }
     ]
   },
 
@@ -152,6 +182,12 @@ const DOSSIER = {
       { t: 'El Concilio de Éfeso (431)', d: 'Que ya había afirmado «Theotokos» y condenado a Nestorio.' },
       { t: 'El Tomo de León I', d: 'La carta que sirvió de texto base a la definición.' },
       { t: 'Toda la cristología posterior', d: 'Fundamento de Westminster (cap. 8) y de la 1689 (cap. 8) sobre Cristo el Mediador.' }
+    ],
+    fuentes: [
+      { n: 'B. B. Warfield — <em>The Person of Christ</em> y estudios cristológicos', r: 'Las dos naturalezas en una persona, desde la teología reformada.' },
+      { n: 'Robert Letham — obras sobre la persona de Cristo', r: 'Lectura reformada de Calcedonia, sobria y fiel.' },
+      { n: 'Nick Needham — <em>2000 Years of Christ\'s Power</em>, vol. 1', r: 'Éfeso y Calcedonia narrados por un bautista reformado.' },
+      { n: 'Louis Berkhof — <em>Teología sistemática</em> (cristología)', r: 'Síntesis reformada de la unión de las dos naturalezas.' }
     ]
   }
 
