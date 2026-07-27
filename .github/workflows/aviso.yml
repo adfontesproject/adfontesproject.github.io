@@ -1,0 +1,116 @@
+name: Aviso a los hermanos (envio manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      titulo:
+        description: 'Titulo de la notificacion'
+        required: true
+        default: 'Aún estás a tiempo'
+      cuerpo:
+        description: 'Mensaje'
+        required: true
+        default: 'Hoy todavía no marcaste tu lectura. Unos minutos bastan para no perder el paso de tu plan. «Lámpara es a mis pies tu palabra» (Sal 119:105)'
+      solo_pendientes:
+        description: 'Enviar solo a quienes no han leido hoy? (true = si, false = a todos)'
+        required: true
+        default: 'true'
+
+jobs:
+  enviar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependencias
+        run: pip -q install google-auth requests
+
+      - name: Enviar aviso
+        env:
+          FIREBASE_SA: ${{ secrets.FIREBASE_SA }}
+          TITULO: ${{ inputs.titulo }}
+          CUERPO: ${{ inputs.cuerpo }}
+          SOLO_PEND: ${{ inputs.solo_pendientes }}
+        run: |
+          python - <<'EOF'
+          import json, os, requests, datetime
+          from google.oauth2 import service_account
+          import google.auth.transport.requests as gtr
+
+          sa = json.loads(os.environ['FIREBASE_SA'])
+          creds = service_account.Credentials.from_service_account_info(
+              sa, scopes=['https://www.googleapis.com/auth/datastore',
+                          'https://www.googleapis.com/auth/firebase.messaging'])
+          creds.refresh(gtr.Request())
+          H = {'Authorization': 'Bearer ' + creds.token}
+          pid = sa['project_id']
+
+          titulo = os.environ.get('TITULO') or 'Ad Fontes'
+          cuerpo = os.environ.get('CUERPO') or 'Tu lectura de hoy te espera.'
+          solo_pend = (os.environ.get('SOLO_PEND', 'true').lower() == 'true')
+          ahora = datetime.datetime.now(datetime.timezone.utc)
+
+          def leer_coleccion(nombre):
+              docs, page = [], None
+              base = f'https://firestore.googleapis.com/v1/projects/{pid}/databases/(default)/documents/{nombre}'
+              while True:
+                  url = base + '?pageSize=300' + (('&pageToken=' + page) if page else '')
+                  r = requests.get(url, headers=H).json()
+                  docs += r.get('documents', [])
+                  page = r.get('nextPageToken')
+                  if not page:
+                      break
+              return docs
+
+          # Quienes ya leyeron hoy (en su fecha local): tablero.lh == su fecha local
+          leyo_hoy = set()
+          if solo_pend:
+              for d in leer_coleccion('tablero'):
+                  f = d.get('fields', {})
+                  uid = d['name'].split('/')[-1]
+                  lh = f.get('lh', {}).get('stringValue', '')
+                  if lh:
+                      leyo_hoy.add((uid, lh))
+
+          def fecha_local(tz_min):
+              loc = ahora - datetime.timedelta(minutes=tz_min)
+              return loc.strftime('%Y-%m-%d')
+
+          destinos = []
+          for d in leer_coleccion('tokens'):
+              f = d.get('fields', {})
+              t = f.get('token', {}).get('stringValue')
+              if not t:
+                  continue
+              uid = f.get('uid', {}).get('stringValue', '')
+              tz = f.get('tz', {})
+              tz_min = int(tz.get('integerValue', 240)) if tz else 240
+              if solo_pend and uid and (uid, fecha_local(tz_min)) in leyo_hoy:
+                  continue   # ya leyo hoy: no lo molestamos
+              destinos.append((d['name'], t))
+
+          msg_url = f'https://fcm.googleapis.com/v1/projects/{pid}/messages:send'
+          ok = bad = 0
+          for name, t in destinos:
+              body = {'message': {
+                  'token': t,
+                  'webpush': {
+                      'notification': {
+                          'title': titulo,
+                          'body': cuerpo,
+                          'icon': 'https://adfontesproject.github.io/Logo%20Ad%20Fontes.png'
+                      },
+                      'fcm_options': {'link': 'https://adfontesproject.github.io/plan.html'}
+                  }}}
+              resp = requests.post(msg_url, headers=H, json=body)
+              if resp.status_code == 200:
+                  ok += 1
+              else:
+                  bad += 1
+                  if resp.status_code in (400, 404):
+                      requests.delete('https://firestore.googleapis.com/v1/' + name, headers=H)
+
+          print(f'Aviso: "{titulo}" | Solo pendientes: {solo_pend} | Enviadas: {ok} | Fallidas/limpiadas: {bad} | Destinatarios: {len(destinos)}')
+          EOF
