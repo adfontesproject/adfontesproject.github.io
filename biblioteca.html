@@ -214,20 +214,15 @@ body{padding-bottom:74px}
         <p>Los cuatro credos ecuménicos (Apóstoles, Niceno, Atanasiano, Calcedonia) y la Confesión Bautista de Londres (1689) completa, con sus pruebas bíblicas clicables.</p>
         <div class="meta">4 credos · 2 confesiones</div>
       </a>
-      <a class="estante" onclick="verAutores()">
-        <div class="ic">🖋</div><h3>Autores</h3>
-        <p>Calvino, Owen, Watson, Bunyan, Gill, Edwards y Spurgeon sobre los grandes pasajes, con el diálogo entre ellos.</p>
-        <div class="meta" id="metaAutores">Base curada · crece por lotes</div>
+      <a class="estante" href="videos.html">
+        <div class="ic">🎬</div><h3>Videos</h3>
+        <p>Conceptos explicados en video: pactos, tipología, cómo leer la Biblia, la ley y el evangelio, las confesiones.</p>
+        <div class="meta">Canal Ad Fontes Project</div>
       </a>
       <a class="estante" onclick="verLibros()">
         <div class="ic">📚</div><h3>Introducciones a los libros</h3>
         <p>Autor, fecha y marco histórico de los 66 libros — la dosis justa antes de leer.</p>
         <div class="meta">66 libros</div>
-      </a>
-      <a class="estante" href="videos.html">
-        <div class="ic">🎬</div><h3>Videos</h3>
-        <p>Conceptos explicados en video: pactos, tipología, cómo leer la Biblia, la ley y el evangelio, las confesiones.</p>
-        <div class="meta">Canal Ad Fontes Project</div>
       </a>
       <a class="estante" href="plan.html">
         <div class="ic">📅</div><h3>Estudios del plan</h3>
@@ -445,7 +440,6 @@ function pintarAutores(){
     (e.cruzadas && !filtroAutor ? '<div class="dialogo"><strong>Diálogo entre autores:</strong> ' + e.cruzadas + '</div>' : '') +
     '<a class="abrir" href="' + urlPasaje(e.ref) + '">📖 Leer ' + e.ref + ' en la Biblia →</a></div>').join('') ||
     '<div class="doc"><p class="par">Sin resultados para ese autor.</p></div>';
-  document.getElementById('metaAutores').textContent = ESTUDIO.length + ' pasajes · ' + ESTUDIO.reduce((a,e) => a + e.citas.length, 0) + ' citas';
 }
 
 /* ===== Libros ===== */
@@ -530,11 +524,6 @@ function buscar(q){
     if(rk.length) h += '<div class="grupo-res"><h5>Credos</h5>' + rk.map(id =>
       '<div class="res" onclick="cerrarYConf(\'' + id + '\',0)"><b>' + CREDOS[id].titulo.replace(/^(El|La) /, '') + '</b><span>Credo ecuménico</span></div>').join('') + '</div>';
   }
-  if(typeof ESTUDIO !== 'undefined'){
-    const re = ESTUDIO.filter(e => normTxt(e.ref + ' ' + e.tema + ' ' + e.citas.map(c => c.txt + ' ' + c.autor + ' ' + c.obra).join(' ') + ' ' + (e.cruzadas||'')).includes(nq));
-    if(re.length) h += '<div class="grupo-res"><h5>Autores</h5>' + re.slice(0,8).map(e =>
-      '<div class="res" onclick="cerrarYAutores()"><b>' + e.ref + '</b><span>' + e.tema + '</span></div>').join('') + '</div>';
-  }
   if(typeof CONTEXTOS !== 'undefined'){
     const rl = NOMBRES.filter(n => normTxt(n + ' ' + CONTEXTOS[n].a + ' ' + CONTEXTOS[n].m).includes(nq));
     if(rl.length) h += '<div class="grupo-res"><h5>Libros</h5>' + rl.slice(0,8).map(n =>
@@ -556,7 +545,7 @@ document.addEventListener('keydown', e => {
 });
 
 /* Arranque: hash explícito manda; si no, recuerda dónde estabas (sesión) */
-function metaInit(){ if(typeof ESTUDIO !== 'undefined') document.getElementById('metaAutores').textContent = ESTUDIO.length + ' pasajes · ' + ESTUDIO.reduce((a,e) => a + e.citas.length, 0) + ' citas'; }
+function metaInit(){ const el = document.getElementById('metaAutores'); if(el && typeof ESTUDIO !== 'undefined') el.textContent = ESTUDIO.length + ' pasajes · ' + ESTUDIO.reduce((a,e) => a + e.citas.length, 0) + ' citas'; }
 const h0 = location.hash.slice(1);
 let vguard = ''; try{ vguard = sessionStorage.getItem('af_bib_vista') || ''; }catch(e){}
 if(h0 === 'confesiones' || (!h0 && vguard === 'v-conf')) verConfesiones();
