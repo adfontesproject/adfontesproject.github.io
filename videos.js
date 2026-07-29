@@ -3,6 +3,48 @@
    Para anadir texto explicativo o pasajes a un video, usa recursos.js */
 const VIDEOS = [
  {
+  "yt": "ps295xFcbtk",
+  "titulo": "1689 · Capítulo 8 (2/2) — De Cristo el Mediador",
+  "fecha": "2026-07-28",
+  "desc": "Pregunta central: ¿Qué hizo Jesús por nosotros?\nEnfoque teológico: La función y logro del Mediador (Soteriología y Expiación)\n\nContenido principal:\nLos tres oficios de Cristo: Profeta (nos enseña), Sacerdote (se ofrece a sí mismo y se interpone) y Rey (nos gobierna y protege)\n.\nLa necesidad y naturaleza de la cruz: por qué era necesario satisfacer la justicia de Dios\n.\nLa sustitución penal y redención particular: cómo Jesús tomó el lugar exacto de su pueblo para asegurar su perdón\n\nLibro - Sam Waldron : Una exposición doctrinal detallada de la Confesión de Fe de 1689",
+  "serie": "lbc",
+  "caps": [
+   8
+  ],
+  "parte": "2/2"
+ },
+ {
+  "yt": "bskt1smMowA",
+  "titulo": "1689 · Capítulo 8 (1/2) — De Cristo el Mediador",
+  "fecha": "2026-07-28",
+  "desc": "Pregunta central: ¿Quién es Jesús?\nEnfoque teológico: La identidad del Mediador (Cristología)\n\nContenido principal:\nEl misterio de la Encarnación\n\nLa plena deidad de Jesús (verdadero Dios)\n y su verdadera humanidad (verdadero hombre, con cuerpo y alma humana, sujeto a limitaciones pero sin pecado)\n\nLa unión de ambas naturalezas en una sola Persona sin confusión ni mezcla\n\nLibro - Sam Waldron : Una exposición doctrinal detallada de la Confesión de Fe de 1689",
+  "serie": "lbc",
+  "caps": [
+   8
+  ],
+  "parte": "1/2"
+ },
+ {
+  "yt": "bMHnqNWOohA",
+  "titulo": "1689 · Capítulo 7 — Del pacto de Dios",
+  "fecha": "2026-07-28",
+  "desc": "",
+  "serie": "lbc",
+  "caps": [
+   7
+  ]
+ },
+ {
+  "yt": "DcecRso9CGE",
+  "titulo": "1689 · Capítulo 6 — De la caída del hombre, del pecado y su castigo",
+  "fecha": "2026-07-28",
+  "desc": "",
+  "serie": "lbc",
+  "caps": [
+   6
+  ]
+ },
+ {
   "yt": "H-VfcUyMQoA",
   "titulo": "1689 · Capítulo 5 — De la divina providencia",
   "fecha": "2026-07-26",
