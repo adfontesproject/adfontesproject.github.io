@@ -130,6 +130,10 @@ body{padding-bottom:74px}
 .au-i span,.inf-i span{font-size:.9rem;color:var(--ink-soft)}
 .au-i b em{font-style:italic;font-weight:600;color:#7a5b1e}
 .fuentes-nota{font-family:'Inter',sans-serif;font-size:.74rem;color:var(--ink-soft);font-style:italic;margin-top:.7rem;padding-top:.6rem;border-top:1px solid var(--line)}
+.nota-mag{background:#f6f0e0;border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:.8rem 1rem;margin:.2rem 0}
+.nota-mag p{font-family:'Inter',sans-serif;font-size:.86rem;line-height:1.6;color:var(--ink);margin-bottom:.7rem}
+.nota-mag p:last-child{margin-bottom:0}
+.nota-mag em{color:#7a5b1e;font-style:italic}
 /* Comparación */
 .comp-intro{font-style:italic;color:var(--ink-soft);margin-bottom:.9rem !important}
 .comp-fila{border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem;margin-bottom:.6rem}
@@ -378,6 +382,7 @@ function pintarFicha(id){
   if(d.autores) h += fsec(d.autoresTit || '👤 Principales autores', d.autores.map(a => '<div class="au-i"><b>' + a.n + '</b><span>' + a.r + '</span></div>').join(''));
   if(d.influencias) h += fsec('📚 Influencias y documentos relacionados', d.influencias.map(x => '<div class="inf-i"><b>' + x.t + '</b><span>' + x.d + '</span></div>').join(''));
   if(d.datos) h += fsec('🔎 Datos, disputas y cartas', d.datos.map(x => '<div class="inf-i"><b>' + x.t + '</b><span>' + enlazarRefs(x.d) + '</span></div>').join(''));
+  if(d.notaMagistrado) h += fsec(d.notaMagistrado.titulo, '<div class="nota-mag">' + d.notaMagistrado.parrafos.map(p => '<p>' + enlazarRefs(p) + '</p>').join('') + '</div>');
   if(d.comparacion){
     const c = d.comparacion;
     h += fsec('📑 Comparación con ' + c.con, '<p class="comp-intro">' + c.intro + '</p>' +

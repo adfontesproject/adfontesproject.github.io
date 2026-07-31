@@ -96,6 +96,17 @@ const DOSSIER = {
       { t: 'Nunca se disolvió formalmente', d: 'La Asamblea no fue clausurada con un acto solemne: se fue apagando. Además de la Confesión, produjo los Catecismos Mayor y Menor y el Directorio para el Culto Público, que reemplazó al Libro de Oración Común.' },
       { t: '«El fin principal del hombre»', d: 'De la misma Asamblea salió la pregunta que resume toda su teología: «¿Cuál es el fin principal del hombre? Glorificar a Dios y gozar de Él para siempre».' }
     ],
+    notaMagistrado: {
+      titulo: '⚖️ El magistrado civil y la Iglesia',
+      parrafos: [
+        '<strong>Respuesta breve:</strong> sí. La Confesión de 1646 otorgó al magistrado civil (el Estado) una autoridad significativa en asuntos religiosos y eclesiásticos. No lo hizo «cabeza de la Iglesia» —eso sería erastianismo pleno—, pero le concedió facultades que hoy la mayoría de los presbiterianos, y prácticamente todos los bautistas, consideran excesivas.',
+        '<strong>Qué decía el texto original.</strong> El <strong>cap. 23.3</strong> daba al magistrado el deber de conservar la unidad de la iglesia, suprimir blasfemias y herejías, reformar el culto y aun <em>convocar sínodos</em>. El <strong>cap. 20.4</strong> permitía procesar a quienes difundieran errores «no solo por las censuras de la iglesia, sino también por el poder del magistrado civil». Y el <strong>cap. 31.2</strong> afirmaba que los magistrados pueden <em>convocar un sínodo</em> de ministros.',
+        '<strong>La distinción fina.</strong> No es erastianismo pleno: este hace del Estado la <em>fuente</em> del poder eclesiástico. Westminster conservó «las llaves» en manos de los oficiales de la iglesia (poder espiritual, <em>in sacris</em>), pero dio al magistrado un poder custodio «alrededor de lo sagrado» (<em>circa sacra</em>): proteger, establecer y aun coaccionar en favor de la verdadera religión. Es el llamado «principio del establecimiento».',
+        '<strong>Por qué salió así.</strong> La Asamblea fue convocada por el Parlamento inglés (1643), que retuvo el control final; el partido erastiano (John Selden, Thomas Coleman, John Lightfoot) presionó con fuerza. El texto final fue un compromiso, más establecionista que erastiano.',
+        '<strong>Cómo maduró la tradición reformada.</strong> La Declaración de Saboya (1658, congregacionalista) ya suavizó el papel del magistrado. La <strong>Confesión Bautista de 1689</strong> dio el paso decisivo: su cap. 24 quitó el poder de convocar sínodos y suprimir herejías, y su cap. 21 reforzó la libertad de conciencia. Más tarde, los <strong>presbiterianos norteamericanos (1788)</strong> revisaron formalmente los caps. 20.4, 23.3 y 31 para quitar al magistrado todo poder sobre la iglesia — y esa es la versión que hoy usa la mayoría de las iglesias presbiterianas.',
+        '<strong>Lectura de Ad Fontes.</strong> Conservamos el texto histórico de 1647 tal cual, por fidelidad documental. Pero señalamos que en este punto la tradición reformada creció: la 1689 y las revisiones americanas apartaron a la iglesia del brazo coercitivo del Estado, en coherencia con lo que la misma Westminster ya confesaba — <em>«solo Dios es el Señor de la conciencia»</em> (cap. 20.2).'
+      ]
+    },
     fuentes: [
       { n: 'A. A. Hodge — <em>The Confession of Faith</em>', r: 'Comentario presbiteriano clásico, claro y fiel.' },
       { n: 'G. I. Williamson — <em>The Westminster Confession of Faith for Study Classes</em>', r: 'Exposición sencilla para estudio, muy usada.' },
