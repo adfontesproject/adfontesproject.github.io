@@ -134,6 +134,14 @@ body{padding-bottom:74px}
 .nota-mag p{font-family:'Inter',sans-serif;font-size:.86rem;line-height:1.6;color:var(--ink);margin-bottom:.7rem}
 .nota-mag p:last-child{margin-bottom:0}
 .nota-mag em{color:#7a5b1e;font-style:italic}
+/* Catecismos (pregunta y respuesta) */
+.cat-cont{font-family:'Inter',sans-serif;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:.2rem 0 1rem}
+.qa{display:flex;gap:.8rem;padding:.9rem 0;border-bottom:1px dashed var(--line)}
+.qa:last-of-type{border-bottom:none}
+.qa-n{flex:0 0 1.9rem;height:1.9rem;border-radius:50%;background:var(--carbon);color:#fff;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;display:flex;align-items:center;justify-content:center}
+.qa-b{flex:1;min-width:0}
+.qa-p{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--carbon);line-height:1.3;margin-bottom:.25rem}
+.qa-r{font-size:1rem;line-height:1.6;margin-bottom:.35rem}
 /* Comparación */
 .comp-intro{font-style:italic;color:var(--ink-soft);margin-bottom:.9rem !important}
 .comp-fila{border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem;margin-bottom:.6rem}
@@ -220,6 +228,11 @@ body{padding-bottom:74px}
         <p>Los cuatro credos ecuménicos (Apóstoles, Niceno, Atanasiano, Calcedonia) y la Confesión Bautista de Londres (1689) completa, con sus pruebas bíblicas clicables.</p>
         <div class="meta">4 credos · 2 confesiones</div>
       </a>
+      <a class="estante" onclick="verCatecismos()">
+        <div class="ic">📖</div><h3>Catecismos</h3>
+        <p>Preguntas y respuestas para aprender y memorizar la sana doctrina — con sus pruebas bíblicas clicables.</p>
+        <div class="meta">Bautista 1693 · pregunta y respuesta</div>
+      </a>
       <a class="estante" href="videos.html">
         <div class="ic">🎬</div><h3>Videos</h3>
         <p>Conceptos explicados en video: pactos, tipología, cómo leer la Biblia, la ley y el evangelio, las confesiones.</p>
@@ -260,6 +273,13 @@ body{padding-bottom:74px}
     <div id="fichaDoc"></div>
     <div class="num-grid" id="capsConf"></div>
     <div id="docConf"></div>
+  </div>
+
+  <!-- Catecismos -->
+  <div class="vista" id="v-catecismo">
+    <div class="miga"><a onclick="portada()">Biblioteca</a> › Catecismos</div>
+    <div class="filas" id="filtroCat"></div>
+    <div id="catDoc"></div>
   </div>
 
   <!-- Autores -->
@@ -304,6 +324,7 @@ body{padding-bottom:74px}
 <script src="credos.js"></script>
 <script src="dossier.js"></script>
 <script src="confesiones.js"></script>
+<script src="catecismos.js"></script>
 <script src="videos.js"></script>
 <script src="estudio.js"></script>
 <script src="contextos.js"></script>
@@ -334,6 +355,30 @@ let confCap = (function(){ try{ return parseInt(sessionStorage.getItem('af_conf_
 function verConfesiones(){ vista('v-conf'); location.hash = 'confesiones'; aplicarNotasConf(); pintarConf(); }
 function setConf(id){ confId = id; confCap = 0; pintarConf(); }
 function verCapConf(i){ confCap = i; pintarConf(); document.getElementById('docConf').scrollIntoView({behavior:'smooth', block:'start'}); }
+/* ===== Catecismos ===== */
+let catId = (function(){ try{ return sessionStorage.getItem('af_cat_id') || 'baptista1693'; }catch(e){ return 'baptista1693'; } })();
+function verCatecismos(){ vista('v-catecismo'); location.hash = 'catecismos'; pintarCat(); }
+function setCat(id){ catId = id; try{ sessionStorage.setItem('af_cat_id', id); }catch(e){} pintarCat(); }
+function pintarCat(){
+  if(typeof CATECISMOS === 'undefined') return;
+  const ids = Object.keys(CATECISMOS);
+  if(!CATECISMOS[catId]) catId = ids[0];
+  document.getElementById('filtroCat').innerHTML = ids.length > 1
+    ? ids.map(id => '<button class="pill' + (id === catId ? ' act' : '') + '" onclick="setCat(\'' + id + '\')">' + CATECISMOS[id].sub + '</button>').join('')
+    : '';
+  const cat = CATECISMOS[catId];
+  const chip = r => '<span class="ref-chip" onclick="verVerso(\'' + r.replace(/'/g, "\\'") + '\')">' + r + '</span>';
+  document.getElementById('catDoc').innerHTML =
+    '<div class="doc"><h2>' + cat.titulo + '</h2><div class="doc-sub">' + cat.sub + '</div>' +
+    '<p class="credo-intro">' + cat.nota + '</p>' +
+    '<div class="cat-cont">' + cat.preguntas.length + ' preguntas y respuestas</div>' +
+    cat.preguntas.map((q, i) =>
+      '<div class="qa"><div class="qa-n">' + (i+1) + '</div><div class="qa-b">' +
+      '<p class="qa-p">P. ' + q.p + '</p><p class="qa-r">R. ' + q.r + '</p>' +
+      ((q.refs && q.refs.length) ? '<div class="refs">' + q.refs.map(chip).join('') + '</div>' : '') +
+      '</div></div>').join('') +
+    '<div class="nota-pie">' + cat.fuente + '</div></div>';
+}
 function partirRefs(tx){
   const m = tx.match(/^([\s\S]*?)\s*\(([^()]+)\)\s*$/);
   if(!m || !/\d/.test(m[2])) return { t: tx, refs: [] };
@@ -558,6 +603,7 @@ function metaInit(){ const el = document.getElementById('metaAutores'); if(el &&
 const h0 = location.hash.slice(1);
 let vguard = ''; try{ vguard = sessionStorage.getItem('af_bib_vista') || ''; }catch(e){}
 if(h0 === 'confesiones' || (!h0 && vguard === 'v-conf')) verConfesiones();
+else if(h0 === 'catecismos' || (!h0 && vguard === 'v-catecismo')) verCatecismos();
 else if(h0 === 'autores' || (!h0 && vguard === 'v-autores')) verAutores();
 else if(h0 === 'libros' || (!h0 && vguard === 'v-libros')) verLibros();
 else metaInit();
