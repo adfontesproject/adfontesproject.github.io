@@ -121,6 +121,26 @@ const CATECISMOS = {
       { p: '¿Qué pedimos en la sexta petición?', r: 'En la sexta petición, «No nos metas en tentación, mas líbranos del mal», pedimos que Dios nos guarde de ser tentados a pecar, o nos sostenga y libre cuando somos tentados.', refs: ['Mt 26:41','2 Co 12:7-8','1 Co 10:13','Jn 17:15'] },
       { p: '¿Qué nos enseña la conclusión del Padrenuestro?', r: 'La conclusión, «Porque tuyo es el reino, y el poder, y la gloria, por todos los siglos. Amén», nos enseña a tomar de solo Dios el aliento para orar, y a alabarle atribuyéndole el reino, el poder y la gloria; y en testimonio de nuestro deseo y seguridad de ser oídos, decimos: Amén.', refs: ['Dn 9:18-19','1 Cr 29:11-13','1 Co 14:16','Ap 22:20'] }
     ]
+  },
+
+  collins1680: {
+    titulo: 'Catecismo de Hércules Collins (1680)',
+    sub: 'Collins · 1680',
+    nota: 'El «Catecismo Ortodoxo» de Hércules Collins, pastor bautista particular de Londres y firmante de la Confesión de 1689. Es una adaptación bautista del Catecismo de Heidelberg —cálida y cristocéntrica— que Collins hizo para mostrar la comunión de los bautistas con la fe reformada histórica, ajustando lo tocante al bautismo. Sigue la estructura de Heidelberg: la miseria, la liberación y la gratitud.',
+    fuente: 'Orthodox Catechism de Hércules Collins (1680) · texto de dominio público. Toca una referencia para leerla en la Biblia.',
+    preguntas: [
+      { p: '¿Cuál es tu único consuelo en la vida y en la muerte?', r: 'Que yo, en cuerpo y alma, tanto en la vida como en la muerte, no me pertenezco a mí mismo, sino a mi fiel Salvador Jesucristo, quien con su preciosa sangre ha pagado plenamente por todos mis pecados y me ha librado de todo el poder del diablo; y de tal manera me guarda, que sin la voluntad de mi Padre celestial ni un solo cabello puede caer de mi cabeza; antes bien, todas las cosas han de servir para mi salvación. Por lo cual también, por su Espíritu Santo, me asegura la vida eterna y me hace de corazón dispuesto y pronto para vivir en adelante para él.', refs: ['Ro 14:7-9','1 Co 6:19-20','1 P 1:18-19','1 Jn 1:7','Jn 8:34-36','He 2:14-15','Jn 6:39','Mt 10:29-30','Ro 8:28','2 Co 1:21-22','Ef 1:13-14','Ro 8:14'] },
+      { p: '¿Cuántas cosas te es necesario saber para que, gozando de este consuelo, vivas y mueras bienaventuradamente?', r: 'Tres: la primera, cuán grandes son mi pecado y mi miseria; la segunda, cómo soy librado de todos mis pecados y miserias; y la tercera, cómo he de ser agradecido a Dios por tal liberación.', refs: ['Mt 11:28-30','Jn 17:3','Ro 3:19','Ef 5:8-10','1 P 2:9-12'] },
+      { p: '¿De dónde conoces tu miseria?', r: 'De la ley de Dios.', refs: ['Ro 3:20','Ro 7:7'] },
+      { p: '¿Qué exige de nosotros la ley de Dios?', r: 'Cristo nos lo enseña en suma: «Amarás al Señor tu Dios con todo tu corazón, con toda tu alma, con todas tus fuerzas y con toda tu mente; y a tu prójimo como a ti mismo».', refs: ['Mt 22:37-40','Dt 6:5','Lv 19:18'] },
+      { p: '¿Puedes cumplir todo esto perfectamente?', r: 'No; porque por naturaleza estoy inclinado a aborrecer a Dios y a mi prójimo.', refs: ['Ro 3:10,23','1 Jn 1:8,10','Ro 8:7','Ef 2:3','Tit 3:3'] },
+      { p: '¿Creó, pues, Dios al hombre tan malo y perverso?', r: 'No; sino que Dios creó al hombre bueno y a su imagen, esto es, en verdadera justicia y santidad, para que conociera rectamente a Dios su Creador, le amara de corazón y viviera con él en eterna bienaventuranza, para alabarle y glorificarle.', refs: ['Gn 1:26-27,31','Ef 4:24','Col 3:10'] },
+      { p: '¿De dónde procede, entonces, esta naturaleza corrompida del hombre?', r: 'De la caída y desobediencia de nuestros primeros padres, Adán y Eva, en el paraíso; de donde nuestra naturaleza quedó tan corrompida que todos somos concebidos y nacidos en pecado.', refs: ['Gn 3:6','Ro 5:12,18-19','Sal 51:5'] },
+      { p: '¿Pero estamos tan corrompidos que somos del todo incapaces de hacer bien alguno e inclinados a todo mal?', r: 'Sí, a menos que seamos regenerados por el Espíritu de Dios.', refs: ['Gn 6:5','Jn 3:3,5-6','Ro 7:18','2 Co 3:5'] },
+      { p: '¿No es, entonces, Dios injusto al exigir en su ley del hombre lo que este no puede cumplir?', r: 'No; porque Dios creó al hombre capaz de cumplirla; pero el hombre, por instigación del diablo y por su propia rebeldía, se privó a sí mismo y a toda su descendencia de estos dones.', refs: ['Ec 7:29','Ef 4:24','Ro 5:12'] },
+      { p: '¿Dejará Dios sin castigo tal desobediencia y apostasía?', r: 'De ninguna manera; antes se aíra terriblemente contra el pecado, tanto el de nacimiento como el actual, y quiere castigarlo con justo juicio en el tiempo y en la eternidad, como ha declarado: «Maldito todo aquel que no permaneciere en todas las cosas escritas en el libro de la ley, para hacerlas».', refs: ['Éx 34:7','Dt 27:26','Gá 3:10','Ro 1:18','He 9:27'] },
+      { p: '¿No es Dios, entonces, también misericordioso?', r: 'Sí, Dios es ciertamente misericordioso, pero también es justo; por tanto, su justicia requiere que el pecado, cometido contra la majestad soberana de Dios, sea también castigado con la suma pena, esto es, con la muerte eterna del cuerpo y del alma.', refs: ['Éx 34:6-7','Sal 103:8-9','Éx 20:5','Dt 32:4','2 Co 6:14-16'] }
+    ]
   }
 
 };
