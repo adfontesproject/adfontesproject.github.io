@@ -56,6 +56,22 @@ body{padding-bottom:74px}
 .btn-sbt{display:inline-flex;align-items:center;gap:.5rem;margin-top:2.2rem;background:#1b4f72;color:#fff;font-family:'Inter',sans-serif;font-size:.92rem;font-weight:500;text-decoration:none;padding:.78rem 1.9rem;border-radius:24px;box-shadow:0 4px 16px rgba(27,79,114,.22)}
 .btn-sbt:hover{background:#163f5c}
 
+/* Bienvenida (primera visita) */
+.bienv{position:fixed;inset:0;z-index:200;background:rgba(38,38,38,.78);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:1.2rem}
+.bienv.on{display:flex}
+.bienv-card{background:var(--paper);border-radius:20px;max-width:430px;width:100%;padding:2.1rem 1.7rem;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.4)}
+.bienv-logo{width:56px;height:56px;border-radius:12px;margin-bottom:.6rem}
+.bienv-card h2{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:600;color:var(--carbon);margin-bottom:.3rem}
+.bienv-lema{font-family:'EB Garamond',serif;font-style:italic;color:var(--ink-soft);font-size:1.02rem;margin-bottom:1.3rem;line-height:1.5}
+.bienv-pasos{list-style:none;text-align:left;margin:0 auto 1.5rem;max-width:340px;padding:0}
+.bienv-pasos li{font-family:'Inter',sans-serif;font-size:.86rem;color:var(--ink);line-height:1.5;padding:.4rem 0;display:flex;gap:.6rem;align-items:flex-start}
+.bienv-pasos li span{font-size:1.15rem;flex:0 0 auto;line-height:1.3}
+.bienv-pasos b{font-weight:600;color:var(--carbon)}
+.bienv-btn{background:var(--carbon);color:#fff;font-family:'Inter',sans-serif;font-size:1rem;font-weight:500;border:none;border-radius:24px;padding:.82rem 2.8rem;cursor:pointer;box-shadow:0 6px 20px rgba(38,38,38,.2)}
+.bienv-btn:hover{background:var(--carbon2)}
+.como-func{color:var(--gold-light);text-decoration:none;cursor:pointer}
+.como-func:hover{text-decoration:underline}
+
 footer{background:var(--carbon);color:#a8a29a;text-align:center;font-family:'Inter',sans-serif;font-size:.72rem;padding:1.8rem 1rem;line-height:1.9}
 footer a{color:var(--gold-light);text-decoration:none}
 
@@ -109,11 +125,25 @@ footer a{color:var(--gold-light);text-decoration:none}
   <a class="btn-sbt" href="biblia.html">📖 Abrir Biblia SBT</a>
 </main>
 
+<div class="bienv" id="bienvenida">
+  <div class="bienv-card">
+    <img src="Logo%20Ad%20Fontes.png" alt="" class="bienv-logo">
+    <h2>Bienvenido a Ad Fontes</h2>
+    <p class="bienv-lema">La Escritura, leída y estudiada en serio — desde la fe reformada y confesional.</p>
+    <ul class="bienv-pasos">
+      <li><span>📖</span><span><b>Lee tu plan cada día</b> y márcalo como leído. Ese es el corazón.</span></li>
+      <li><span>📚</span><span><b>Profundiza</b> en Estudio: confesiones, catecismos, introducciones y videos.</span></li>
+      <li><span>📝</span><span><b>Toma notas</b> de las prédicas y camina con tus hermanos en Comunidad.</span></li>
+    </ul>
+    <button class="bienv-btn" onclick="cerrarBienvenida()">Empezar</button>
+  </div>
+</div>
+
 <footer>
   <strong>Ad Fontes Project</strong> · Plan cronológico de lectura y estudio bíblico<br>
   Reina Valera SBT © Sociedad Bíblica Trinitaria (con autorización) · RVR60 © Sociedades Bíblicas en América Latina · NTV © Tyndale House Foundation<br>
   «La hierba se seca, y la flor se cae; mas la palabra del Señor permanece para siempre» — 1 Pedro 1:24-25<br>
-  <a href="clasico.html">Versión anterior del sitio</a>
+  <a class="como-func" onclick="abrirBienvenida()">¿Cómo funciona?</a> · <a href="clasico.html">Versión anterior del sitio</a>
 </footer>
 
 <div class="overlay" id="ovBuscar" onclick="if(event.target===this)this.classList.remove('abierto')">
@@ -167,6 +197,10 @@ function pintarHoy(){
     (PL.estudio ? '<a class="hoy-estudio" href="plan.html">Ver el estudio del día →</a>' : '') +
     '<div class="mini-prog"><div class="b"><div style="width:' + pct + '%"></div></div><div class="t">' + done.size + ' de ' + TOT + ' días · ' + pct + '%</div></div>';
 }
+/* Bienvenida: solo la primera visita; reabrible desde «¿Cómo funciona?» */
+function cerrarBienvenida(){ try{ localStorage.setItem('af_bienvenida','1'); }catch(e){} const b=document.getElementById('bienvenida'); if(b) b.classList.remove('on'); }
+function abrirBienvenida(){ const b=document.getElementById('bienvenida'); if(b) b.classList.add('on'); }
+(function(){ try{ if(localStorage.getItem('af_bienvenida')!=='1'){ const b=document.getElementById('bienvenida'); if(b) b.classList.add('on'); } }catch(e){} })();
 /* sincronía silenciosa del avance */
 try{
   firebase.initializeApp({ apiKey:"AIzaSyDt3bA9HuXbIypVH_JRQMe-FGKkNfUDrv8", authDomain:"biblia-en-un-ano.firebaseapp.com", projectId:"biblia-en-un-ano", storageBucket:"biblia-en-un-ano.firebasestorage.app", messagingSenderId:"978571488009", appId:"1:978571488009:web:cd9e062e57a1b9b62801d8" });
