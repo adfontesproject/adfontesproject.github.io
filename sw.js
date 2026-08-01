@@ -1,6 +1,6 @@
 /* Service Worker — La Biblia en un Año (PWA: sin conexión + notificaciones) */
-const CACHE = "adfontes-v50";
-const FILES = ['./', 'index.html', 'biblia.html', 'plan.html', 'biblioteca.html', 'comunidad.html', 'videos.html', 'notas.html', 'plan.js', 'planes.js', 'comentarios.js', 'credos.js', 'dossier.js', 'confesiones.js', 'catecismos.js', 'estudio.js', 'contextos.js', 'referencias.js', 'videos.js', 'recursos.js', 'manifest.json', 'Logo Ad Fontes.png'];
+const CACHE = "adfontes-v51";
+const FILES = ['./', 'index.html', 'biblia.html', 'plan.html', 'biblioteca.html', 'comunidad.html', 'videos.html', 'notas.html', 'plan.js', 'planes.js', 'comentarios.js', 'credos.js', 'dossier.js', 'confesiones.js', 'catecismos.js', 'estudio.js', 'contextos.js', 'referencias.js', 'videos.js', 'recursos.js', 'manifest.json', 'Ad Fontes Logo Origen.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
@@ -36,8 +36,8 @@ self.addEventListener('push', e => {
   const n = d.notification || d; /* FCM envía {notification:{...}}; también aceptamos formato plano */
   e.waitUntil(self.registration.showNotification(n.title || '📖 La Biblia en un Año', {
     body: n.body || 'Tu lectura de hoy te espera. «Lámpara es a mis pies tu palabra» (Sal 119:105)',
-    icon: n.icon || 'Logo Ad Fontes.png',
-    badge: 'Logo Ad Fontes.png'
+    icon: n.icon || 'Ad Fontes Logo Origen.png',
+    badge: 'Ad Fontes Logo Origen.png'
   }));
 });
 

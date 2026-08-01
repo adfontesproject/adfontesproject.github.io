@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Comunidad — Ad Fontes</title>
 <meta name="description" content="Ad Fontes · Mi avance, hermanos en el camino, muro y ajustes.">
-<link rel="icon" type="image/png" href="Logo%20Ad%20Fontes.png">
+<link rel="icon" type="image/png" href="Ad%20Fontes%20Logo%20Origen.png">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#262626">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -155,7 +155,7 @@ select,input.txt{font-family:'Inter',sans-serif;font-size:.85rem;padding:.45rem 
 <body>
 
 <div class="topbar">
-  <a class="brand" href="index.html"><img src="Logo%20Ad%20Fontes.png" alt=""><div>Ad Fontes<small>COMUNIDAD</small></div></a>
+  <a class="brand" href="index.html"><img src="Ad%20Fontes%20Logo%20Origen.png" alt=""><div>Ad Fontes<small>COMUNIDAD</small></div></a>
   <a class="lupa" href="biblia.html?buscar" title="Buscar pasaje en la Biblia" aria-label="Buscar">🔍</a>
 </div>
 
@@ -216,7 +216,7 @@ select,input.txt{font-family:'Inter',sans-serif;font-size:.85rem;padding:.45rem 
 <!-- Bienvenida -->
 <div class="overlay" id="ovBv">
   <div class="bv">
-    <img src="Logo%20Ad%20Fontes.png" alt="">
+    <img src="Ad%20Fontes%20Logo%20Origen.png" alt="">
     <h3>Bienvenido a Ad Fontes</h3>
     <p>Toda la Escritura en un año, con estudio profundo cada día. Crea tu cuenta para guardar tu avance en la nube, aparecer entre los hermanos y recibir tu recordatorio diario.</p>
     <div id="bvPaso1">
@@ -470,7 +470,7 @@ async function activarNotif(){
 async function probarNotif(){
   try{
     const reg = await navigator.serviceWorker.ready, h = diaHoy(), p = PLAN[h-1];
-    reg.showNotification('📖 Ad Fontes', { body: 'Día ' + h + ': ' + p.lecturas.join('; ') + ' — tu lectura te espera.', icon: 'Logo Ad Fontes.png' });
+    reg.showNotification('📖 Ad Fontes', { body: 'Día ' + h + ': ' + p.lecturas.join('; ') + ' — tu lectura te espera.', icon: 'Ad Fontes Logo Origen.png' });
   }catch(e){ alert('No se pudo mostrar la notificación.'); }
 }
 function horaGuardada(){
