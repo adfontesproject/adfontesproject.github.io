@@ -142,6 +142,26 @@ body{padding-bottom:74px}
 .qa-b{flex:1;min-width:0}
 .qa-p{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--carbon);line-height:1.3;margin-bottom:.25rem}
 .qa-r{font-size:1rem;line-height:1.6;margin-bottom:.35rem}
+/* Modo enfoque (lectura inmersiva) */
+.btn-enfoque{display:inline-flex;align-items:center;gap:.4rem;font-family:'Inter',sans-serif;font-size:.78rem;color:#8a6a24;background:#f6f0e0;border:1px solid #dcc9a0;border-radius:20px;padding:.42rem .95rem;cursor:pointer;margin-bottom:1rem}
+.btn-enfoque:hover{background:#efe4c8}
+.enfoque{position:fixed;inset:0;background:#050505;z-index:300;overflow-y:auto;display:none;padding:2.8rem 1.3rem 3rem}
+.enfoque.on{display:block}
+.enfoque-x{position:fixed;top:.9rem;right:1rem;width:40px;height:40px;border-radius:50%;background:#161616;border:1px solid #2a2a2a;color:#cfcfcf;font-size:1.05rem;cursor:pointer;z-index:310;display:flex;align-items:center;justify-content:center}
+.enfoque-body{max-width:640px;margin:0 auto}
+.enfoque .doc{background:transparent!important;border:none!important;padding:0!important;max-width:none;margin:0}
+.enfoque .doc h2{color:#d8b571!important;text-align:center;font-size:1.5rem;margin-bottom:.4rem}
+.enfoque .doc .doc-sub{color:#7d7d7d!important;text-align:center;letter-spacing:.12em;margin-bottom:1.6rem}
+.enfoque .doc p.par{color:#efe9dd!important;font-size:1.3rem;line-height:1.72;text-align:left;margin-bottom:1.15rem}
+.enfoque .doc p.par strong.n{color:#b98d3e!important}
+.enfoque .credo-intro,.enfoque .credo-texto{color:#efe9dd!important;font-size:1.28rem;line-height:1.72}
+.enfoque .qa{border-color:#1c1c1c!important;padding:1.1rem 0}
+.enfoque .qa-n{background:#b98d3e!important;color:#0a0a0a!important}
+.enfoque .qa-p{color:#d8b571!important;font-size:1.3rem}
+.enfoque .qa-r{color:#efe9dd!important;font-size:1.2rem;line-height:1.7}
+.enfoque .cat-cont,.enfoque .refs,.enfoque .nota-pie,.enfoque .ref-chip,.enfoque .credo-notas{display:none!important}
+.enfoque-pie{max-width:640px;margin:1.8rem auto 0;text-align:center;font-family:'Inter',sans-serif;font-size:.8rem;color:#6a6a6a}
+.enfoque-pie a{color:#8a6a24;cursor:pointer}
 /* Comparación */
 .comp-intro{font-style:italic;color:var(--ink-soft);margin-bottom:.9rem !important}
 .comp-fila{border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem;margin-bottom:.6rem}
@@ -272,6 +292,7 @@ body{padding-bottom:74px}
     </div>
     <div id="fichaDoc"></div>
     <div class="num-grid" id="capsConf"></div>
+    <button class="btn-enfoque" onclick="abrirEnfoque()">📖 Modo enfoque</button>
     <div id="docConf"></div>
   </div>
 
@@ -279,6 +300,7 @@ body{padding-bottom:74px}
   <div class="vista" id="v-catecismo">
     <div class="miga"><a onclick="portada()">Biblioteca</a> › Catecismos</div>
     <div class="filas" id="filtroCat"></div>
+    <button class="btn-enfoque" onclick="abrirEnfoque()">📖 Modo enfoque</button>
     <div id="catDoc"></div>
   </div>
 
@@ -311,6 +333,13 @@ body{padding-bottom:74px}
       <a id="vAbrir" href="#">📖 Abrir en la Biblia →</a>
     </div>
   </div>
+</div>
+
+<!-- Modo enfoque -->
+<div class="enfoque" id="enfoque">
+  <button class="enfoque-x" onclick="cerrarEnfoque()" aria-label="Salir del modo enfoque">✕</button>
+  <div class="enfoque-body" id="enfoqueBody"></div>
+  <div class="enfoque-pie">🔒 Sin distracciones · <a onclick="cerrarEnfoque()">Salir del enfoque</a></div>
 </div>
 
 <!-- Búsqueda -->
@@ -355,6 +384,21 @@ let confCap = (function(){ try{ return parseInt(sessionStorage.getItem('af_conf_
 function verConfesiones(){ vista('v-conf'); location.hash = 'confesiones'; aplicarNotasConf(); pintarConf(); }
 function setConf(id){ confId = id; confCap = 0; pintarConf(); }
 function verCapConf(i){ confCap = i; pintarConf(); document.getElementById('docConf').scrollIntoView({behavior:'smooth', block:'start'}); }
+/* ===== Modo enfoque (lectura inmersiva) ===== */
+function abrirEnfoque(){
+  const enConf = document.getElementById('v-conf').classList.contains('activa');
+  const doc = enConf ? document.querySelector('#docConf .doc') : document.querySelector('#catDoc .doc');
+  if(!doc){ return; }
+  document.getElementById('enfoqueBody').innerHTML = doc.outerHTML;
+  document.getElementById('enfoque').classList.add('on');
+  document.body.style.overflow = 'hidden';
+  window.scrollTo(0, 0);
+}
+function cerrarEnfoque(){
+  document.getElementById('enfoque').classList.remove('on');
+  document.body.style.overflow = '';
+}
+
 /* ===== Catecismos ===== */
 let catId = (function(){ try{ return sessionStorage.getItem('af_cat_id') || 'baptista1693'; }catch(e){ return 'baptista1693'; } })();
 function verCatecismos(){ vista('v-catecismo'); location.hash = 'catecismos'; pintarCat(); }
@@ -595,7 +639,7 @@ function cerrarYAutores(){
 }
 document.addEventListener('keydown', e => {
   if((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k'){ e.preventDefault(); abrirBuscar(); }
-  if(e.key === 'Escape') document.querySelectorAll('.overlay.abierto').forEach(o => o.classList.remove('abierto'));
+  if(e.key === 'Escape'){ document.querySelectorAll('.overlay.abierto').forEach(o => o.classList.remove('abierto')); cerrarEnfoque(); }
 });
 
 /* Arranque: hash explícito manda; si no, recuerda dónde estabas (sesión) */
