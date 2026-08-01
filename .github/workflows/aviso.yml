@@ -100,7 +100,7 @@ jobs:
                       'notification': {
                           'title': titulo,
                           'body': cuerpo,
-                          'icon': 'https://adfontesproject.github.io/Logo%20Ad%20Fontes.png'
+                          'icon': 'https://adfontesproject.github.io/Ad%20Fontes%20Logo%20Origen.png'
                       },
                       'fcm_options': {'link': 'https://adfontesproject.github.io/plan.html'}
                   }}}
