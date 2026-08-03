@@ -103,6 +103,19 @@ h1.cap-titulo{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weigh
 .verso.en-rango{background:#fdf6e3}
 .verso.marcado{background:#fdf3d8;box-shadow:inset 3px 0 0 var(--gold)}
 .verso.con-nota .n::after{content:'📝';font-size:.6rem;display:block}
+/* Modo enfoque (lectura inmersiva RV1909) */
+.enfoque{position:fixed;inset:0;background:#050505;z-index:400;overflow-y:auto;display:none;padding:2.8rem 1.3rem 6.5rem}
+.enfoque.on{display:block}
+.enfoque-x{position:fixed;top:.9rem;right:1rem;width:40px;height:40px;border-radius:50%;background:#161616;border:1px solid #2a2a2a;color:#cfcfcf;font-size:1.05rem;cursor:pointer;z-index:410;display:flex;align-items:center;justify-content:center}
+.enf-body{max-width:620px;margin:0 auto}
+.enf-ref{text-align:center;font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#d8b571;margin-bottom:1.5rem}
+.enf-texto{color:#efe9dd;font-family:'EB Garamond','Cormorant Garamond',Georgia,serif;font-size:1.42rem;line-height:1.9;text-align:left}
+.enf-texto .vn{font-family:'Inter',sans-serif;font-size:.62rem;color:#b98d3e;vertical-align:super;margin-right:.15rem;font-weight:600}
+.enf-cargando{color:#8a8a8a;text-align:center;font-family:'Inter',sans-serif;padding:3rem 0}
+.enf-barra{position:fixed;left:0;right:0;bottom:0;background:#0a0a0a;border-top:1px solid #1c1c1c;padding:.9rem 1.1rem calc(.9rem + env(safe-area-inset-bottom,0));display:flex;align-items:center;gap:.7rem;z-index:410}
+.enf-estado{flex:1;font-family:'Inter',sans-serif;font-size:.75rem;color:#7a7a7a}
+.enf-leido{border:none;border-radius:24px;padding:.8rem 1.6rem;background:#b98d3e;color:#1a1207;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;white-space:nowrap}
+.enf-leido.hecho{background:#25341f;color:#9fbf9f}
 .cx{display:block;font-family:'Inter',sans-serif;font-size:.78rem;color:var(--carbon);background:var(--cream);border:1px solid var(--line);border-radius:8px;padding:.45rem .6rem;margin-top:.35rem;cursor:pointer;text-decoration:none}
 .cx:hover{border-color:var(--gold)}
 .cx b{color:#7a5b1e}
@@ -188,7 +201,8 @@ h1.cap-titulo{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weigh
         <button id="btnPrev" onclick="capVecino(-1)" title="Capítulo anterior">‹</button>
         <button id="btnNext" onclick="capVecino(1)" title="Capítulo siguiente">›</button>
       </div>
-      <button class="sel-chip" style="margin-left:auto;font-size:.72rem;color:#7a5b1e" title="Cambiar versión" id="btnVersion" onclick="cambiarVersion()">RV 1909 ⇄</button>
+      <button class="sel-chip" style="margin-left:auto;font-size:.72rem" title="Modo enfoque de lectura" onclick="abrirEnfoqueBiblia()">📖 Enfoque</button>
+      <button class="sel-chip" style="font-size:.72rem;color:#7a5b1e" title="Cambiar versión" id="btnVersion" onclick="cambiarVersion()">RV 1909 ⇄</button>
     </div>
 
     <div id="cinta"></div>
@@ -201,6 +215,19 @@ h1.cap-titulo{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weigh
     <div class="panel-cab"><h2 id="panelRef">—</h2><button onclick="cerrarPanel()">✕</button></div>
     <div id="panelCapas"></div>
   </aside>
+</div>
+
+<!-- Modo enfoque de lectura (RV1909) -->
+<div class="enfoque" id="enfoque">
+  <button class="enfoque-x" onclick="cerrarEnfoque()" aria-label="Salir del modo enfoque">✕</button>
+  <div class="enf-body">
+    <div class="enf-ref" id="enfRef"></div>
+    <div class="enf-texto" id="enfTexto"><div class="enf-cargando">Cargando…</div></div>
+  </div>
+  <div class="enf-barra">
+    <span class="enf-estado">🔒 Sin distracciones</span>
+    <button class="enf-leido" id="enfLeido" onclick="enfoqueMarcar()">✓ He leído hoy</button>
+  </div>
 </div>
 
 <!-- Selector de libros -->
@@ -380,6 +407,45 @@ function marcarDia(d){
   pintarCinta();
   empujarNube();
 }
+
+/* ================= Modo enfoque (lectura inmersiva RV1909) ================= */
+let enfDia = null;
+async function abrirEnfoqueBiblia(){
+  const nombre = LIBROS[L][0];
+  document.getElementById('enfRef').textContent = nombre + ' ' + C + ' · RV 1909';
+  document.getElementById('enfTexto').innerHTML = '<div class="enf-cargando">Cargando la Escritura…</div>';
+  document.getElementById('enfoque').classList.add('on');
+  document.body.style.overflow = 'hidden';
+  window.scrollTo(0, 0);
+  const p = diaDeCapitulo(); enfDia = p ? p.d : null;
+  pintarEnfBoton();
+  try{
+    const url = 'https://api.getbible.net/v2/valera/' + (L + 1) + '/' + C + '.json';
+    if(!cache[url]){ const r = await fetch(url); if(!r.ok) throw 0; cache[url] = await r.json(); }
+    const vv = cache[url].verses || [];
+    document.getElementById('enfTexto').innerHTML = vv.map(v => '<span class="vn">' + v.verse + '</span>' + v.text + ' ').join('');
+  }catch(e){
+    document.getElementById('enfTexto').innerHTML = '<div class="enf-cargando">No pude cargar el texto. Revisa tu conexión.</div>';
+  }
+}
+function pintarEnfBoton(){
+  const b = document.getElementById('enfLeido');
+  if(enfDia === null){ b.style.display = 'none'; return; }
+  b.style.display = '';
+  const hecho = done.has(enfDia);
+  b.textContent = hecho ? '✓ Leído hoy' : '✓ He leído hoy';
+  b.classList.toggle('hecho', hecho);
+}
+function enfoqueMarcar(){
+  if(enfDia === null) return;
+  if(!done.has(enfDia)) marcarDia(enfDia);
+  pintarEnfBoton();
+}
+function cerrarEnfoque(){
+  document.getElementById('enfoque').classList.remove('on');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') cerrarEnfoque(); });
 async function cargarCapitulo(versoSel){
   const nombre = LIBROS[L][0];
   try{ sessionStorage.setItem('af_biblia_pos', nombre + '/' + C); }catch(e){}
