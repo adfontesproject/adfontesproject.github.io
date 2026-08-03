@@ -162,6 +162,28 @@ body{padding-bottom:74px}
 .enfoque .cat-cont,.enfoque .refs,.enfoque .nota-pie,.enfoque .ref-chip,.enfoque .credo-notas{display:none!important}
 .enfoque-pie{max-width:640px;margin:1.8rem auto 0;text-align:center;font-family:'Inter',sans-serif;font-size:.8rem;color:#6a6a6a}
 .enfoque-pie a{color:#8a6a24;cursor:pointer}
+/* Fundamentos */
+.fund-card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.3rem;cursor:pointer;display:flex;align-items:center;gap:.9rem;text-decoration:none;color:inherit;margin-bottom:.8rem}
+.fund-card:hover{border-color:var(--gold);transform:translateY(-2px);transition:.15s}
+.fund-card .fic{font-size:1.7rem;flex:0 0 auto}
+.fund-card h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--carbon);margin:0}
+.fund-card p{font-family:'Inter',sans-serif;font-size:.78rem;color:var(--ink-soft);margin:.15rem 0 0;line-height:1.45}
+.fund-card>div{flex:1;min-width:0}
+.fund-pronto{text-align:center;font-family:'Inter',sans-serif;font-style:italic;font-size:.8rem;color:var(--ink-soft);margin-top:.6rem}
+.fpto{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:.6rem;overflow:hidden}
+.fpto>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.7rem;padding:.85rem 1rem;font-family:'Inter',sans-serif}
+.fpto>summary::-webkit-details-marker{display:none}
+.fpto-n{flex:0 0 auto;width:1.7rem;height:1.7rem;border-radius:50%;background:var(--carbon);color:#fff;font-size:.8rem;font-weight:600;display:flex;align-items:center;justify-content:center}
+.fpto-t{flex:1;font-family:'Cormorant Garamond',serif;font-size:1.22rem;font-weight:700;color:var(--carbon)}
+.fpto-fl{color:var(--ink-soft);transition:transform .2s;font-size:1.1rem}
+.fpto[open] .fpto-fl{transform:rotate(90deg)}
+.fpto-body{padding:0 1rem 1rem;padding-left:3.4rem}
+.fpto-body p{font-size:1rem;line-height:1.6;margin-bottom:.6rem}
+.enfoque .fpto{background:transparent!important;border-color:#1c1c1c!important}
+.enfoque .fpto-t{color:#d8b571!important}
+.enfoque .fpto-n{background:#b98d3e!important;color:#0a0a0a!important}
+.enfoque .fpto-body p{color:#efe9dd!important;font-size:1.2rem;line-height:1.72}
+.enfoque .fpto-fl{display:none}
 /* Comparación */
 .comp-intro{font-style:italic;color:var(--ink-soft);margin-bottom:.9rem !important}
 .comp-fila{border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem;margin-bottom:.6rem}
@@ -253,6 +275,11 @@ body{padding-bottom:74px}
         <p>Preguntas y respuestas para aprender y memorizar la sana doctrina — con sus pruebas bíblicas clicables.</p>
         <div class="meta">Bautista 1693 · pregunta y respuesta</div>
       </a>
+      <a class="estante" onclick="verFundamentos()">
+        <div class="ic">🏛️</div><h3>Fundamentos</h3>
+        <p>Síntesis doctrinales de la fe reformada. Comenzando por las Doctrinas de la Gracia (los cinco puntos), con sus pruebas bíblicas.</p>
+        <div class="meta">Síntesis doctrinales</div>
+      </a>
       <a class="estante" href="videos.html">
         <div class="ic">🎬</div><h3>Videos</h3>
         <p>Conceptos explicados en video: pactos, tipología, cómo leer la Biblia, la ley y el evangelio, las confesiones.</p>
@@ -302,6 +329,14 @@ body{padding-bottom:74px}
     <div class="filas" id="filtroCat"></div>
     <button class="btn-enfoque" onclick="abrirEnfoque()">📖 Modo enfoque</button>
     <div id="catDoc"></div>
+  </div>
+
+  <!-- Fundamentos -->
+  <div class="vista" id="v-fundamentos">
+    <div class="miga"><a onclick="portada()">Biblioteca</a> › Fundamentos</div>
+    <div class="hero" style="margin-bottom:.6rem"><p style="font-style:italic;color:var(--ink-soft)">Síntesis doctrinales: los grandes temas de la fe reformada, en resumen y con la Escritura.</p></div>
+    <div id="fundLista"></div>
+    <div id="fundDoc"></div>
   </div>
 
   <!-- Autores -->
@@ -354,6 +389,7 @@ body{padding-bottom:74px}
 <script src="dossier.js"></script>
 <script src="confesiones.js"></script>
 <script src="catecismos.js"></script>
+<script src="fundamentos.js"></script>
 <script src="videos.js"></script>
 <script src="estudio.js"></script>
 <script src="contextos.js"></script>
@@ -384,12 +420,45 @@ let confCap = (function(){ try{ return parseInt(sessionStorage.getItem('af_conf_
 function verConfesiones(){ vista('v-conf'); location.hash = 'confesiones'; aplicarNotasConf(); pintarConf(); }
 function setConf(id){ confId = id; confCap = 0; pintarConf(); }
 function verCapConf(i){ confCap = i; pintarConf(); document.getElementById('docConf').scrollIntoView({behavior:'smooth', block:'start'}); }
+/* ===== Fundamentos (síntesis doctrinales) ===== */
+let fundId = null;
+function verFundamentos(){ vista('v-fundamentos'); location.hash = 'fundamentos'; fundId = null; pintarFund(); }
+function abrirFund(id){ fundId = id; pintarFund(); window.scrollTo({ top: 0 }); }
+function pintarFund(){
+  if(typeof FUNDAMENTOS === 'undefined') return;
+  const lista = document.getElementById('fundLista'), doc = document.getElementById('fundDoc');
+  if(!fundId || !FUNDAMENTOS[fundId]){
+    doc.innerHTML = '';
+    lista.style.display = '';
+    lista.innerHTML = Object.keys(FUNDAMENTOS).map(id => { const f = FUNDAMENTOS[id];
+      return '<a class="fund-card" onclick="abrirFund(\'' + id + '\')"><span class="fic">' + (f.icono || '📖') + '</span><div><h3>' + f.titulo + '</h3><p>' + f.resumen + '</p></div><span style="color:var(--gold)">›</span></a>';
+    }).join('') + '<div class="fund-pronto">más materiales, próximamente</div>';
+    return;
+  }
+  const f = FUNDAMENTOS[fundId];
+  lista.style.display = 'none';
+  const chip = r => '<span class="ref-chip" onclick="verVerso(\'' + r.replace(/'/g, "\\'") + '\')">' + r + '</span>';
+  doc.innerHTML =
+    '<a class="miga" onclick="verFundamentos()" style="cursor:pointer;display:inline-block;margin-bottom:.9rem">‹ Volver a Fundamentos</a>' +
+    '<button class="btn-enfoque" onclick="abrirEnfoque()">📖 Modo enfoque</button>' +
+    '<div class="doc"><h2>' + f.titulo + '</h2><div class="doc-sub">' + f.sub + '</div>' +
+    '<p class="credo-intro">' + f.intro + '</p>' +
+    f.puntos.map((p, i) =>
+      '<details class="fpto"><summary><span class="fpto-n">' + (i+1) + '</span><span class="fpto-t">' + p.t + '</span><span class="fpto-fl">›</span></summary>' +
+      '<div class="fpto-body"><p>' + p.d + '</p>' + ((p.refs && p.refs.length) ? '<div class="refs">' + p.refs.map(chip).join('') + '</div>' : '') + '</div></details>').join('') +
+    '<div class="nota-pie">' + f.fuente + '</div></div>';
+}
+
 /* ===== Modo enfoque (lectura inmersiva) ===== */
 function abrirEnfoque(){
-  const enConf = document.getElementById('v-conf').classList.contains('activa');
-  const doc = enConf ? document.querySelector('#docConf .doc') : document.querySelector('#catDoc .doc');
+  let doc = null;
+  if(document.getElementById('v-conf').classList.contains('activa')) doc = document.querySelector('#docConf .doc');
+  else if(document.getElementById('v-catecismo').classList.contains('activa')) doc = document.querySelector('#catDoc .doc');
+  else if(document.getElementById('v-fundamentos').classList.contains('activa')) doc = document.querySelector('#fundDoc .doc');
   if(!doc){ return; }
-  document.getElementById('enfoqueBody').innerHTML = doc.outerHTML;
+  const clone = doc.cloneNode(true);
+  clone.querySelectorAll('details').forEach(d => d.setAttribute('open', ''));
+  document.getElementById('enfoqueBody').innerHTML = clone.outerHTML;
   document.getElementById('enfoque').classList.add('on');
   document.body.style.overflow = 'hidden';
   window.scrollTo(0, 0);
@@ -648,6 +717,7 @@ const h0 = location.hash.slice(1);
 let vguard = ''; try{ vguard = sessionStorage.getItem('af_bib_vista') || ''; }catch(e){}
 if(h0 === 'confesiones' || (!h0 && vguard === 'v-conf')) verConfesiones();
 else if(h0 === 'catecismos' || (!h0 && vguard === 'v-catecismo')) verCatecismos();
+else if(h0 === 'fundamentos' || (!h0 && vguard === 'v-fundamentos')) verFundamentos();
 else if(h0 === 'autores' || (!h0 && vguard === 'v-autores')) verAutores();
 else if(h0 === 'libros' || (!h0 && vguard === 'v-libros')) verLibros();
 else metaInit();
