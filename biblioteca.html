@@ -184,6 +184,25 @@ body{padding-bottom:74px}
 .enfoque .fpto-n{background:#b98d3e!important;color:#0a0a0a!important}
 .enfoque .fpto-body p{color:#efe9dd!important;font-size:1.2rem;line-height:1.72}
 .enfoque .fpto-fl{display:none}
+/* Historia de la Iglesia (artículo) */
+.hist-ficha{background:#f6f0e0;border:1px solid #e6dcc2;border-radius:12px;padding:.9rem 1.1rem;margin:0 0 1.3rem;display:grid;gap:.5rem}
+.hist-ficha div{display:flex;flex-direction:column;font-family:'Inter',sans-serif}
+.hist-ficha b{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.hist-ficha span{font-size:.9rem;color:var(--ink)}
+.hist-h{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--carbon);margin:1.6rem 0 .6rem}
+.hist-sub{margin:.4rem 0 1rem}
+.hist-sub h4{font-family:'Inter',sans-serif;font-size:.9rem;font-weight:600;color:#7a5b1e;margin-bottom:.2rem}
+.hist-sub p{margin-bottom:.4rem}
+.hist-cita{border-left:3px solid var(--gold);background:#faf6ec;border-radius:0 8px 8px 0;margin:1.2rem 0;padding:1rem 1.2rem;font-family:'EB Garamond',serif;font-style:italic;font-size:1.15rem;line-height:1.6;color:#3a3a38}
+.hist-autor{display:block;font-style:normal;font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.06em;color:var(--ink-soft);margin-top:.6rem}
+.hist-nota{font-family:'Inter',sans-serif;font-size:.82rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed var(--line);padding-top:.6rem;margin-top:-.3rem}
+.enfoque .hist-ficha{background:#111!important;border-color:#242424!important}
+.enfoque .hist-ficha span{color:#cfcabf!important}
+.enfoque .hist-h{color:#d8b571!important}
+.enfoque .hist-sub h4{color:#caa25a!important}
+.enfoque .hist-sub p{color:#efe9dd!important}
+.enfoque .hist-cita{background:#111!important;color:#e6ddcb!important;border-left-color:#b98d3e!important}
+.enfoque .hist-nota{color:#8a8a8a!important;border-color:#242424!important}
 /* Comparación */
 .comp-intro{font-style:italic;color:var(--ink-soft);margin-bottom:.9rem !important}
 .comp-fila{border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem;margin-bottom:.6rem}
@@ -280,6 +299,11 @@ body{padding-bottom:74px}
         <p>Síntesis doctrinales de la fe reformada. Comenzando por las Doctrinas de la Gracia (los cinco puntos), con sus pruebas bíblicas.</p>
         <div class="meta">Síntesis doctrinales</div>
       </a>
+      <a class="estante" onclick="verHistoria()">
+        <div class="ic">📜</div><h3>Historia de la Iglesia</h3>
+        <p>Los grandes momentos y personajes: la Reforma, los concilios, los mártires. Comenzando por la Dieta de Worms.</p>
+        <div class="meta">Relatos y artículos</div>
+      </a>
       <a class="estante" href="videos.html">
         <div class="ic">🎬</div><h3>Videos</h3>
         <p>Conceptos explicados en video: pactos, tipología, cómo leer la Biblia, la ley y el evangelio, las confesiones.</p>
@@ -339,6 +363,14 @@ body{padding-bottom:74px}
     <div id="fundDoc"></div>
   </div>
 
+  <!-- Historia de la Iglesia -->
+  <div class="vista" id="v-historia">
+    <div class="miga"><a onclick="portada()">Biblioteca</a> › Historia de la Iglesia</div>
+    <div class="hero" style="margin-bottom:.6rem"><p style="font-style:italic;color:var(--ink-soft)">Los grandes momentos y personajes de la Iglesia, contados con fidelidad y a la luz de la Escritura.</p></div>
+    <div id="histLista"></div>
+    <div id="histDoc"></div>
+  </div>
+
   <!-- Autores -->
   <div class="vista" id="v-autores">
     <div class="miga"><a onclick="portada()">Biblioteca</a> › Autores</div>
@@ -390,6 +422,7 @@ body{padding-bottom:74px}
 <script src="confesiones.js"></script>
 <script src="catecismos.js"></script>
 <script src="fundamentos.js"></script>
+<script src="historia.js"></script>
 <script src="videos.js"></script>
 <script src="estudio.js"></script>
 <script src="contextos.js"></script>
@@ -449,12 +482,47 @@ function pintarFund(){
     '<div class="nota-pie">' + f.fuente + '</div></div>';
 }
 
+/* ===== Historia de la Iglesia ===== */
+let histId = null;
+function verHistoria(){ vista('v-historia'); location.hash = 'historia'; histId = null; pintarHist(); }
+function abrirHist(id){ histId = id; pintarHist(); window.scrollTo({ top: 0 }); }
+function pintarHist(){
+  if(typeof HISTORIA === 'undefined') return;
+  const lista = document.getElementById('histLista'), doc = document.getElementById('histDoc');
+  if(!histId || !HISTORIA[histId]){
+    doc.innerHTML = '';
+    lista.style.display = '';
+    lista.innerHTML = Object.keys(HISTORIA).map(id => { const a = HISTORIA[id];
+      return '<a class="fund-card" onclick="abrirHist(\'' + id + '\')"><span class="fic">' + (a.icono || '📜') + '</span><div><h3>' + a.titulo + '</h3><p>' + a.resumen + '</p></div><span style="color:var(--gold)">›</span></a>';
+    }).join('') + '<div class="fund-pronto">más relatos, próximamente</div>';
+    return;
+  }
+  const a = HISTORIA[histId];
+  lista.style.display = 'none';
+  const chip = r => '<span class="ref-chip" onclick="verVerso(\'' + r.replace(/'/g, "\\'") + '\')">' + r + '</span>';
+  const refsH = rs => (rs && rs.length) ? '<div class="refs">' + rs.map(chip).join('') + '</div>' : '';
+  const ficha = (a.ficha && a.ficha.length) ? '<div class="hist-ficha">' + a.ficha.map(f => '<div><b>' + f.k + '</b><span>' + f.v + '</span></div>').join('') + '</div>' : '';
+  const cuerpo = a.cuerpo.map(b => {
+    if(b.t === 'h') return '<h3 class="hist-h">' + b.x + '</h3>';
+    if(b.t === 'sub') return '<div class="hist-sub"><h4>' + b.x + '</h4><p>' + b.p + '</p>' + refsH(b.refs) + '</div>';
+    if(b.t === 'cita') return '<blockquote class="hist-cita">' + b.x + '<span class="hist-autor">— ' + b.autor + '</span></blockquote>';
+    if(b.t === 'nota') return '<p class="hist-nota">' + b.x + '</p>';
+    return '<p class="par">' + b.x + '</p>' + refsH(b.refs);
+  }).join('');
+  doc.innerHTML =
+    '<a class="miga" onclick="verHistoria()" style="cursor:pointer;display:inline-block;margin-bottom:.9rem">‹ Volver a Historia</a>' +
+    '<button class="btn-enfoque" onclick="abrirEnfoque()">📖 Modo enfoque</button>' +
+    '<div class="doc"><h2>' + a.titulo + '</h2><div class="doc-sub">' + a.sub + '</div>' + ficha + cuerpo +
+    '<div class="nota-pie">' + a.fuente + '</div></div>';
+}
+
 /* ===== Modo enfoque (lectura inmersiva) ===== */
 function abrirEnfoque(){
   let doc = null;
   if(document.getElementById('v-conf').classList.contains('activa')) doc = document.querySelector('#docConf .doc');
   else if(document.getElementById('v-catecismo').classList.contains('activa')) doc = document.querySelector('#catDoc .doc');
   else if(document.getElementById('v-fundamentos').classList.contains('activa')) doc = document.querySelector('#fundDoc .doc');
+  else if(document.getElementById('v-historia').classList.contains('activa')) doc = document.querySelector('#histDoc .doc');
   if(!doc){ return; }
   const clone = doc.cloneNode(true);
   clone.querySelectorAll('details').forEach(d => d.setAttribute('open', ''));
@@ -718,6 +786,7 @@ let vguard = ''; try{ vguard = sessionStorage.getItem('af_bib_vista') || ''; }ca
 if(h0 === 'confesiones' || (!h0 && vguard === 'v-conf')) verConfesiones();
 else if(h0 === 'catecismos' || (!h0 && vguard === 'v-catecismo')) verCatecismos();
 else if(h0 === 'fundamentos' || (!h0 && vguard === 'v-fundamentos')) verFundamentos();
+else if(h0 === 'historia' || (!h0 && vguard === 'v-historia')) verHistoria();
 else if(h0 === 'autores' || (!h0 && vguard === 'v-autores')) verAutores();
 else if(h0 === 'libros' || (!h0 && vguard === 'v-libros')) verLibros();
 else metaInit();
