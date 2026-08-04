@@ -184,6 +184,22 @@ body{padding-bottom:74px}
 .enfoque .fpto-n{background:#b98d3e!important;color:#0a0a0a!important}
 .enfoque .fpto-body p{color:#efe9dd!important;font-size:1.2rem;line-height:1.72}
 .enfoque .fpto-fl{display:none}
+/* Punto expandido: verso ancla + cajas didácticas */
+.fpto-verso{font-family:'EB Garamond',serif;font-style:italic;font-size:1.08rem;line-height:1.5;color:#5a5954;margin:0 0 .8rem;padding-left:.9rem;border-left:2px solid var(--gold)}
+.fpto-versoref{display:inline-block;font-style:normal;font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.04em;color:var(--gold);cursor:pointer;margin-left:.5rem;border-bottom:1px dotted var(--gold)}
+.fpto-caja{border-radius:0 8px 8px 0;padding:.75rem .9rem;margin:.7rem 0}
+.fpto-caja p{font-size:.96rem!important;line-height:1.55!important;color:#3a3a38;margin:0!important}
+.fpto-ck{display:block;font-family:'Inter',sans-serif;font-size:.66rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600;color:#8a6a1e;margin-bottom:.3rem}
+.fpto-ver{background:#f3ecd9;border-left:3px solid var(--gold)}
+.fpto-vida{background:#eef1ea;border-left:3px solid #7e8b6d}
+.fpto-vida .fpto-ck{color:#556047}
+.enfoque .fpto-verso{color:#c9c3b4!important;border-left-color:#b98d3e!important}
+.enfoque .fpto-caja{background:#111!important}
+.enfoque .fpto-ver{border-left-color:#b98d3e!important}
+.enfoque .fpto-vida{border-left-color:#7e8b6d!important}
+.enfoque .fpto-caja p{color:#e6ddcb!important;font-size:1.05rem!important}
+.enfoque .fpto-ck{color:#caa25a!important}
+.enfoque .fpto-vida .fpto-ck{color:#9fb083!important}
 /* Historia de la Iglesia (artículo) */
 .hist-ficha{background:#f6f0e0;border:1px solid #e6dcc2;border-radius:12px;padding:.9rem 1.1rem;margin:0 0 1.3rem;display:grid;gap:.5rem}
 .hist-ficha div{display:flex;flex-direction:column;font-family:'Inter',sans-serif}
@@ -495,9 +511,15 @@ function pintarFund(){
     '<button class="btn-enfoque" onclick="abrirEnfoque()">📖 Modo enfoque</button>' +
     '<div class="doc"><h2>' + f.titulo + '</h2><div class="doc-sub">' + f.sub + '</div>' +
     '<p class="credo-intro">' + f.intro + '</p>' +
-    f.puntos.map((p, i) =>
-      '<details class="fpto"><summary><span class="fpto-n">' + (i+1) + '</span><span class="fpto-t">' + p.t + '</span><span class="fpto-fl">›</span></summary>' +
-      '<div class="fpto-body"><p>' + p.d + '</p>' + ((p.refs && p.refs.length) ? '<div class="refs">' + p.refs.map(chip).join('') + '</div>' : '') + '</div></details>').join('') +
+    f.puntos.map((p, i) => {
+      const verso = p.verso ? '<div class="fpto-verso">' + p.verso + (p.versoRef ? '<span class="fpto-versoref" onclick="verVerso(\'' + p.versoRef.replace(/'/g, "\\'") + '\')">' + p.versoRef + '</span>' : '') + '</div>' : '';
+      const cuerpo = Array.isArray(p.d) ? p.d.map(x => '<p>' + x + '</p>').join('') : '<p>' + p.d + '</p>';
+      const verlo = p.verlo ? '<div class="fpto-caja fpto-ver"><span class="fpto-ck">Para verlo</span><p>' + p.verlo + '</p></div>' : '';
+      const vida = p.vida ? '<div class="fpto-caja fpto-vida"><span class="fpto-ck">Para tu vida</span><p>' + p.vida + '</p></div>' : '';
+      const refs = (p.refs && p.refs.length) ? '<div class="refs">' + p.refs.map(chip).join('') + '</div>' : '';
+      return '<details class="fpto"><summary><span class="fpto-n">' + (i+1) + '</span><span class="fpto-t">' + p.t + '</span><span class="fpto-fl">›</span></summary>' +
+      '<div class="fpto-body">' + verso + cuerpo + verlo + vida + refs + '</div></details>';
+    }).join('') +
     '<div class="nota-pie">' + f.fuente + '</div></div>';
 }
 
