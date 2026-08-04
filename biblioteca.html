@@ -203,6 +203,25 @@ body{padding-bottom:74px}
 .enfoque .hist-sub p{color:#efe9dd!important}
 .enfoque .hist-cita{background:#111!important;color:#e6ddcb!important;border-left-color:#b98d3e!important}
 .enfoque .hist-nota{color:#8a8a8a!important;border-color:#242424!important}
+/* Anexo: Las 95 tesis (acordeón) */
+.hist-tesis{margin:1.8rem 0 .4rem;border:1px solid #e6dcc2;border-radius:14px;overflow:hidden;background:#faf6ec}
+.hist-tesis>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.75rem;padding:1rem 1.2rem;font-family:'Inter',sans-serif}
+.hist-tesis>summary::-webkit-details-marker{display:none}
+.ht-ic{font-size:1.4rem;flex:0 0 auto}
+.ht-tt{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;font-weight:600;color:var(--carbon);font-size:1rem}
+.ht-tt em{font-style:normal;font-weight:400;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-top:.15rem}
+.ht-fl{flex:0 0 auto;color:var(--gold);font-size:1.3rem;transition:transform .25s}
+.hist-tesis[open]>summary .ht-fl{transform:rotate(90deg)}
+.hist-tesis[open]>summary{border-bottom:1px solid #e6dcc2}
+.ht-body{padding:1rem 1.2rem 1.3rem}
+.ht-lista{margin:.6rem 0 0;padding-left:0;list-style:none;counter-reset:tesis}
+.ht-lista li{counter-increment:tesis;position:relative;padding:.55rem 0 .55rem 2.6rem;border-top:1px solid var(--line);font-family:'EB Garamond',serif;font-size:1.02rem;line-height:1.55;color:var(--ink)}
+.ht-lista li:first-child{border-top:none}
+.ht-lista li::before{content:counter(tesis);position:absolute;left:0;top:.55rem;width:1.9rem;text-align:right;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:700;color:var(--gold)}
+.enfoque .hist-tesis{background:#111!important;border-color:#242424!important}
+.enfoque .hist-tesis[open]>summary,.enfoque .ht-lista li{border-color:#242424!important}
+.enfoque .ht-tt{color:#efe9dd!important}
+.enfoque .ht-lista li{color:#e6ddcb!important}
 /* Comparación */
 .comp-intro{font-style:italic;color:var(--ink-soft);margin-bottom:.9rem !important}
 .comp-fila{border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem;margin-bottom:.6rem}
@@ -509,10 +528,18 @@ function pintarHist(){
     if(b.t === 'nota') return '<p class="hist-nota">' + b.x + '</p>';
     return '<p class="par">' + b.x + '</p>' + refsH(b.refs);
   }).join('');
+  let tesis = '';
+  if(a.tesis){ const t = a.tesis;
+    tesis = '<details class="hist-tesis"><summary><span class="ht-ic">📜</span><span class="ht-tt">' + t.titulo +
+      '<em>' + t.sub + '</em></span><span class="ht-fl">›</span></summary>' +
+      '<div class="ht-body">' + (t.intro ? '<p class="par">' + t.intro + '</p>' : '') +
+      '<ol class="ht-lista">' + t.items.map(x => '<li>' + x + '</li>').join('') + '</ol>' +
+      (t.fuente ? '<div class="nota-pie">' + t.fuente + '</div>' : '') + '</div></details>';
+  }
   doc.innerHTML =
     '<a class="miga" onclick="verHistoria()" style="cursor:pointer;display:inline-block;margin-bottom:.9rem">‹ Volver a Historia</a>' +
     '<button class="btn-enfoque" onclick="abrirEnfoque()">📖 Modo enfoque</button>' +
-    '<div class="doc"><h2>' + a.titulo + '</h2><div class="doc-sub">' + a.sub + '</div>' + ficha + cuerpo +
+    '<div class="doc"><h2>' + a.titulo + '</h2><div class="doc-sub">' + a.sub + '</div>' + ficha + cuerpo + tesis +
     '<div class="nota-pie">' + a.fuente + '</div></div>';
 }
 
