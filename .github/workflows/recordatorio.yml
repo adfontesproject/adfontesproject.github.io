@@ -66,26 +66,33 @@ jobs:
                   objetivo_utc = round((hora_local + tz_min / 60)) % 24
                   # ya recibio hoy?  (guardamos la fecha UTC del ultimo envio)
                   ult = f.get('last', {}).get('stringValue', '')
+                  # racha del lector (guardada por el cliente en el token)
+                  rc = f.get('racha', {})
+                  racha = int(rc.get('integerValue', 0)) if rc else 0
                   # delta = horas transcurridas desde su hora objetivo (con vuelta de dia)
                   delta = (hora_utc - objetivo_utc) % 24
                   toca = (0 <= delta <= VENTANA)
                   if manual or (toca and ult != hoy_utc):
-                      docs.append((d['name'], t))
+                      docs.append((d['name'], t, racha))
               page = r.get('nextPageToken')
               if not page:
                   break
 
-          cuerpo = ('Tu lectura de hoy te espera. '
-                    'Un dia mas caminando por toda la Escritura.')
+          def cuerpo_de(racha):
+              if racha >= 2:
+                  return f'🔥 Llevas {racha} dias seguidos. No rompas tu racha: tu lectura de hoy te espera.'
+              if racha == 1:
+                  return 'Empezaste tu racha ayer 🔥 Sumale hoy y sigue caminando por la Escritura.'
+              return 'Tu lectura de hoy te espera. Un dia mas caminando por toda la Escritura.'
           msg_url = f'https://fcm.googleapis.com/v1/projects/{pid}/messages:send'
           ok = bad = 0
-          for name, t in docs:
+          for name, t, racha in docs:
               body = {'message': {
                   'token': t,
                   'webpush': {
                       'notification': {
                           'title': 'Ad Fontes - dia de lectura',
-                          'body': cuerpo,
+                          'body': cuerpo_de(racha),
                           'icon': 'https://adfontesproject.github.io/Ad%20Fontes%20Logo%20Origen.png'
                       },
                       'fcm_options': {'link': 'https://adfontesproject.github.io/'}
