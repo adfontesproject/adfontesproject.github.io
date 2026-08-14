@@ -492,7 +492,10 @@ async function registrarToken(){
     if(!fbDB || !firebase.messaging || !firebase.messaging.isSupported()) return;
     const reg = await navigator.serviceWorker.ready;
     const token = await firebase.messaging().getToken({ vapidKey: VAPID_KEY, serviceWorkerRegistration: reg });
-    if(token) await fbDB.collection('tokens').doc(token).set({ token, nombre: nombre || '', uid: fbUser ? fbUser.uid : null, hora: parseInt(horaGuardada(),10), tz: new Date().getTimezoneOffset(), creado: new Date().toISOString() }, { merge: true });
+    if(token){
+      localStorage.setItem('af_fcm_token', token);
+      await fbDB.collection('tokens').doc(token).set({ token, nombre: nombre || '', uid: fbUser ? fbUser.uid : null, hora: parseInt(horaGuardada(),10), tz: new Date().getTimezoneOffset(), racha: parseInt(localStorage.getItem('biblia365_racha') || '0', 10), lh: localStorage.getItem('biblia365_lh') || '', creado: new Date().toISOString() }, { merge: true });
+    }
   }catch(e){}
 }
 function aplicarFuente(){
