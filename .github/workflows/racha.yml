@@ -1,0 +1,106 @@
+name: Salva-rachas (no pierdas tu racha)
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # cada hora: avisa a quien esta en su franja local de la tarde
+  workflow_dispatch:       # ejecucion manual: ignora la hora (para probar)
+
+jobs:
+  enviar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependencias
+        run: pip -q install google-auth requests
+
+      - name: Enviar salva-rachas
+        env:
+          FIREBASE_SA: ${{ secrets.FIREBASE_SA }}
+          EVENTO: ${{ github.event_name }}
+        run: |
+          python - <<'EOF'
+          import json, os, requests, datetime
+          from google.oauth2 import service_account
+          import google.auth.transport.requests as gtr
+
+          sa = json.loads(os.environ['FIREBASE_SA'])
+          creds = service_account.Credentials.from_service_account_info(
+              sa, scopes=['https://www.googleapis.com/auth/datastore',
+                          'https://www.googleapis.com/auth/firebase.messaging'])
+          creds.refresh(gtr.Request())
+          H = {'Authorization': 'Bearer ' + creds.token}
+          pid = sa['project_id']
+
+          ahora = datetime.datetime.now(datetime.timezone.utc)
+          hora_utc = ahora.hour
+          manual = os.environ.get('EVENTO') == 'workflow_dispatch'
+          HORA_LOCAL = 20   # 8 p. m. locales: a tiempo antes de medianoche
+          VENTANA = 2       # horas de gracia si una ejecucion se salta
+
+          def fecha_local(tz_min):
+              loc = ahora - datetime.timedelta(minutes=tz_min)
+              return loc.strftime('%Y-%m-%d')
+
+          docs, page = [], None
+          base = f'https://firestore.googleapis.com/v1/projects/{pid}/databases/(default)/documents/tokens'
+          while True:
+              url = base + '?pageSize=300' + (('&pageToken=' + page) if page else '')
+              r = requests.get(url, headers=H).json()
+              for d in r.get('documents', []):
+                  f = d.get('fields', {})
+                  t = f.get('token', {}).get('stringValue')
+                  if not t:
+                      continue
+                  rc = f.get('racha', {})
+                  racha = int(rc.get('integerValue', 0)) if rc else 0
+                  if racha < 1:
+                      continue                       # sin racha que perder
+                  tz = f.get('tz', {})
+                  tz_min = int(tz.get('integerValue', 240)) if tz else 240
+                  hoy_local = fecha_local(tz_min)
+                  lh = f.get('lh', {}).get('stringValue', '')
+                  if lh == hoy_local:
+                      continue                       # ya leyo hoy: racha a salvo
+                  ya = f.get('lastRacha', {}).get('stringValue', '')
+                  if ya == hoy_local:
+                      continue                       # ya avisado hoy
+                  objetivo_utc = round((HORA_LOCAL + tz_min / 60)) % 24
+                  delta = (hora_utc - objetivo_utc) % 24
+                  toca = (0 <= delta <= VENTANA)
+                  if manual or toca:
+                      docs.append((d['name'], t, racha, hoy_local))
+              page = r.get('nextPageToken')
+              if not page:
+                  break
+
+          msg_url = f'https://fcm.googleapis.com/v1/projects/{pid}/messages:send'
+          ok = bad = 0
+          for name, t, racha, hoy_local in docs:
+              cuerpo = f'No pierdas tu racha de {racha} dias. Tu lectura de hoy te espera, aun estas a tiempo antes de medianoche.'
+              body = {'message': {
+                  'token': t,
+                  'webpush': {
+                      'notification': {
+                          'title': 'Tu racha esta en juego',
+                          'body': cuerpo,
+                          'icon': 'https://adfontesproject.github.io/Ad%20Fontes%20Logo%20Origen.png'
+                      },
+                      'fcm_options': {'link': 'https://adfontesproject.github.io/'}
+                  }}}
+              resp = requests.post(msg_url, headers=H, json=body)
+              if resp.status_code == 200:
+                  ok += 1
+                  if not manual:
+                      requests.patch(
+                          'https://firestore.googleapis.com/v1/' + name + '?updateMask.fieldPaths=lastRacha',
+                          headers=H, json={'fields': {'lastRacha': {'stringValue': hoy_local}}})
+              else:
+                  bad += 1
+                  if resp.status_code in (400, 404):
+                      requests.delete('https://firestore.googleapis.com/v1/' + name, headers=H)
+
+          print(f'Salva-rachas | Hora UTC: {hora_utc} | Enviadas: {ok} | Fallidas/limpiadas: {bad} | Destinatarios: {len(docs)}')
+          EOF
