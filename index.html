@@ -53,6 +53,14 @@ body{padding-bottom:74px}
 .mini-prog .b{height:6px;background:#efe9dc;border-radius:3px;overflow:hidden}
 .mini-prog .b div{height:100%;background:var(--gold);width:0%}
 .mini-prog .t{font-family:'Inter',sans-serif;font-size:.74rem;color:var(--ink-soft);margin-top:.4rem}
+.racha-fila{display:flex;gap:.7rem;max-width:360px;margin:.4rem auto 1.2rem}
+.racha-card{flex:1 1 0;min-width:0;background:var(--paper);border:1px solid #ece5d6;border-radius:14px;padding:.7rem .5rem;text-align:center;box-shadow:0 3px 14px rgba(38,38,38,.05)}
+.rc-ic{font-size:1.35rem;line-height:1}
+.rc-n{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:700;color:var(--carbon);line-height:1.1}
+.rc-l{font-family:'Inter',sans-serif;font-size:.67rem;color:var(--ink-soft);letter-spacing:.02em}
+.chip-estado{display:inline-block;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;border-radius:20px;padding:.35rem .95rem;margin-top:1.1rem}
+.chip-estado.ok{background:#e8efe2;color:#4c6a3a;border:1px solid #cfe0c2}
+.chip-estado.atraso{background:#f6ecd6;color:#a9781f;border:1px solid #e6d3a8}
 .btn-sbt{display:inline-flex;align-items:center;gap:.5rem;margin-top:2.2rem;background:#1b4f72;color:#fff;font-family:'Inter',sans-serif;font-size:.92rem;font-weight:500;text-decoration:none;padding:.78rem 1.9rem;border-radius:24px;box-shadow:0 4px 16px rgba(27,79,114,.22)}
 .btn-sbt:hover{background:#163f5c}
 
@@ -126,6 +134,7 @@ footer a{color:var(--gold-light);text-decoration:none}
 </div>
 
 <main class="inicio">
+  <div id="rachaHoy"></div>
   <div class="hoy-card" id="tarjetaHoy"></div>
   <a class="btn-sbt" href="biblia.html">📖 Abrir Biblia SBT</a>
 </main>
@@ -177,11 +186,24 @@ const TOT = PL.dias;
 const DIAS = (typeof diasDe !== 'undefined') ? diasDe(PID) : PLAN;
 let done = new Set(JSON.parse(localStorage.getItem(KP + 'done') || '[]'));
 
-function diaHoy(){
+function fechaISO(dt){ return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0'); }
+(function fijarInicio(){
+  try{
+    if(!localStorage.getItem(KP + 'start')){
+      const s = new Date(); s.setHours(0,0,0,0); s.setDate(s.getDate() - done.size);
+      localStorage.setItem(KP + 'start', fechaISO(s));
+    }
+  }catch(e){}
+})();
+function diaProgramado(){
   const s0 = localStorage.getItem(KP + 'start');
-  if(!s0) return parseInt(localStorage.getItem(KP + 'current') || '1', 10) || 1;
+  if(!s0) return 1;
   const s = new Date(s0 + 'T00:00:00'), n = new Date(); n.setHours(0,0,0,0);
   return Math.min(Math.max(Math.floor((n - s)/86400000) + 1, 1), TOT);
+}
+function diaPendiente(){
+  for(let d = 1; d <= TOT; d++){ if(!done.has(d)) return d; }
+  return TOT;
 }
 function urlBiblia(lectura){
   const m = lectura.match(/^(.+?)\s+(\d+)/);
@@ -190,15 +212,31 @@ function urlBiblia(lectura){
 }
 function fechaBonita(){ return new Date().toLocaleDateString('es', { weekday:'long', day:'numeric', month:'long' }); }
 function pintarHoy(){
-  const d = diaHoy(), p = DIAS[d-1], c = (PL.estudio && typeof COMENTARIOS !== 'undefined') ? COMENTARIOS[d] : null;
+  const prog = diaProgramado();
+  const d = diaPendiente();
+  const p = DIAS[d-1], c = (PL.estudio && typeof COMENTARIOS !== 'undefined') ? COMENTARIOS[d] : null;
   const pct = Math.round(done.size / TOT * 100);
   const hecho = done.has(d);
+  const completo = done.size >= TOT;
+  const atraso = Math.max(0, (prog - 1) - done.size);
+  const racha = parseInt(localStorage.getItem(KP + 'racha') || '0', 10);
+  const record = parseInt(localStorage.getItem(KP + 'rachaMax') || '0', 10);
+  document.getElementById('rachaHoy').innerHTML =
+    '<div class="racha-fila">' +
+      '<div class="racha-card"><div class="rc-ic">🔥</div><div class="rc-n">' + racha + '</div><div class="rc-l">' + (racha === 1 ? 'día de racha' : 'días de racha') + '</div></div>' +
+      '<div class="racha-card"><div class="rc-ic">🏆</div><div class="rc-n">' + record + '</div><div class="rc-l">tu récord</div></div>' +
+    '</div>';
+  let chip;
+  if(completo) chip = '<div class="chip-estado ok">✓ Plan completo</div>';
+  else if(atraso > 0) chip = '<div class="chip-estado atraso">⏳ ' + atraso + (atraso === 1 ? ' día' : ' días') + ' de atraso · ponte al día</div>';
+  else chip = '<div class="chip-estado ok">✓ Vas al día</div>';
   document.getElementById('tarjetaHoy').innerHTML =
     '<div class="et">Día ' + d + ' de ' + TOT + ' · Plan ' + PL.nombre + '</div>' +
     '<h1>' + (c ? c.t : p.lecturas.join(' · ')) + '</h1>' +
     '<div class="lect">' + p.lecturas.join(' · ') + '</div>' +
     '<div class="fecha">' + fechaBonita() + '</div>' +
-    '<a class="btn-leer' + (hecho ? ' hecho' : '') + '" href="' + urlBiblia(p.lecturas[0]) + '">' + (hecho ? '✓ Leído — repasar' : 'Leer hoy') + '</a>' +
+    chip +
+    '<a class="btn-leer' + (hecho ? ' hecho' : '') + '" href="' + urlBiblia(p.lecturas[0]) + '">' + (hecho ? '✓ Leído — repasar' : (atraso > 0 ? 'Leer lo pendiente' : 'Leer hoy')) + '</a>' +
     (PL.estudio ? '<a class="hoy-estudio" href="plan.html">Ver el estudio del día →</a>' : '') +
     '<div class="mini-prog"><div class="b"><div style="width:' + pct + '%"></div></div><div class="t">' + done.size + ' de ' + TOT + ' días · ' + pct + '%</div></div>';
 }
@@ -215,10 +253,12 @@ try{
     if(u.photoURL){ const a = document.getElementById('avatar'); a.style.backgroundImage = 'url(' + u.photoURL + ')'; a.textContent = ''; }
     try{
       const s = await db.collection('progreso').doc(u.uid).get();
-      if(s.exists && Array.isArray(s.data().dias)){
-        s.data().dias.forEach(x => done.add(x));
-        localStorage.setItem('biblia365_done', JSON.stringify([...done]));
-        if(s.data().inicio && !localStorage.getItem('biblia365_start')) localStorage.setItem('biblia365_start', s.data().inicio);
+      if(s.exists){
+        const dd = s.data();
+        if(Array.isArray(dd.dias)){ dd.dias.forEach(x => done.add(x)); localStorage.setItem('biblia365_done', JSON.stringify([...done])); }
+        if(dd.inicio){ const loc = localStorage.getItem('biblia365_start'); if(!loc || dd.inicio < loc) localStorage.setItem('biblia365_start', dd.inicio); }
+        if(typeof dd.racha === 'number') localStorage.setItem('biblia365_racha', String(Math.max(dd.racha, parseInt(localStorage.getItem('biblia365_racha') || '0', 10))));
+        if(typeof dd.rachaMax === 'number') localStorage.setItem('biblia365_rachaMax', String(Math.max(dd.rachaMax, parseInt(localStorage.getItem('biblia365_rachaMax') || '0', 10))));
         pintarHoy();
       }
     }catch(e){}
