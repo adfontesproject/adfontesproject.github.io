@@ -324,10 +324,11 @@ try{
     if(!u || !fbDB) return;
     try{
       const s = await fbDB.collection('progreso').doc(u.uid).get();
-      if(s.exists && Array.isArray(s.data().dias)){
-        s.data().dias.forEach(x => done.add(x));
-        localStorage.setItem('biblia365_done', JSON.stringify([...done]));
-        pintarCinta();
+      if(s.exists){
+        const dd = s.data();
+        if(Array.isArray(dd.dias)){ dd.dias.forEach(x => done.add(x)); localStorage.setItem('biblia365_done', JSON.stringify([...done])); pintarCinta(); }
+        if(typeof dd.racha === 'number') localStorage.setItem('biblia365_racha', String(Math.max(dd.racha, parseInt(localStorage.getItem('biblia365_racha') || '0', 10))));
+        if(typeof dd.rachaMax === 'number') localStorage.setItem('biblia365_rachaMax', String(Math.max(dd.rachaMax, parseInt(localStorage.getItem('biblia365_rachaMax') || '0', 10))));
       }
       const pr = await fbDB.collection('personal').doc(u.uid).get();
       if(pr.exists){
@@ -345,15 +346,20 @@ async function empujarNube(){
   if(!fbUser || !fbDB) return;
   try{
     const nombre = localStorage.getItem('biblia365_nombre') || fbUser.displayName || '';
+    const racha = parseInt(localStorage.getItem('biblia365_racha') || '0', 10);
+    const rachaMax = parseInt(localStorage.getItem('biblia365_rachaMax') || '0', 10);
+    const lh = localStorage.getItem('biblia365_lh') || '';
     await fbDB.collection('progreso').doc(fbUser.uid).set({
       nombre: nombre, dias: [...done], total: done.size,
       inicio: localStorage.getItem('biblia365_start') || null,
+      racha: racha, rachaMax: rachaMax, lh: lh,
       actualizado: new Date().toISOString()
     }, { merge: true });
     if(nombre) await fbDB.collection('tablero').doc(fbUser.uid).set({
-      n: nombre, l: done.size, d: done.size, t: Date.now(),
-      lh: localStorage.getItem('biblia365_lh') || ''
+      n: nombre, l: done.size, d: done.size, t: Date.now(), lh: lh
     }, { merge: true });
+    const tk = localStorage.getItem('af_fcm_token');
+    if(tk) fbDB.collection('tokens').doc(tk).set({ racha: racha, lh: lh }, { merge: true }).catch(()=>{});
   }catch(e){}
 }
 
@@ -400,9 +406,23 @@ function pintarCinta(){
   el.innerHTML = '<div class="cinta-plan">📅 Este capítulo es parte del <strong>&nbsp;Día ' + p.d + '&nbsp;</strong> del plan (' + p.lecturas.join('; ') + ') ' +
     '<button class="' + (hecho ? 'hecho' : '') + '" onclick="marcarDia(' + p.d + ')">' + (hecho ? '✓ Leído' : '✓ Marcar como leído') + '</button></div>';
 }
+function fechaISO(dt){ return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0'); }
+/* Racha: cada dia natural en que lees al menos una porcion suma. Un dia saltado la reinicia. */
+function registrarRacha(){
+  const hoy = fechaISO(new Date());
+  const ayer = fechaISO(new Date(Date.now() - 86400000));
+  const last = localStorage.getItem('biblia365_lh') || '';
+  let racha = parseInt(localStorage.getItem('biblia365_racha') || '0', 10);
+  if(last === hoy){ }
+  else if(last === ayer){ racha += 1; }
+  else { racha = 1; }
+  localStorage.setItem('biblia365_racha', String(racha));
+  localStorage.setItem('biblia365_rachaMax', String(Math.max(racha, parseInt(localStorage.getItem('biblia365_rachaMax') || '0', 10))));
+  localStorage.setItem('biblia365_lh', hoy);
+}
 function marcarDia(d){
   if(done.has(d)) done.delete(d);
-  else { done.add(d); localStorage.setItem('biblia365_lh', (function(){const x=new Date();return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');})()); }
+  else { done.add(d); registrarRacha(); }
   localStorage.setItem('biblia365_done', JSON.stringify([...done]));
   pintarCinta();
   empujarNube();
