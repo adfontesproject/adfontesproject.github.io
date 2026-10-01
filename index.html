@@ -41,6 +41,7 @@ body{background:var(--paper);color:var(--ink2);font-family:'EB Garamond',Georgia
 .chip-estado{display:inline-block;font-family:'Inter',sans-serif;font-size:.64rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:1.4rem}
 .chip-estado.ok{color:var(--green)}
 .chip-estado.atraso{color:var(--amber)}
+.chip-estado.aliento{color:#6f7d5a;text-transform:none;letter-spacing:.02em;font-size:.86rem}
 .btn-leer{display:inline-block;background:var(--ink);color:#f4ecd8;font-family:'Inter',sans-serif;font-size:.92rem;font-weight:500;letter-spacing:.02em;text-decoration:none;padding:.95rem 2.9rem;border-radius:32px;transition:.15s}
 .btn-leer:hover{background:#000}
 .btn-leer.hecho{background:var(--green)}
@@ -194,7 +195,7 @@ function pintarHoy(){
   const rh = document.getElementById('rachaHoy'); if(rh) rh.innerHTML = '';
   let chip;
   if(completo) chip = '<div class="chip-estado ok">✓ Plan completo</div>';
-  else if(atraso > 0) chip = '<div class="chip-estado atraso">⏳ ' + atraso + (atraso === 1 ? ' día de atraso' : ' días de atraso') + '</div>';
+  else if(atraso > 0){ const fr = ['Tu lectura de hoy te espera','Cada día es bueno para volver','La Palabra te espera, a tu ritmo','Un paso hoy, sin prisa','Sin prisa y sin culpa: solo vuelve','Hoy es un buen día para seguir']; const fi = (new Date().getDate() + new Date().getMonth()) % fr.length; chip = '<div class="chip-estado aliento">🌱 ' + fr[fi] + '</div>'; }
   else chip = '<div class="chip-estado ok">✓ Vas al día</div>';
   document.getElementById('tarjetaHoy').innerHTML =
     '<div class="et">Día ' + d + ' de ' + TOT + ' · Plan ' + PL.nombre + '</div>' +
@@ -202,7 +203,7 @@ function pintarHoy(){
     '<div class="lect">' + p.lecturas.join(' · ') + '</div>' +
     '<div class="regla"></div>' +
     chip +
-    '<div><a class="btn-leer' + (hecho ? ' hecho' : '') + '" href="' + urlBiblia(p.lecturas[0]) + '">' + (hecho ? '✓ Leído — repasar' : (atraso > 0 ? 'Leer lo pendiente' : 'Leer hoy')) + '</a></div>' +
+    '<div><a class="btn-leer' + (hecho ? ' hecho' : '') + '" href="' + urlBiblia(p.lecturas[0]) + '">' + (hecho ? '✓ Leído — repasar' : (atraso > 0 ? 'Continuar donde quedé' : 'Leer hoy')) + '</a></div>' +
     '<div class="racha-inline"><span>🔥 <b>' + racha + '</b> ' + (racha === 1 ? 'día' : 'días') + '</span><span class="sep">|</span><span>🏆 <b>' + record + '</b> récord</span></div>' +
     (PL.estudio ? '<a class="hoy-estudio" href="plan.html">Ver el estudio del día →</a>' : '') +
     '<div class="mini-prog"><div class="b"><div style="width:' + pct + '%"></div></div><div class="t">' + done.size + ' de ' + TOT + ' días · ' + pct + '%</div></div>';
