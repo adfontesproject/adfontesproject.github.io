@@ -144,6 +144,27 @@ function planMamas(){
 
 /* Registro de planes. El cronológico usa PLAN (plan.js) y las claves
    originales de almacenamiento, para no perder el progreso de nadie. */
+/* ===== Plan personalizado (añadido a planes.js) ===== */
+function repartirSeq(uni, dias){
+  const total = uni.length, out = []; let i = 0;
+  for(let d = 1; d <= dias; d++){
+    const fin = Math.round(total * d / dias);
+    const bloque = uni.slice(i, fin); i = fin;
+    const lect = [];
+    bloque.forEach(([b, c]) => { const u = lect[lect.length-1]; if(u && u.b === b && u.f === c-1) u.f = c; else lect.push({ b:b, i:c, f:c }); });
+    out.push({ d:d, etapa: ETAPA_LIBRO[bloque.length ? bloque[0][0] : 'Génesis'] || '', lecturas: lect.map(x => x.b + ' ' + (x.i === x.f ? x.i : x.i + '-' + x.f)) });
+  }
+  return out;
+}
+function secuenciaCanonica(){ const uni = []; AT.concat(NT).forEach(b => { for(let c = 1; c <= CAPS[b]; c++) uni.push([b, c]); }); return uni; }
+function secuenciaCronologica(){
+  const uni = []; const P = (typeof PLAN !== 'undefined') ? PLAN : [];
+  P.forEach(dd => { dd.lecturas.forEach(lec => { const m = lec.match(/^(.+?)\s+(\d+)(?:-(\d+))?$/); if(!m) return; const b = m[1], i = +m[2], f = m[3] ? +m[3] : i; for(let c = i; c <= f; c++) uni.push([b, c]); }); });
+  return uni.length ? uni : secuenciaCanonica();
+}
+function miConfig(){ try{ return JSON.parse(localStorage.getItem('af_mi_plan') || 'null') || { dias:730, orden:'canonico' }; }catch(e){ return { dias:730, orden:'canonico' }; } }
+function planMi(){ const cfg = miConfig(); const seq = cfg.orden === 'cronologico' ? secuenciaCronologica() : secuenciaCanonica(); return repartirSeq(seq, cfg.dias || 730); }
+
 const PLANES = [
   {
     id: 'cronologico',
@@ -190,11 +211,21 @@ const PLANES = [
     dias: 975,
     estudio: false,
     gen: planMamas
+  },
+  {
+    id: 'mi',
+    nombre: 'Mi plan',
+    sub: 'Personalizado · a tu medida',
+    desc: 'El plan que armaste tú: tu duración y tu orden, de Génesis a Apocalipsis.',
+    dias: 730,
+    estudio: false,
+    gen: planMi
   }
 ];
 
 const PLANES_IDX = {};
 PLANES.forEach(p => PLANES_IDX[p.id] = p);
+try{ const _mc = JSON.parse(localStorage.getItem('af_mi_plan') || 'null'); if(_mc && PLANES_IDX.mi) PLANES_IDX.mi.dias = _mc.dias; }catch(e){}
 
 /* Devuelve el arreglo de días de un plan, generándolo la primera vez */
 function diasDe(id){
