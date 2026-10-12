@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planes de lectura — Ad Fontes</title>
+<link rel="icon" type="image/png" href="Ad%20Fontes%20Logo%20Origen.png">
+<meta name="theme-color" content="#f6f1e7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f6f1e7;--card:#fbf7ee;--ink:#1c1c1c;--ink2:#3a342a;--soft:#8a7f68;--faint:#a99a78;--gold:#b0842f;--line:#ece2cc;--line2:#e0d5bd;--green:#4c6a3a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink2);font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+.top{position:sticky;top:0;z-index:50;background:rgba(246,241,231,.92);backdrop-filter:blur(10px);display:flex;align-items:center;gap:.6rem;padding:.7rem 1.1rem;border-bottom:1px solid var(--line)}
+.top a.volver{color:var(--soft);text-decoration:none;font-family:'Inter',sans-serif;font-size:.82rem}
+.top .tt{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.1rem;color:var(--ink)}
+.wrap{max-width:620px;margin:0 auto;padding:2rem 1.2rem 1rem}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,7vw,2.5rem);font-weight:600;color:var(--ink);text-align:center;line-height:1.1}
+.sub{font-family:'EB Garamond',serif;font-style:italic;color:var(--soft);text-align:center;font-size:1.02rem;margin:.5rem 0 0}
+.tabs{display:flex;gap:.5rem;overflow-x:auto;padding:1.4rem 0 .6rem;-ms-overflow-style:none;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;background:var(--card);border:1px solid var(--line2);color:var(--soft);font-family:'Inter',sans-serif;font-size:.78rem;padding:.5rem 1rem;border-radius:22px;cursor:pointer;white-space:nowrap}
+.tab.on{background:var(--ink);color:#f4ecd8;border-color:var(--ink)}
+.cards{display:flex;flex-direction:column;gap:.8rem;margin-top:.4rem}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:1.1rem 1.2rem;cursor:pointer;text-decoration:none;color:inherit;display:block;transition:.15s;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.card:hover{border-color:var(--gold)}
+.card .r{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem}
+.card h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--ink)}
+.card .badge{flex:0 0 auto;font-family:'Inter',sans-serif;font-size:.64rem;letter-spacing:.04em;background:#f2ead6;color:#9a7412;padding:.2rem .6rem;border-radius:12px;white-space:nowrap}
+.card p{font-family:'Inter',sans-serif;font-size:.84rem;color:var(--soft);margin-top:.35rem;line-height:1.5}
+.card.destacado{background:#fbf6e8;border:2px solid var(--gold);box-shadow:0 3px 14px rgba(176,132,47,.12)}
+.card.destacado .badge{background:transparent;color:var(--gold)}
+.card .ir{font-family:'Inter',sans-serif;font-size:.8rem;color:var(--gold);font-weight:600;margin-top:.6rem}
+/* Configurador */
+.cfg{display:none}
+.cfg.on{display:block}
+.cfg h2{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:600;color:var(--ink);text-align:center}
+.grupo{margin-top:1.4rem}
+.lbl{font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.opts{display:flex;flex-wrap:wrap;gap:.5rem}
+.opt{background:#fff;border:1px solid var(--line2);color:var(--soft);font-family:'Inter',sans-serif;font-size:.85rem;padding:.55rem 1.1rem;border-radius:22px;cursor:pointer}
+.opt.on{background:var(--ink);color:#f4ecd8;border-color:var(--ink)}
+.opt.dis{opacity:.5;cursor:not-allowed}
+.preview{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.9rem 1.1rem;text-align:center;margin-top:1.5rem}
+.preview .pv{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--ink)}
+.preview .pl{font-family:'Inter',sans-serif;font-size:.78rem;color:var(--soft)}
+.btn{display:block;width:100%;background:var(--ink);color:#f4ecd8;font-family:'Inter',sans-serif;font-size:1rem;font-weight:500;border:none;border-radius:30px;padding:1rem;margin-top:1.5rem;cursor:pointer}
+.btn:hover{background:#000}
+.volver2{display:block;text-align:center;font-family:'Inter',sans-serif;font-size:.82rem;color:var(--soft);margin-top:1rem;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="top"><a class="volver" href="index.html">‹ Inicio</a><div class="tt">Planes de lectura</div></div>
+<div class="wrap">
+  <div id="vSel">
+    <h1>Elige cómo leer la Biblia</h1>
+    <p class="sub">Un plan para cada temporada. Puedes cambiarlo cuando quieras.</p>
+    <div class="tabs" id="tabs"></div>
+    <div class="cards" id="cards"></div>
+  </div>
+  <div class="cfg" id="vCfg">
+    <h2>Arma tu plan</h2>
+    <p class="sub">Tres toques y listo.</p>
+    <div class="grupo"><div class="lbl">¿En cuánto tiempo?</div><div class="opts" id="optDias"></div></div>
+    <div class="grupo"><div class="lbl">¿En qué orden?</div><div class="opts" id="optOrden"></div></div>
+    <div class="grupo"><div class="lbl">¿Cómo leer cada día?</div><div class="opts" id="optModo"></div></div>
+    <div class="preview"><div class="pv" id="pvTxt">—</div><div class="pl">a tu propio ritmo</div></div>
+    <button class="btn" onclick="crearMi()">Crear mi plan</button>
+    <div class="volver2" onclick="verSel()">‹ Volver a los planes</div>
+  </div>
+</div>
+<script src="plan.js"></script>
+<script src="planes.js"></script>
+<script>
+function hoyISO(){ const x=new Date(); return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0'); }
+const META = {
+  cronologico:{tags:['afondo'], badge:'1 año · con estudio'},
+  canonico:{tags:['primeravez','afondo'], badge:'1 año'},
+  nt90:{tags:['primeravez'], badge:'90 días'},
+  salpro:{tags:['tematico'], badge:'150 días'},
+  mamas:{tags:['gentil'], badge:'gentil · ~2.7 años'}
+};
+const CATS = [['todos','Todos'],['primeravez','Primera vez'],['afondo','A fondo'],['gentil','Gentil'],['tematico','Temático']];
+let filtro = 'todos';
+function pintarTabs(){
+  document.getElementById('tabs').innerHTML = CATS.map(([id,n]) => '<div class="tab'+(id===filtro?' on':'')+'" onclick="setFiltro(\''+id+'\')">'+n+'</div>').join('');
+}
+function setFiltro(f){ filtro = f; pintarTabs(); pintarCards(); }
+function pintarCards(){
+  const activo = localStorage.getItem('af_plan_activo') || 'cronologico';
+  let h = '';
+  if(filtro === 'todos'){
+    h += '<a class="card destacado" onclick="verCfg()"><div class="r"><h3>✦ Plan personalizado</h3><span class="badge">Nuevo</span></div><p>Tú defines el ritmo, el orden y el estilo. La Biblia a tu medida.</p><div class="ir">Armar mi plan ›</div></a>';
+  }
+  (typeof PLANES !== 'undefined' ? PLANES : []).forEach(p => {
+    const m = META[p.id] || {tags:[], badge:''};
+    if(filtro !== 'todos' && !m.tags.includes(filtro)) return;
+    const act = (p.id === activo) ? ' style="border-color:var(--gold)"' : '';
+    h += '<a class="card" onclick="elegir(\''+p.id+'\')"'+act+'><div class="r"><h3>'+p.nombre+(p.id===activo?' ✓':'')+'</h3><span class="badge">'+(m.badge||p.sub)+'</span></div><p>'+p.desc+'</p></a>';
+  });
+  document.getElementById('cards').innerHTML = h || '<p class="sub">Sin planes en esta categoría.</p>';
+}
+function elegir(id){
+  localStorage.setItem('af_plan_activo', id);
+  localStorage.setItem('af_plan_elegido','1');
+  const sk = (id === 'cronologico') ? 'biblia365_start' : 'af_'+id+'_start';
+  if(!localStorage.getItem(sk)) localStorage.setItem(sk, hoyISO());
+  location.href = 'index.html';
+}
+/* Configurador */
+let selDias = 730, selOrden = 'canonico';
+const DIAS = [[182,'6 meses'],[365,'1 año'],[730,'2 años'],[912,'2 años y medio'],[9999,'Sin fecha']];
+function verCfg(){ document.getElementById('vSel').style.display='none'; document.getElementById('vCfg').classList.add('on'); pintarCfg(); }
+function verSel(){ document.getElementById('vCfg').classList.remove('on'); document.getElementById('vSel').style.display=''; }
+function pintarCfg(){
+  document.getElementById('optDias').innerHTML = DIAS.map(([d,n]) => '<div class="opt'+(d===selDias?' on':'')+'" onclick="setDias('+d+')">'+n+'</div>').join('');
+  document.getElementById('optOrden').innerHTML =
+    '<div class="opt'+(selOrden==='canonico'?' on':'')+'" onclick="setOrden(\'canonico\')">Canónico (Gén→Apoc)</div>'+
+    '<div class="opt'+(selOrden==='cronologico'?' on':'')+'" onclick="setOrden(\'cronologico\')">Cronológico</div>';
+  document.getElementById('optModo').innerHTML =
+    '<div class="opt on">Por capítulos</div>'+
+    '<div class="opt dis" title="Pronto">Por pasajes · pronto</div>';
+  const dias = selDias === 9999 ? 'a tu ritmo, sin fecha' : selDias + ' días';
+  const cpd = selDias === 9999 ? '' : (' · ≈ ' + (Math.round(1189/selDias*10)/10) + ' capítulos al día');
+  document.getElementById('pvTxt').textContent = 'Tu plan: ' + dias + cpd;
+}
+function setDias(d){ selDias = d; pintarCfg(); }
+function setOrden(o){ selOrden = o; pintarCfg(); }
+function crearMi(){
+  const dias = selDias === 9999 ? 1189 : selDias;  /* sin fecha ≈ 1 capítulo/día */
+  localStorage.setItem('af_mi_plan', JSON.stringify({ dias: dias, orden: selOrden }));
+  localStorage.setItem('af_plan_activo','mi');
+  localStorage.setItem('af_plan_elegido','1');
+  if(!localStorage.getItem('af_mi_start')) localStorage.setItem('af_mi_start', hoyISO());
+  location.href = 'index.html';
+}
+pintarTabs(); pintarCards();
+</script>
+</body>
+</html>
