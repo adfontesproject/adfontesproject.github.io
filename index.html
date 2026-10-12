@@ -156,6 +156,8 @@ const KP = (PID === 'cronologico') ? 'biblia365_' : 'af_' + PID + '_';
 const TOT = PL.dias;
 const DIAS = (typeof diasDe !== 'undefined') ? diasDe(PID) : PLAN;
 let done = new Set(JSON.parse(localStorage.getItem(KP + 'done') || '[]'));
+/* Primer paso: usuarios nuevos eligen plan; los que ya avanzaron quedan marcados */
+(function primerPaso(){ try{ if(localStorage.getItem('biblia365_done') || localStorage.getItem('af_plan_activo')) localStorage.setItem('af_plan_elegido','1'); if(!localStorage.getItem('af_plan_elegido')) location.replace('planes.html'); }catch(e){} })();
 
 function fechaISO(dt){ return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0'); }
 (function fijarInicio(){
@@ -198,7 +200,7 @@ function pintarHoy(){
   else if(atraso > 0){ const fr = ['Tu lectura de hoy te espera','Cada día es bueno para volver','La Palabra te espera, a tu ritmo','Un paso hoy, sin prisa','Sin prisa y sin culpa: solo vuelve','Hoy es un buen día para seguir']; const fi = (new Date().getDate() + new Date().getMonth()) % fr.length; chip = '<div class="chip-estado aliento">🌱 ' + fr[fi] + '</div>'; }
   else chip = '<div class="chip-estado ok">✓ Vas al día</div>';
   document.getElementById('tarjetaHoy').innerHTML =
-    '<div class="et">Día ' + d + ' de ' + TOT + ' · Plan ' + PL.nombre + '</div>' +
+    '<div class="et">Día ' + d + ' de ' + TOT + ' · <a href="planes.html" style="color:var(--gold);text-decoration:none;border-bottom:1px dotted var(--gold)">' + PL.nombre + '</a></div>' +
     '<h1>' + (c ? c.t : p.lecturas.join(' · ')) + '</h1>' +
     '<div class="lect">' + p.lecturas.join(' · ') + '</div>' +
     '<div class="regla"></div>' +
