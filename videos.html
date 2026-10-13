@@ -307,5 +307,148 @@ pintar();
 })();
 </script>
 
+
+<style>
+.contacto{position:fixed;inset:0;z-index:210;background:rgba(38,38,38,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:1.2rem}
+.contacto.on{display:flex;animation:cfade .25s ease}
+@keyframes cfade{from{opacity:0}to{opacity:1}}
+.contacto-card{position:relative;background:rgba(251,247,238,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(176,132,47,.35);border-radius:22px;max-width:380px;width:100%;padding:2.3rem 1.6rem 1.7rem;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.33);animation:cpop .28s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes cpop{from{transform:translateY(12px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+.contacto-x{position:absolute;top:.6rem;right:.7rem;width:30px;height:30px;border:none;background:rgba(0,0,0,.06);color:var(--ink-soft);border-radius:50%;font-size:.8rem;cursor:pointer;line-height:1;transition:background .15s}
+.contacto-x:hover{background:rgba(0,0,0,.13)}
+.contacto-card h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--carbon);margin-bottom:.35rem}
+.contacto-sub{font-family:'EB Garamond',serif;font-style:italic;color:var(--ink-soft);font-size:.98rem;line-height:1.5;margin:0 auto 1.3rem;max-width:300px}
+.contacto-dato{display:block;width:100%;text-align:left;background:rgba(255,255,255,.5);border:1px solid var(--line);border-radius:14px;padding:.65rem .9rem;margin-bottom:.65rem;cursor:pointer;transition:border-color .15s,background .15s}
+.contacto-dato:hover{border-color:var(--gold-light);background:rgba(255,255,255,.78)}
+.cd-l{display:block;font-family:'Inter',sans-serif;font-size:.59rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.cd-v{display:flex;align-items:center;justify-content:space-between;gap:.5rem;font-family:'Inter',sans-serif;font-size:.95rem;color:var(--carbon);margin-top:.15rem;overflow-wrap:anywhere}
+.cd-copy{font-size:.66rem;color:var(--ink-soft);white-space:nowrap;flex:0 0 auto;background:rgba(176,132,47,.12);padding:.12rem .5rem;border-radius:10px}
+.contacto-firma{font-family:'EB Garamond',serif;font-style:italic;color:var(--ink-soft);font-size:.92rem;margin-top:.9rem}
+</style>
+<div class="contacto" id="contacto" onclick="if(event.target===this)cerrarContacto()">
+  <div class="contacto-card" role="dialog" aria-label="Contacto y sugerencias">
+    <button class="contacto-x" onclick="cerrarContacto()" aria-label="Cerrar">✕</button>
+    <h3>Ayúdame a mejorar Ad Fontes</h3>
+    <p class="contacto-sub">Toda sugerencia, deseo o mejora que quieras ver aquí es bienvenida. Escríbeme con confianza; leo cada mensaje.</p>
+    <button type="button" class="contacto-dato" onclick="copiarContacto('77008260',this)">
+      <span class="cd-l">WhatsApp · Teléfono</span>
+      <span class="cd-v">77008260 <span class="cd-copy">copiar</span></span>
+    </button>
+    <div class="sug-box"><span class="cd-l" style="margin-bottom:.35rem;display:block">Escríbeme tu sugerencia</span><textarea id="sugTexto" placeholder="Tu sugerencia, deseo o mejora…"></textarea><button type="button" id="sugBtn" class="sug-enviar" onclick="enviarSugerencia()">Enviar sugerencia</button></div>
+    <div class="contacto-firma">— Mario Rivero</div>
+  </div>
+</div>
+<script>
+function abrirContacto(){ var c=document.getElementById('contacto'); if(c) c.classList.add('on'); }
+function cerrarContacto(){ var c=document.getElementById('contacto'); if(c) c.classList.remove('on'); }
+function _copiaFallback(txt,cb){ try{ var t=document.createElement('textarea'); t.value=txt; t.style.position='fixed'; t.style.opacity='0'; document.body.appendChild(t); t.focus(); t.select(); document.execCommand('copy'); document.body.removeChild(t); cb&&cb(); }catch(e){} }
+function copiarContacto(txt,el){ var done=function(){ var c=el&&el.querySelector('.cd-copy'); if(c){ var o=c.textContent; c.textContent='✓ copiado'; setTimeout(function(){ c.textContent=o; },1600);} }; if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done).catch(function(){ _copiaFallback(txt,done); }); } else { _copiaFallback(txt,done); } }
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var c=document.getElementById('contacto'); if(c&&c.classList.contains('on')) cerrarContacto(); } });
+</script>
+<style>
+.contacto-sub{max-width:320px}
+</style>
+<style>
+:root{--cream:#f1ead9;--carbon:#1c1c1c;--ink-soft:#8a7f68;--gold-light:#c79a3e}
+html[data-theme="dark"]{--ink:#ece4d3;--ink2:#d8cdb8;--carbon:#f1ebdd;--soft:#9f947d;--ink-soft:#9f947d;--faint:#7c7260;--gold:#d2a24a;--gold-light:#e2b863;--green:#86a56f;--amber:#d8ab52;--line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.17);--cream:rgba(255,255,255,.05)}
+html[data-theme="dark"][data-tone="calida"]{--paper:#1c1813;--card:#241d15}
+html[data-theme="dark"][data-tone="carbon"]{--paper:#16191d;--card:#1e2229}
+html[data-theme="dark"][data-tone="tinta"]{--paper:#131722;--card:#1b2031}
+html[data-theme="dark"] body{background:var(--paper);color:var(--ink)}
+html[data-theme="dark"] .topbar{background:rgba(0,0,0,.25)!important}
+html[data-theme="dark"] .tarjeta,html[data-theme="dark"] .thememenu{background:var(--card)}
+html[data-theme="dark"] .contacto-card{background:rgba(28,28,32,.9)!important}
+html[data-theme="dark"] .contacto-dato,html[data-theme="dark"] .sug-box textarea{background:rgba(255,255,255,.05)!important}
+html[data-theme="dark"] .biblebar{background:linear-gradient(to top,var(--paper) 55%,transparent)}
+/* Drawer */
+.drawer-ov{position:fixed;inset:0;background:rgba(10,9,7,.55);backdrop-filter:blur(3px);z-index:500;opacity:0;pointer-events:none;transition:opacity .25s}
+.drawer-ov.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;left:0;bottom:0;width:84%;max-width:320px;background:var(--paper);z-index:501;transform:translateX(-102%);transition:transform .3s cubic-bezier(.3,.8,.25,1);display:flex;flex-direction:column;box-shadow:8px 0 36px rgba(0,0,0,.3);overflow-y:auto}
+.drawer.on{transform:none}
+.drawer-head{display:flex;align-items:center;gap:.75rem;padding:1.5rem 1.3rem 1.1rem;border-bottom:1px solid var(--line)}
+.drawer-head img{width:42px;height:42px;border-radius:10px}
+.drawer-head b{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--ink);font-weight:600}
+.drawer-head small{display:block;font-family:'Inter',sans-serif;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.drawer-nav{padding:.6rem .55rem}
+.drawer-nav a{display:flex;align-items:center;gap:.95rem;padding:.9rem 1rem;border-radius:12px;color:var(--ink);text-decoration:none;font-family:'Inter',sans-serif;font-size:1.02rem;transition:background .15s}
+.drawer-nav a:hover{background:var(--cream)}
+.drawer-nav a .ic{font-size:1.3rem;width:1.6rem;text-align:center;flex:0 0 auto}
+.drawer-foot{margin-top:auto;padding:1.1rem 1.4rem;border-top:1px solid var(--line);font-family:'Inter',sans-serif;font-size:.72rem;color:var(--soft)}
+.tabbar{display:none!important}
+.biblebar{position:fixed;left:0;right:0;bottom:0;z-index:120;display:flex;justify-content:center;padding:.55rem 1rem calc(.75rem + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--paper) 58%,transparent);pointer-events:none}
+.biblebar a{pointer-events:auto;display:inline-flex;align-items:center;gap:.55rem;background:var(--ink);color:var(--paper);font-family:'Inter',sans-serif;font-weight:600;font-size:1.02rem;text-decoration:none;padding:.85rem 2.6rem;border-radius:30px;box-shadow:0 10px 26px rgba(0,0,0,.3)}
+html[data-theme="dark"] .biblebar a{background:var(--gold);color:#17130c}
+.biblebar a .bi{font-size:1.25rem}
+body{padding-bottom:5.2rem!important}
+.thememenu{position:fixed;top:54px;right:10px;z-index:460;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 44px rgba(0,0,0,.28);padding:.45rem;display:none;min-width:200px}
+.thememenu.on{display:block;animation:cfade .18s ease}
+.thememenu button{display:flex;align-items:center;gap:.65rem;width:100%;border:none;background:none;padding:.62rem .7rem;border-radius:10px;cursor:pointer;font-family:'Inter',sans-serif;font-size:.92rem;color:var(--ink);text-align:left}
+.thememenu button:hover{background:var(--cream)}
+.thememenu .sw{width:18px;height:18px;border-radius:50%;border:1px solid var(--line2);flex:0 0 auto}
+.thememenu .hd{font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);padding:.4rem .7rem .2rem}
+.sug-box{margin-top:.2rem;text-align:left}
+.sug-box textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:14px;padding:.7rem .85rem;font-family:'Inter',sans-serif;font-size:.92rem;color:var(--carbon);background:rgba(255,255,255,.5);resize:vertical;min-height:84px;outline:none}
+.sug-box textarea:focus{border-color:var(--gold-light)}
+.sug-enviar{margin-top:.6rem;width:100%;background:var(--carbon);color:var(--paper,#fff);border:none;border-radius:16px;padding:.7rem;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer}
+.sug-enviar:disabled{opacity:.55;cursor:default}
+.sug-ok{font-family:'EB Garamond',serif;font-style:italic;color:var(--green);font-size:.92rem;margin-top:.5rem}
+</style>
+<div class="drawer-ov" id="drawerOv" onclick="cerrarDrawer()"></div>
+<nav class="drawer" id="drawer" aria-label="Menú">
+  <div class="drawer-head"><img src="icon-adfontes.png" alt=""><div><b>Ad Fontes</b><small>Sola Scriptura</small></div></div>
+  <div class="drawer-nav">
+    <a href="index.html"><span class="ic">🏠</span>Inicio</a>
+    <a href="biblioteca.html"><span class="ic">📚</span>Estudio</a>
+    <a href="plan.html"><span class="ic">🗓️</span>Mi plan de hoy</a>
+    <a href="planes.html"><span class="ic">📖</span>Planes de lectura</a>
+    <a href="videos.html"><span class="ic">🎬</span>Videos</a>
+    <a href="notas.html"><span class="ic">📝</span>Notas</a>
+    <a href="comunidad.html"><span class="ic">👥</span>Comunidad</a>
+  </div>
+  <div class="drawer-foot">Ad Fontes · La Escritura, en serio.</div>
+</nav>
+<div class="biblebar"><a href="biblia.html?v=sbt"><span class="bi">📖</span> Biblia SBT</a></div>
+<div class="thememenu" id="thememenu">
+  <div class="hd">Tema</div>
+  <button onclick="setTema('light',null)"><span class="sw" style="background:#f6f1e7"></span>Claro</button>
+  <button onclick="setTema('dark','calida')"><span class="sw" style="background:#1c1813"></span>Oscuro cálido</button>
+  <button onclick="setTema('dark','carbon')"><span class="sw" style="background:#16191d"></span>Oscuro carbón</button>
+  <button onclick="setTema('dark','tinta')"><span class="sw" style="background:#131722"></span>Oscuro tinta</button>
+</div>
+<script>
+function abrirDrawer(){ document.getElementById('drawer').classList.add('on'); document.getElementById('drawerOv').classList.add('on'); }
+function cerrarDrawer(){ document.getElementById('drawer').classList.remove('on'); document.getElementById('drawerOv').classList.remove('on'); }
+function aplicarTema(){ try{ var t=JSON.parse(localStorage.getItem('af_tema')||'null'); }catch(e){ t=null; } var h=document.documentElement; if(t&&t.mode==='dark'){ h.setAttribute('data-theme','dark'); h.setAttribute('data-tone',t.tone||'calida'); } else { h.removeAttribute('data-theme'); h.removeAttribute('data-tone'); } }
+function setTema(mode,tone){ try{ localStorage.setItem('af_tema',JSON.stringify({mode:mode,tone:tone})); }catch(e){} aplicarTema(); var m=document.getElementById('thememenu'); if(m)m.classList.remove('on'); }
+function toggleThemeMenu(e){ if(e){e.stopPropagation();e.preventDefault();} var m=document.getElementById('thememenu'); if(m)m.classList.toggle('on'); }
+document.addEventListener('click',function(e){ var m=document.getElementById('thememenu'); if(m&&m.classList.contains('on')&&!m.contains(e.target)&&!(e.target.closest&&e.target.closest('.ojito'))) m.classList.remove('on'); });
+aplicarTema();
+function enviarSugerencia(){
+  var ta=document.getElementById('sugTexto'); var btn=document.getElementById('sugBtn'); if(!ta)return;
+  var txt=(ta.value||'').trim(); if(txt.length<3){ ta.focus(); return; }
+  btn.disabled=true; btn.textContent='Enviando…';
+  function ok(){ var box=document.querySelector('.sug-box'); if(box) box.innerHTML='<div class="sug-ok">¡Gracias! Tu sugerencia fue enviada. La leeré con atención.</div>'; }
+  try{
+    if(window.firebase&&firebase.firestore){
+      var payload={texto:txt, fecha:new Date().toISOString(), pagina:location.pathname};
+      try{ if(firebase.auth&&firebase.auth().currentUser){ payload.uid=firebase.auth().currentUser.uid; payload.nombre=firebase.auth().currentUser.displayName||''; } }catch(e){}
+      firebase.firestore().collection('sugerencias').add(payload).then(ok).catch(function(err){ btn.disabled=false; btn.textContent='Enviar sugerencia'; alert('No se pudo enviar ahora. Intenta más tarde.'); });
+    } else { btn.disabled=false; btn.textContent='Enviar sugerencia'; alert('Conéctate a internet para enviar tu sugerencia.'); }
+  }catch(e){ btn.disabled=false; btn.textContent='Enviar sugerencia'; }
+}
+</script>
+<style>
+.af-tbbtn,.tb-acc .ojito{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:1.05rem;text-decoration:none;color:var(--ink);transition:background .15s;line-height:1}
+.af-tbbtn:hover,.tb-acc .ojito:hover{background:var(--cream)}
+</style>
+<script>
+(function(){ var tb=document.querySelector('.topbar'); if(!tb)return;
+ var brand=tb.querySelector('.brand'); if(brand&&!brand.getAttribute('data-afd')){ brand.setAttribute('data-afd','1'); brand.addEventListener('click',function(e){ e.preventDefault(); abrirDrawer(); }); }
+ var acc=tb.querySelector('.tb-acc'); if(!acc){ acc=document.createElement('div'); acc.className='tb-acc'; tb.appendChild(acc); }
+ if(!tb.querySelector('.lupa')&&!tb.querySelector('.af-sug')){ var s=document.createElement('a'); s.className='af-tbbtn af-sug'; s.setAttribute('role','button'); s.setAttribute('tabindex','0'); s.title='Contacto y sugerencias'; s.setAttribute('aria-label','Sugerencias'); s.textContent='💬'; s.addEventListener('click',function(){ if(window.abrirContacto)abrirContacto(); }); acc.insertBefore(s,acc.firstChild); }
+ if(!tb.querySelector('.ojito')){ var cls=tb.querySelector('.lupa')?'lupa ojito':'af-tbbtn ojito'; var eye=document.createElement('a'); eye.className=cls; eye.setAttribute('role','button'); eye.setAttribute('tabindex','0'); eye.title='Tema claro/oscuro'; eye.setAttribute('aria-label','Tema'); eye.textContent='👁'; eye.addEventListener('click',function(e){ toggleThemeMenu(e); }); acc.insertBefore(eye,acc.firstChild); }
+})();
+</script>
+
 </body>
 </html>
