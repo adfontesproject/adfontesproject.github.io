@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sugerencias — Ad Fontes (privado)</title>
+<link rel="icon" href="icon-adfontes.png">
+<style>
+:root{--paper:#f6f1e7;--card:#fbf7ee;--ink:#1c1c1c;--soft:#8a7f68;--gold:#b0842f;--line:#ece2cc;--green:#4c6a3a}
+**{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;padding:0 0 3rem}
+.top{padding:1.3rem 1.2rem;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:.7rem}
+.top img{width:34px;height:34px;border-radius:8px}
+.top b{font-family:Georgia,'Times New Roman',serif;font-size:1.3rem}
+.top small{display:block;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.wrap{max-width:720px;margin:0 auto;padding:1.2rem}
+.msg{padding:2rem 1rem;text-align:center;color:var(--soft)}
+.btn{display:inline-block;background:var(--ink);color:var(--paper);border:none;border-radius:24px;padding:.75rem 1.8rem;font-size:.95rem;font-weight:600;cursor:pointer;text-decoration:none}
+.sug{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.1rem;margin-bottom:.8rem}
+.sug .t{font-size:1rem;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.sug .meta{margin-top:.6rem;font-size:.72rem;color:var(--soft);display:flex;gap:.8rem;flex-wrap:wrap}
+.cuenta{font-size:.82rem;color:var(--soft);margin-bottom:1rem}
+.salir{color:var(--gold);cursor:pointer;text-decoration:underline;font-size:.8rem}
+h1{font-family:Georgia,serif;font-size:1.5rem;margin:.2rem 0 1rem}
+</style>
+</head>
+<body>
+<div class="top"><img src="icon-adfontes.png" alt=""><div><b>Ad Fontes</b><small>Panel · Sugerencias</small></div></div>
+<div class="wrap" id="wrap"><div class="msg">Cargando…</div></div>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script>
+var ADMINS=['adfontesproject@gmail.com','mariowillow9717@gmail.com'];
+var cfg={"apiKey":"AIzaSyDt3bA9HuXbIypVH_JRQMe-FGKkNfUDrv8","authDomain":"biblia-en-un-ano.firebaseapp.com","projectId":"biblia-en-un-ano","storageBucket":"biblia-en-un-ano.firebasestorage.app","messagingSenderId":"978571488009","appId":"1:978571488009:web:cd9e062e57a1b9b62801d8"};
+firebase.initializeApp(cfg);
+var wrap=document.getElementById('wrap');
+function esc(s){ return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function login(){ var p=new firebase.auth.GoogleAuthProvider(); firebase.auth().signInWithPopup(p).catch(function(e){ wrap.innerHTML='<div class="msg">No se pudo iniciar sesión.</div>'; }); }
+function salir(){ firebase.auth().signOut(); }
+function cargar(){
+  wrap.innerHTML='<div class="msg">Cargando sugerencias…</div>';
+  firebase.firestore().collection('sugerencias').orderBy('fecha','desc').limit(500).get().then(function(qs){
+    var out='<div class="cuenta">'+qs.size+' sugerencia(s) · <span class="salir" onclick="salir()">cerrar sesión</span></div><h1>Sugerencias recibidas</h1>';
+    if(qs.size===0) out+='<div class="msg">Aún no hay sugerencias.</div>';
+    qs.forEach(function(d){ var s=d.data(); var f=''; try{ f=new Date(s.fecha).toLocaleString('es'); }catch(e){ f=s.fecha||''; }
+      out+='<div class="sug"><div class="t">'+esc(s.texto)+'</div><div class="meta"><span>🕘 '+esc(f)+'</span>'+(s.nombre?'<span>👤 '+esc(s.nombre)+'</span>':'')+(s.pagina?'<span>📄 '+esc(s.pagina)+'</span>':'')+'</div></div>';
+    });
+    wrap.innerHTML=out;
+  }).catch(function(e){ wrap.innerHTML='<div class="msg">No se pudieron leer las sugerencias.<br><small>'+esc(e.code||e.message||'')+'</small></div>'; });
+}
+firebase.auth().onAuthStateChanged(function(u){
+  if(!u){ wrap.innerHTML='<div class="msg"><p>Panel privado de sugerencias.</p><button class="btn" onclick="login()">Iniciar sesión con Google</button></div>'; return; }
+  if(ADMINS.indexOf((u.email||'').toLowerCase())<0){ wrap.innerHTML='<div class="msg"><p>La cuenta <b>'+esc(u.email)+'</b> no tiene acceso a este panel.</p><span class="salir" onclick="salir()">cerrar sesión</span></div>'; return; }
+  cargar();
+});
+</script>
+</body>
+</html>
