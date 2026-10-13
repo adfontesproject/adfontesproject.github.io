@@ -315,7 +315,7 @@ body{padding-bottom:74px}
 
 <div class="topbar">
   <a class="brand" href="index.html"><img src="Ad%20Fontes%20Logo%20Origen.png" alt=""><div>Ad Fontes<small>BIBLIOTECA</small></div></a>
-  <a class="lupa" role="button" tabindex="0" onclick="abrirBuscar()" title="Buscar en la biblioteca" aria-label="Buscar">🔍</a>
+  <a class="lupa" role="button" tabindex="0" onclick="abrirContacto()" title="Contacto y sugerencias" aria-label="Contacto y sugerencias">💬</a>
 </div>
 
 <div class="pagina">
@@ -1040,6 +1040,48 @@ else metaInit();
  var reloading=false;
  navigator.serviceWorker.addEventListener('controllerchange', function(){ if(reloading) return; reloading=true; location.reload(); });
 })();
+</script>
+
+
+<style>
+.contacto{position:fixed;inset:0;z-index:210;background:rgba(38,38,38,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:1.2rem}
+.contacto.on{display:flex;animation:cfade .25s ease}
+@keyframes cfade{from{opacity:0}to{opacity:1}}
+.contacto-card{position:relative;background:rgba(251,247,238,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(176,132,47,.35);border-radius:22px;max-width:380px;width:100%;padding:2.3rem 1.6rem 1.7rem;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.33);animation:cpop .28s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes cpop{from{transform:translateY(12px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+.contacto-x{position:absolute;top:.6rem;right:.7rem;width:30px;height:30px;border:none;background:rgba(0,0,0,.06);color:var(--ink-soft);border-radius:50%;font-size:.8rem;cursor:pointer;line-height:1;transition:background .15s}
+.contacto-x:hover{background:rgba(0,0,0,.13)}
+.contacto-card h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--carbon);margin-bottom:.35rem}
+.contacto-sub{font-family:'EB Garamond',serif;font-style:italic;color:var(--ink-soft);font-size:.98rem;line-height:1.5;margin:0 auto 1.3rem;max-width:300px}
+.contacto-dato{display:block;width:100%;text-align:left;background:rgba(255,255,255,.5);border:1px solid var(--line);border-radius:14px;padding:.65rem .9rem;margin-bottom:.65rem;cursor:pointer;transition:border-color .15s,background .15s}
+.contacto-dato:hover{border-color:var(--gold-light);background:rgba(255,255,255,.78)}
+.cd-l{display:block;font-family:'Inter',sans-serif;font-size:.59rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.cd-v{display:flex;align-items:center;justify-content:space-between;gap:.5rem;font-family:'Inter',sans-serif;font-size:.95rem;color:var(--carbon);margin-top:.15rem;overflow-wrap:anywhere}
+.cd-copy{font-size:.66rem;color:var(--ink-soft);white-space:nowrap;flex:0 0 auto;background:rgba(176,132,47,.12);padding:.12rem .5rem;border-radius:10px}
+.contacto-firma{font-family:'EB Garamond',serif;font-style:italic;color:var(--ink-soft);font-size:.92rem;margin-top:.9rem}
+</style>
+<div class="contacto" id="contacto" onclick="if(event.target===this)cerrarContacto()">
+  <div class="contacto-card" role="dialog" aria-label="Contacto y sugerencias">
+    <button class="contacto-x" onclick="cerrarContacto()" aria-label="Cerrar">✕</button>
+    <h3>Ayúdame a mejorar Ad Fontes</h3>
+    <p class="contacto-sub">Toda sugerencia, deseo o mejora que quieras ver aquí es bienvenida. Escríbeme con confianza; leo cada mensaje.</p>
+    <button type="button" class="contacto-dato" onclick="copiarContacto('77008260',this)">
+      <span class="cd-l">WhatsApp · Teléfono</span>
+      <span class="cd-v">77008260 <span class="cd-copy">copiar</span></span>
+    </button>
+    <button type="button" class="contacto-dato" onclick="copiarContacto('adfontesproject@gmail.com',this)">
+      <span class="cd-l">Correo</span>
+      <span class="cd-v">adfontesproject@gmail.com <span class="cd-copy">copiar</span></span>
+    </button>
+    <div class="contacto-firma">— Mario Rivero</div>
+  </div>
+</div>
+<script>
+function abrirContacto(){ var c=document.getElementById('contacto'); if(c) c.classList.add('on'); }
+function cerrarContacto(){ var c=document.getElementById('contacto'); if(c) c.classList.remove('on'); }
+function _copiaFallback(txt,cb){ try{ var t=document.createElement('textarea'); t.value=txt; t.style.position='fixed'; t.style.opacity='0'; document.body.appendChild(t); t.focus(); t.select(); document.execCommand('copy'); document.body.removeChild(t); cb&&cb(); }catch(e){} }
+function copiarContacto(txt,el){ var done=function(){ var c=el&&el.querySelector('.cd-copy'); if(c){ var o=c.textContent; c.textContent='✓ copiado'; setTimeout(function(){ c.textContent=o; },1600);} }; if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done).catch(function(){ _copiaFallback(txt,done); }); } else { _copiaFallback(txt,done); } }
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var c=document.getElementById('contacto'); if(c&&c.classList.contains('on')) cerrarContacto(); } });
 </script>
 
 </body>
