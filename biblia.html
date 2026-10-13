@@ -1087,8 +1087,8 @@ function enviarSugerencia(){
 (function(){ var tb=document.querySelector('.topbar'); if(!tb)return;
  var brand=tb.querySelector('.brand'); if(brand&&!brand.getAttribute('data-afd')){ brand.setAttribute('data-afd','1'); brand.addEventListener('click',function(e){ e.preventDefault(); abrirDrawer(); }); }
  var acc=tb.querySelector('.tb-acc'); if(!acc){ acc=document.createElement('div'); acc.className='tb-acc'; tb.appendChild(acc); }
- if(!acc.querySelector('.lupa')&&!acc.querySelector('.af-sug')){ var s=document.createElement('a'); s.className='af-tbbtn af-sug'; s.setAttribute('role','button'); s.setAttribute('tabindex','0'); s.title='Contacto y sugerencias'; s.setAttribute('aria-label','Sugerencias'); s.textContent='💬'; s.addEventListener('click',function(){ if(window.abrirContacto)abrirContacto(); }); acc.insertBefore(s,acc.firstChild); }
- if(!acc.querySelector('.ojito')){ var cls=acc.querySelector('.lupa')?'lupa ojito':'af-tbbtn ojito'; var eye=document.createElement('a'); eye.className=cls; eye.setAttribute('role','button'); eye.setAttribute('tabindex','0'); eye.title='Tema claro/oscuro'; eye.setAttribute('aria-label','Tema'); eye.textContent='👁'; eye.addEventListener('click',function(e){ toggleThemeMenu(e); }); acc.insertBefore(eye,acc.firstChild); }
+ if(!tb.querySelector('.lupa')&&!tb.querySelector('.af-sug')){ var s=document.createElement('a'); s.className='af-tbbtn af-sug'; s.setAttribute('role','button'); s.setAttribute('tabindex','0'); s.title='Contacto y sugerencias'; s.setAttribute('aria-label','Sugerencias'); s.textContent='💬'; s.addEventListener('click',function(){ if(window.abrirContacto)abrirContacto(); }); acc.insertBefore(s,acc.firstChild); }
+ if(!tb.querySelector('.ojito')){ var cls=tb.querySelector('.lupa')?'lupa ojito':'af-tbbtn ojito'; var eye=document.createElement('a'); eye.className=cls; eye.setAttribute('role','button'); eye.setAttribute('tabindex','0'); eye.title='Tema claro/oscuro'; eye.setAttribute('aria-label','Tema'); eye.textContent='👁'; eye.addEventListener('click',function(e){ toggleThemeMenu(e); }); acc.insertBefore(eye,acc.firstChild); }
 })();
 </script>
 
