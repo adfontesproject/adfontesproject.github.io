@@ -1,10 +1,13 @@
 /* Service Worker — La Biblia en un Año (PWA: sin conexión + notificaciones) */
-const CACHE = "adfontes-v68";
+const CACHE = "adfontes-v69";
 const FILES = ['./', 'index.html', 'biblia.html', 'plan.html', 'biblioteca.html', 'comunidad.html', 'videos.html', 'notas.html', 'plan.js', 'planes.js', 'pasajes.js', 'comentarios.js', 'credos.js', 'dossier.js', 'confesiones.js', 'catecismos.js', 'fundamentos.js', 'historia.js', 'estudio.js', 'contextos.js', 'referencias.js', 'videos.js', 'recursos.js', 'manifest.json', 'icon-adfontes.png', 'Ad Fontes Logo Origen.png'];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
 });
+
+
+self.addEventListener('message', e => { if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting(); });
 
 self.addEventListener('activate', e => {
   e.waitUntil(
