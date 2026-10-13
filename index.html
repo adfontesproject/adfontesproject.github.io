@@ -71,6 +71,24 @@ body{background:var(--paper);color:var(--ink2);font-family:'EB Garamond',Georgia
 .bienv-btn:hover{background:#000}
 .como-func{color:var(--gold);text-decoration:none;cursor:pointer}
 .como-func:hover{text-decoration:underline}
+/* Contacto / sugerencias (pop up) */
+.contacto{position:fixed;inset:0;z-index:210;background:rgba(38,38,38,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:1.2rem}
+.contacto.on{display:flex;animation:cfade .25s ease}
+@keyframes cfade{from{opacity:0}to{opacity:1}}
+.contacto-card{position:relative;background:rgba(251,247,238,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(176,132,47,.35);border-radius:22px;max-width:380px;width:100%;padding:2rem 1.6rem 1.7rem;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.33);animation:cpop .28s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes cpop{from{transform:translateY(12px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+.contacto-x{position:absolute;top:.6rem;right:.7rem;width:30px;height:30px;border:none;background:rgba(0,0,0,.06);color:var(--ink-soft);border-radius:50%;font-size:.8rem;cursor:pointer;line-height:1;transition:background .15s}
+.contacto-x:hover{background:rgba(0,0,0,.13)}
+.contacto-ico{font-size:1.7rem;margin-bottom:.25rem}
+.contacto-card h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--carbon);margin-bottom:.35rem}
+.contacto-sub{font-family:'EB Garamond',serif;font-style:italic;color:var(--ink-soft);font-size:.98rem;line-height:1.5;margin:0 auto 1.3rem;max-width:300px}
+.contacto-dato{display:block;width:100%;text-align:left;background:rgba(255,255,255,.5);border:1px solid var(--line);border-radius:14px;padding:.65rem .9rem;margin-bottom:.65rem;cursor:pointer;transition:border-color .15s,background .15s}
+.contacto-dato:hover{border-color:var(--gold-light);background:rgba(255,255,255,.78)}
+.cd-l{display:block;font-family:'Inter',sans-serif;font-size:.59rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.cd-v{display:flex;align-items:center;justify-content:space-between;gap:.5rem;font-family:'Inter',sans-serif;font-size:.95rem;color:var(--carbon);margin-top:.15rem;overflow-wrap:anywhere}
+.cd-copy{font-size:.66rem;color:var(--ink-soft);white-space:nowrap;flex:0 0 auto;background:rgba(176,132,47,.12);padding:.12rem .5rem;border-radius:10px}
+.contacto-firma{font-family:'EB Garamond',serif;font-style:italic;color:var(--ink-soft);font-size:.92rem;margin-top:.9rem}
+
 footer{color:var(--faint);text-align:center;font-family:'Inter',sans-serif;font-size:.7rem;padding:2.4rem 1.3rem;line-height:1.9;border-top:1px solid var(--line);margin-top:1rem}
 footer strong{color:var(--soft)}
 footer a{color:var(--gold);text-decoration:none}
@@ -128,8 +146,26 @@ footer a{color:var(--gold);text-decoration:none}
   <strong>Ad Fontes Project</strong> · Plan cronológico de lectura y estudio bíblico<br>
   Reina Valera SBT © Sociedad Bíblica Trinitaria (con autorización) · RVR60 © Sociedades Bíblicas en América Latina · NTV © Tyndale House Foundation<br>
   «La hierba se seca, y la flor se cae; mas la palabra del Señor permanece para siempre» — 1 Pedro 1:24-25<br>
-  <a class="como-func" onclick="abrirBienvenida()">¿Cómo funciona?</a> · <a href="clasico.html">Versión anterior del sitio</a>
+  <a class="como-func" onclick="abrirBienvenida()">¿Cómo funciona?</a> · <a class="como-func" onclick="abrirContacto()">Contacto y sugerencias</a> · <a href="clasico.html">Versión anterior del sitio</a>
 </footer>
+<div class="contacto" id="contacto" onclick="if(event.target===this)cerrarContacto()">
+  <div class="contacto-card" role="dialog" aria-label="Contacto y sugerencias">
+    <button class="contacto-x" onclick="cerrarContacto()" aria-label="Cerrar">✕</button>
+    <div class="contacto-ico">✉️</div>
+    <h3>¿Una sugerencia o mejora?</h3>
+    <p class="contacto-sub">Cualquier feedback, deseo o mejora que quieras ver en Ad Fontes, escríbeme con confianza.</p>
+    <button type="button" class="contacto-dato" onclick="copiarContacto('77008260',this)">
+      <span class="cd-l">WhatsApp · Teléfono</span>
+      <span class="cd-v">77008260 <span class="cd-copy">copiar</span></span>
+    </button>
+    <button type="button" class="contacto-dato" onclick="copiarContacto('adfontesproject@gmail.com',this)">
+      <span class="cd-l">Correo</span>
+      <span class="cd-v">adfontesproject@gmail.com <span class="cd-copy">copiar</span></span>
+    </button>
+    <div class="contacto-firma">— Mario Rivero</div>
+  </div>
+</div>
+
 
 <div class="overlay" id="ovBuscar" onclick="if(event.target===this)this.classList.remove('abierto')">
   <div class="tarjeta">
@@ -281,5 +317,16 @@ pintarHoy();
 /* leer-inteligente: la pestaña «Leer» devuelve al texto si ya leíste hoy */
 (function(){try{var l=document.querySelector('.tabbar a[href="index.html"]');if(!l)return;var p=sessionStorage.getItem('af_biblia_pos');var lh=localStorage.getItem('biblia365_lh')||'';var n=new Date(),h=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');if(p&&lh===h)l.href='biblia.html';}catch(e){}})();
 </script>
+
+<script>
+function abrirContacto(){ var c=document.getElementById('contacto'); if(c) c.classList.add('on'); }
+function cerrarContacto(){ try{ localStorage.setItem('af_contacto_visto','1'); }catch(e){} var c=document.getElementById('contacto'); if(c) c.classList.remove('on'); }
+function _copiaFallback(txt,cb){ try{ var t=document.createElement('textarea'); t.value=txt; t.style.position='fixed'; t.style.opacity='0'; document.body.appendChild(t); t.focus(); t.select(); document.execCommand('copy'); document.body.removeChild(t); cb&&cb(); }catch(e){} }
+function copiarContacto(txt,el){ var done=function(){ var c=el&&el.querySelector('.cd-copy'); if(c){ var o=c.textContent; c.textContent='✓ copiado'; setTimeout(function(){ c.textContent=o; },1600);} }; if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done).catch(function(){ _copiaFallback(txt,done); }); } else { _copiaFallback(txt,done); } }
+if(typeof cerrarBienvenida==='function'){ var _cbWelcome=cerrarBienvenida; window.cerrarBienvenida=function(){ _cbWelcome(); setTimeout(function(){ try{ if(localStorage.getItem('af_contacto_visto')!=='1') abrirContacto(); }catch(e){} },420); }; }
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var c=document.getElementById('contacto'); if(c&&c.classList.contains('on')) cerrarContacto(); } });
+(function(){ try{ if(localStorage.getItem('af_bienvenida')==='1' && localStorage.getItem('af_contacto_visto')!=='1'){ setTimeout(abrirContacto,650); } }catch(e){} })();
+</script>
+
 </body>
 </html>
