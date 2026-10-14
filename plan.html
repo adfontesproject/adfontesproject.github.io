@@ -647,5 +647,19 @@ html[data-theme="dark"] .barra{background:rgba(255,255,255,.12)!important}
 html[data-theme="dark"] input,html[data-theme="dark"] textarea,html[data-theme="dark"] select{background:rgba(255,255,255,.06)!important;color:var(--ink)!important;border-color:var(--line)!important}
 html[data-theme="dark"] input::placeholder,html[data-theme="dark"] textarea::placeholder{color:var(--soft)!important}
 </style>
+
+<script>
+(function(){
+ var p=location.pathname;
+ var esHome = p==='/' || /\/$/.test(p) || /(^|\/)index\.html?$/i.test(p);
+ if(esHome) return;
+ var tb=document.querySelector('.topbar'); if(!tb||document.getElementById('af-back')) return;
+ var b=document.createElement('a'); b.id='af-back'; b.href='javascript:void(0)'; b.title='Atrás'; b.setAttribute('aria-label','Atrás'); b.setAttribute('role','button');
+ b.textContent='‹';
+ b.style.cssText='display:inline-flex;align-items:center;justify-content:center;width:34px;height:38px;font-size:1.9rem;line-height:1;color:var(--ink);text-decoration:none;cursor:pointer;margin-right:.15rem;flex:0 0 auto';
+ b.addEventListener('click',function(){ if(document.referrer && history.length>1){ history.back(); } else { location.href='index.html'; } });
+ tb.insertBefore(b, tb.firstChild);
+})();
+</script>
 </body>
 </html>
