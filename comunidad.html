@@ -748,5 +748,92 @@ html[data-theme="dark"] input::placeholder,html[data-theme="dark"] textarea::pla
  tb.insertBefore(b, tb.firstChild);
 })();
 </script>
+
+<style>
+.foro-host{max-width:760px;margin:0 auto;padding:1.2rem 1rem 1rem}
+.foro-wrap{animation:cfade .2s ease}
+.foro-h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:2rem;font-weight:600;color:var(--ink);margin:.2rem 0 .2rem}
+.foro-sub{font-family:'EB Garamond',Georgia,serif;font-style:italic;color:var(--soft);font-size:1.02rem;margin:0 0 1.4rem;line-height:1.5}
+.foro-cat{display:flex;align-items:center;gap:.9rem;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1rem 1.1rem;margin-bottom:.8rem;text-decoration:none;color:var(--ink);transition:border-color .15s,transform .1s}
+.foro-cat:hover{border-color:var(--gold-light);transform:translateY(-1px)}
+.foro-cat-ic{font-size:1.7rem;flex:0 0 auto}
+.foro-cat-tx{flex:1 1 auto;min-width:0}
+.foro-cat-tx b{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;display:block}
+.foro-cat-tx small{font-family:'Inter',sans-serif;font-size:.82rem;color:var(--soft);display:block;margin-top:.1rem}
+.foro-cat-fl{color:var(--faint);font-size:1.5rem;flex:0 0 auto}
+.foro-volver{display:inline-block;color:var(--gold);text-decoration:none;font-family:'Inter',sans-serif;font-size:.85rem;margin-bottom:.9rem}
+.foro-cathead{display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem}
+.foro-cathead span{font-size:1.6rem}
+.foro-btn{display:inline-block;background:var(--ink);color:var(--paper);border:none;border-radius:22px;padding:.7rem 1.6rem;font-family:'Inter',sans-serif;font-size:.92rem;font-weight:600;cursor:pointer;text-decoration:none;margin:.4rem 0 1.1rem}
+.foro-btn:disabled{opacity:.55;cursor:default}
+html[data-theme="dark"] .foro-btn{background:var(--gold);color:#17130c}
+.foro-temas{margin-top:.3rem}
+.foro-tema{display:block;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:.85rem 1rem;margin-bottom:.6rem;text-decoration:none;color:var(--ink)}
+.foro-tema:hover{border-color:var(--gold-light)}
+.foro-pin{margin-right:.3rem}
+.foro-tema-tit{font-family:'Cormorant Garamond',serif;font-size:1.18rem;font-weight:600;line-height:1.3}
+.foro-tema-tit.grande{font-size:1.5rem}
+.foro-tema-meta{font-family:'Inter',sans-serif;font-size:.74rem;color:var(--soft);margin-top:.25rem}
+.foro-input{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:1rem;color:var(--ink);background:var(--card);margin-bottom:.7rem;outline:none}
+.foro-input:focus,.foro-txt:focus{border-color:var(--gold-light)}
+.foro-txt{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.98rem;color:var(--ink);background:var(--card);min-height:120px;resize:vertical;outline:none}
+.foro-op{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.1rem 1.2rem;margin-bottom:1.1rem}
+.foro-op-txt{font-family:'EB Garamond',Georgia,serif;font-size:1.08rem;line-height:1.65;color:var(--ink);white-space:pre-wrap;word-break:break-word;margin-top:.7rem}
+.foro-acc{margin-top:.8rem;display:flex;gap:1rem;font-family:'Inter',sans-serif;font-size:.78rem}
+.foro-acc span{color:var(--gold);cursor:pointer}
+.foro-resps{margin-bottom:1.2rem}
+.foro-resp{border-left:2px solid var(--line);padding:.2rem 0 .2rem .9rem;margin-bottom:1rem}
+.foro-resp-meta{font-family:'Inter',sans-serif;font-size:.72rem;color:var(--soft);margin-bottom:.2rem}
+.foro-del{color:var(--amber);cursor:pointer}
+.foro-resp-txt{font-family:'Inter',sans-serif;font-size:.96rem;line-height:1.55;color:var(--ink);white-space:pre-wrap;word-break:break-word}
+.foro-reply{margin-top:.5rem}
+.foro-msg{padding:1.6rem 1rem;text-align:center;color:var(--soft);font-family:'Inter',sans-serif}
+.foro-msg.peq{padding:.8rem;font-size:.86rem;font-style:italic}
+</style>
+<script>
+(function(){
+ if(!window.firebase||!firebase.firestore) return;
+ var db=firebase.firestore();
+ var ADMIN=['adfontesproject@gmail.com','mariowillow9717@gmail.com'];
+ var CATS=[
+  {id:'doctrina',nombre:'Dudas doctrinales',ic:'📜',desc:'Doctrina, teología, confesiones y catecismos.'},
+  {id:'escritura',nombre:'Estudio de la Escritura',ic:'📖',desc:'Pasajes, interpretación y contexto bíblico.'},
+  {id:'vida',nombre:'Vida cristiana',ic:'🌱',desc:'Aplicación, santidad, familia e iglesia local.'},
+  {id:'oracion',nombre:'Peticiones de oración',ic:'🙏',desc:'Pidamos y oremos unos por otros.'}
+ ];
+ function user(){ try{ return firebase.auth().currentUser; }catch(e){ return null; } }
+ function esAdmin(){ var u=user(); return !!(u&&ADMIN.indexOf((u.email||'').toLowerCase())>=0); }
+ function nombreU(){ var u=user(); return u?(u.displayName||u.email||'Anónimo'):'Invitado'; }
+ function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+ function fecha(s){ try{ return new Date(s).toLocaleString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }catch(e){ return s||''; } }
+ function catDe(id){ var c=CATS.filter(function(x){return x.id===id;})[0]; return c||{nombre:id,ic:'📁'}; }
+ var root=null;
+ function host(){ if(root&&document.body.contains(root)) return root; var old=document.querySelector('.pagina'); if(old&&!old.__foro){ old.__foro=1; old.style.display='none'; } root=document.getElementById('foroRoot'); if(!root){ root=document.createElement('div'); root.id='foroRoot'; root.className='foro-host'; var bb=document.querySelector('.biblebar'); document.body.insertBefore(root, bb||null); } return root; }
+ function go(h){ location.hash=h; }
+ function parseHash(){ var h=location.hash.slice(1),m; if((m=h.match(/^tema=(.+)$/))) return {v:'tema',id:m[1]}; if((m=h.match(/^cat=(.+)$/))) return {v:'cat',id:m[1]}; return {v:'home'}; }
+ function loginBtn(){ return '<button class="foro-btn" onclick="window.__foroLogin()">Iniciar sesión con Google</button>'; }
+ window.__foroLogin=function(){ try{ var p=new firebase.auth.GoogleAuthProvider(); firebase.auth().signInWithPopup(p); }catch(e){} };
+ function home(){ var h=host(); var html='<div class="foro-wrap"><h1 class="foro-h1">Foro</h1><p class="foro-sub">Un lugar para pensar juntos la Escritura y la fe, con caridad y cuidado.</p>'; CATS.forEach(function(c){ html+='<a class="foro-cat" href="#cat='+c.id+'"><span class="foro-cat-ic">'+c.ic+'</span><span class="foro-cat-tx"><b>'+esc(c.nombre)+'</b><small>'+esc(c.desc)+'</small></span><span class="foro-cat-fl">›</span></a>'; }); html+='</div>'; h.innerHTML=html; }
+ function vistaCat(cid){ var c=catDe(cid); var h=host(); h.innerHTML='<div class="foro-wrap"><a class="foro-volver" href="#foro">‹ Foro</a><div class="foro-cathead"><span>'+c.ic+'</span><h1 class="foro-h1">'+esc(c.nombre)+'</h1></div>'+(user()?'<button class="foro-btn" onclick="window.__foroNuevo(\''+cid+'\')">+ Nuevo tema</button>':loginBtn())+'<div id="foroTemas" class="foro-temas"><div class="foro-msg">Cargando…</div></div></div>';
+  db.collection('foro_temas').where('cat','==',cid).get().then(function(qs){ var a=[]; qs.forEach(function(d){ var x=d.data(); x._id=d.id; a.push(x); }); a.sort(function(x,y){ if((y.fijado?1:0)!==(x.fijado?1:0)) return (y.fijado?1:0)-(x.fijado?1:0); return (y.act||y.fecha||'').localeCompare(x.act||x.fecha||''); }); var cont=document.getElementById('foroTemas'); if(!cont)return; if(!a.length){ cont.innerHTML='<div class="foro-msg">Aún no hay temas aquí. ¡Abre el primero!</div>'; return; } cont.innerHTML=a.map(function(t){ return '<a class="foro-tema" href="#tema='+t._id+'">'+(t.fijado?'<span class="foro-pin">📌</span>':'')+'<span class="foro-tema-tit">'+esc(t.titulo)+'</span><div class="foro-tema-meta">'+esc(t.autor||'Anónimo')+' · '+fecha(t.fecha)+' · '+(t.nresp||0)+' resp.</div></a>'; }).join(''); }).catch(function(e){ var cont=document.getElementById('foroTemas'); if(cont) cont.innerHTML='<div class="foro-msg">No se pudo cargar.<br><small>'+esc(e.code||e.message||'')+'</small></div>'; });
+ }
+ window.__foroNuevo=function(cid){ if(!user()){ window.__foroLogin(); return; } var c=catDe(cid); host().innerHTML='<div class="foro-wrap"><a class="foro-volver" href="#cat='+cid+'">‹ '+esc(c.nombre)+'</a><h1 class="foro-h1">Nuevo tema</h1><input id="foroTit" class="foro-input" maxlength="150" placeholder="Título del tema"><textarea id="foroTxt" class="foro-txt" placeholder="Escribe tu mensaje…"></textarea><button id="foroPub" class="foro-btn" onclick="window.__foroCrear(\''+cid+'\')">Publicar tema</button></div>'; };
+ window.__foroCrear=function(cid){ var tit=(document.getElementById('foroTit').value||'').trim(), txt=(document.getElementById('foroTxt').value||'').trim(); if(tit.length<3){document.getElementById('foroTit').focus();return;} if(txt.length<3){document.getElementById('foroTxt').focus();return;} var btn=document.getElementById('foroPub'); btn.disabled=true; btn.textContent='Publicando…'; var u=user(), now=new Date().toISOString(); db.collection('foro_temas').add({cat:cid,titulo:tit,texto:txt,uid:u?u.uid:'',autor:nombreU(),fecha:now,act:now,nresp:0,fijado:false}).then(function(ref){ go('tema='+ref.id); }).catch(function(e){ btn.disabled=false; btn.textContent='Publicar tema'; alert('No se pudo publicar. '+(e.code||'')); }); };
+ function vistaTema(tid){ var h=host(); h.innerHTML='<div class="foro-wrap"><div class="foro-msg">Cargando…</div></div>'; db.collection('foro_temas').doc(tid).get().then(function(doc){ if(!doc.exists){ h.innerHTML='<div class="foro-wrap"><a class="foro-volver" href="#foro">‹ Foro</a><div class="foro-msg">Este tema ya no existe.</div></div>'; return; } var t=doc.data(), c=catDe(t.cat), admin=esAdmin(), u=user(); var html='<div class="foro-wrap"><a class="foro-volver" href="#cat='+t.cat+'">‹ '+esc(c.nombre)+'</a><div class="foro-op"><div class="foro-tema-tit grande">'+(t.fijado?'📌 ':'')+esc(t.titulo)+'</div><div class="foro-tema-meta">'+esc(t.autor||'Anónimo')+' · '+fecha(t.fecha)+'</div><div class="foro-op-txt">'+esc(t.texto)+'</div>'; if(admin||(u&&u.uid===t.uid)){ html+='<div class="foro-acc">'+(admin?'<span onclick="window.__foroPin(\''+tid+'\','+(t.fijado?'false':'true')+')">'+(t.fijado?'Desfijar':'Fijar')+'</span>':'')+'<span onclick="window.__foroDel(\''+tid+'\')">Borrar tema</span></div>'; } html+='</div><div class="foro-resps" id="foroResps"><div class="foro-msg">Cargando respuestas…</div></div>'; if(u){ html+='<div class="foro-reply"><textarea id="foroResp" class="foro-txt" placeholder="Escribe una respuesta…"></textarea><button id="foroRespBtn" class="foro-btn" onclick="window.__foroResp(\''+tid+'\')">Responder</button></div>'; } else { html+='<div class="foro-msg">'+loginBtn()+'</div>'; } html+='</div>'; h.innerHTML=html; cargarResps(tid); }).catch(function(e){ h.innerHTML='<div class="foro-wrap"><div class="foro-msg">No se pudo cargar.<br><small>'+esc(e.code||'')+'</small></div></div>'; }); }
+ function cargarResps(tid){ db.collection('foro_respuestas').where('tema','==',tid).get().then(function(qs){ var a=[]; qs.forEach(function(d){ var x=d.data(); x._id=d.id; a.push(x); }); a.sort(function(x,y){ return (x.fecha||'').localeCompare(y.fecha||''); }); var cont=document.getElementById('foroResps'); if(!cont)return; var admin=esAdmin(), u=user(); if(!a.length){ cont.innerHTML='<div class="foro-msg peq">Sé el primero en responder.</div>'; return; } cont.innerHTML=a.map(function(r){ var puede=admin||(u&&u.uid===r.uid); return '<div class="foro-resp"><div class="foro-resp-meta">'+esc(r.autor||'Anónimo')+' · '+fecha(r.fecha)+(puede?' · <span class="foro-del" onclick="window.__foroDelResp(\''+r._id+'\',\''+tid+'\')">borrar</span>':'')+'</div><div class="foro-resp-txt">'+esc(r.texto)+'</div></div>'; }).join(''); }).catch(function(e){ var cont=document.getElementById('foroResps'); if(cont) cont.innerHTML='<div class="foro-msg">No se pudieron cargar las respuestas.</div>'; }); }
+ window.__foroResp=function(tid){ var el=document.getElementById('foroResp'); var txt=(el.value||'').trim(); if(txt.length<2){ el.focus(); return; } var btn=document.getElementById('foroRespBtn'); btn.disabled=true; btn.textContent='Enviando…'; var u=user(), now=new Date().toISOString(); db.collection('foro_respuestas').add({tema:tid,texto:txt,uid:u?u.uid:'',autor:nombreU(),fecha:now}).then(function(){ var ref=db.collection('foro_temas').doc(tid); ref.get().then(function(d){ var n=((d.data()||{}).nresp||0)+1; ref.update({act:now,nresp:n}).catch(function(){}); }); el.value=''; btn.disabled=false; btn.textContent='Responder'; cargarResps(tid); }).catch(function(e){ btn.disabled=false; btn.textContent='Responder'; alert('No se pudo enviar. '+(e.code||'')); }); };
+ window.__foroDel=function(tid){ if(!confirm('¿Borrar este tema?'))return; db.collection('foro_temas').doc(tid).delete().then(function(){ go('foro'); }).catch(function(e){ alert('No se pudo borrar. '+(e.code||'')); }); };
+ window.__foroPin=function(tid,val){ db.collection('foro_temas').doc(tid).update({fijado:val}).then(function(){ vistaTema(tid); }).catch(function(e){ alert('No se pudo. '+(e.code||'')); }); };
+ window.__foroDelResp=function(rid,tid){ if(!confirm('¿Borrar esta respuesta?'))return; db.collection('foro_respuestas').doc(rid).delete().then(function(){ cargarResps(tid); }).catch(function(e){ alert('No se pudo. '+(e.code||'')); }); };
+ function render(){ var s=parseHash(); if(s.v==='tema') return vistaTema(s.id); if(s.v==='cat') return vistaCat(s.id); return home(); }
+ window.addEventListener('hashchange', render);
+ host();
+ var sm=document.querySelector('.topbar .brand small'); if(sm) sm.textContent='FORO';
+ document.title='Foro — Ad Fontes';
+ setTimeout(render, 250);
+ var primera=true; try{ firebase.auth().onAuthStateChanged(function(){ if(primera){primera=false;return;} try{ render(); }catch(e){} }); }catch(e){}
+})();
+</script>
+
 </body>
 </html>
