@@ -518,7 +518,125 @@ const MAPAS = {
       ['lbc','t'], ['lbc','u'], ['lbc','p'],
       ['west','u'], ['west','e'], ['west','p']
     ]
+  },
+
+  pacto: {
+    titulo: 'El Pacto',
+    sub: 'Mapa conceptual · la alianza de gracia a través de la historia',
+    icono: '📜',
+    resumen: 'El hilo que une toda la Escritura: un solo plan de redención, desplegado en pactos sucesivos y cumplido en Cristo, el postrer Adán.',
+    nodos: [
+      { id: 'pacto', l: 'El Pacto', g: 'tema' },
+      { id: 'red',  l: 'Pacto de redención', g: 'doc' },
+      { id: 'obr',  l: 'Pacto de obras', g: 'doc' },
+      { id: 'pgr',  l: 'Pacto de gracia', g: 'doc' },
+      { id: 'adan', l: 'Protoevangelio (Adán)', g: 'doc' },
+      { id: 'noe',  l: 'Noé', g: 'doc' },
+      { id: 'abr',  l: 'Abraham', g: 'doc' },
+      { id: 'sin',  l: 'Moisés / Sinaí', g: 'doc' },
+      { id: 'dav',  l: 'David', g: 'doc' },
+      { id: 'nue',  l: 'Nuevo Pacto', g: 'doc' },
+      { id: 'cri',  l: 'Cristo, postrer Adán', g: 'doc' },
+      { id: 'lbc',  l: 'Confesión 1689 · 7', g: 'conf', ir: 'conf:lbc' },
+      { id: 'west', l: 'Westminster · 7', g: 'conf', ir: 'conf:west' },
+      { id: 'vr',  l: 'Ef 1:4', g: 'verso', ir: 'verso:Ef 1:4' },
+      { id: 'vo',  l: 'Gn 2:17', g: 'verso', ir: 'verso:Gn 2:17' },
+      { id: 'vp',  l: 'Gn 3:15', g: 'verso', ir: 'verso:Gn 3:15' },
+      { id: 'vn',  l: 'Gn 9:11', g: 'verso', ir: 'verso:Gn 9:11' },
+      { id: 'va',  l: 'Gn 17:7', g: 'verso', ir: 'verso:Gn 17:7' },
+      { id: 'vs',  l: 'Ex 19:5', g: 'verso', ir: 'verso:Ex 19:5' },
+      { id: 'vd',  l: '2 S 7:12', g: 'verso', ir: 'verso:2 S 7:12' },
+      { id: 'vj',  l: 'Jer 31:31', g: 'verso', ir: 'verso:Jer 31:31' },
+      { id: 'vl',  l: 'Lc 22:20', g: 'verso', ir: 'verso:Lc 22:20' },
+      { id: 'vh',  l: 'He 8:6', g: 'verso', ir: 'verso:He 8:6' },
+      { id: 'vc',  l: 'Ro 5:19', g: 'verso', ir: 'verso:Ro 5:19' }
+    ],
+    enlaces: [
+      ['pacto','red'], ['pacto','obr'], ['pacto','pgr'],
+      ['red','vr'], ['red','cri'],
+      ['obr','adan'], ['obr','vo'],
+      ['adan','vp'], ['pgr','adan'],
+      ['pgr','noe'], ['pgr','abr'], ['pgr','sin'], ['pgr','dav'], ['pgr','nue'],
+      ['noe','vn'], ['abr','va'], ['sin','vs'], ['dav','vd'],
+      ['nue','vj'], ['nue','vl'], ['nue','vh'], ['nue','cri'],
+      ['cri','vc'],
+      ['lbc','pgr'], ['lbc','obr'], ['west','red'], ['west','pgr']
+    ]
+  },
+
+  solas: {
+    titulo: 'Los cinco Solas',
+    sub: 'Mapa conceptual · el corazón recobrado de la Reforma',
+    icono: '🔥',
+    resumen: 'Cinco afirmaciones que resumen el evangelio recuperado en la Reforma: la Escritura, la gracia, la fe, Cristo y la gloria de Dios, solos.',
+    nodos: [
+      { id: 'solas', l: 'Cinco Solas', g: 'tema' },
+      { id: 'scr', l: 'Sola Scriptura', g: 'doc' },
+      { id: 'gra', l: 'Sola Gratia', g: 'doc' },
+      { id: 'fid', l: 'Sola Fide', g: 'doc' },
+      { id: 'chr', l: 'Solus Christus', g: 'doc' },
+      { id: 'deo', l: 'Soli Deo Gloria', g: 'doc' },
+      { id: 'lbc', l: 'Confesión 1689', g: 'conf', ir: 'conf:lbc' },
+      { id: 'west',l: 'Westminster', g: 'conf', ir: 'conf:west' },
+      { id: 'e1', l: '2 Ti 3:16', g: 'verso', ir: 'verso:2 Ti 3:16' },
+      { id: 'e2', l: 'Is 8:20', g: 'verso', ir: 'verso:Is 8:20' },
+      { id: 'e3', l: 'Ef 2:8', g: 'verso', ir: 'verso:Ef 2:8' },
+      { id: 'e4', l: 'Ro 3:28', g: 'verso', ir: 'verso:Ro 3:28' },
+      { id: 'e5', l: 'Ga 2:16', g: 'verso', ir: 'verso:Ga 2:16' },
+      { id: 'e6', l: '1 Ti 2:5', g: 'verso', ir: 'verso:1 Ti 2:5' },
+      { id: 'e7', l: 'Hch 4:12', g: 'verso', ir: 'verso:Hch 4:12' },
+      { id: 'e8', l: 'Ro 11:36', g: 'verso', ir: 'verso:Ro 11:36' },
+      { id: 'e9', l: '1 Co 10:31', g: 'verso', ir: 'verso:1 Co 10:31' }
+    ],
+    enlaces: [
+      ['solas','scr'], ['solas','gra'], ['solas','fid'], ['solas','chr'], ['solas','deo'],
+      ['scr','e1'], ['scr','e2'],
+      ['gra','e3'], ['fid','e4'], ['fid','e5'],
+      ['chr','e6'], ['chr','e7'],
+      ['deo','e8'], ['deo','e9'],
+      ['gra','fid'], ['fid','chr'],
+      ['lbc','scr'], ['west','scr']
+    ]
+  },
+
+  cristo: {
+    titulo: 'La persona de Cristo',
+    sub: 'Mapa conceptual · dos naturalezas, un Mediador, tres oficios',
+    icono: '✝️',
+    resumen: 'Verdadero Dios y verdadero hombre en una sola persona, el único Mediador entre Dios y los hombres, que cumple los oficios de Profeta, Sacerdote y Rey.',
+    nodos: [
+      { id: 'cristo', l: 'La persona de Cristo', g: 'tema' },
+      { id: 'dios', l: 'Verdadero Dios', g: 'doc' },
+      { id: 'homb', l: 'Verdadero hombre', g: 'doc' },
+      { id: 'union',l: 'Una persona, dos naturalezas', g: 'doc' },
+      { id: 'med',  l: 'Único Mediador', g: 'doc' },
+      { id: 'prof', l: 'Profeta', g: 'doc' },
+      { id: 'sac',  l: 'Sacerdote', g: 'doc' },
+      { id: 'rey',  l: 'Rey', g: 'doc' },
+      { id: 'nic',  l: 'Credo Niceno', g: 'conf', ir: 'conf:niceno' },
+      { id: 'calc', l: 'Calcedonia', g: 'conf', ir: 'conf:calcedonia' },
+      { id: 'ata',  l: 'Credo de Atanasio', g: 'conf', ir: 'conf:atanasio' },
+      { id: 'west', l: 'Westminster', g: 'conf', ir: 'conf:west' },
+      { id: 'c1', l: 'Jn 1:1', g: 'verso', ir: 'verso:Jn 1:1' },
+      { id: 'c2', l: 'Col 2:9', g: 'verso', ir: 'verso:Col 2:9' },
+      { id: 'c3', l: 'Jn 1:14', g: 'verso', ir: 'verso:Jn 1:14' },
+      { id: 'c4', l: 'He 2:17', g: 'verso', ir: 'verso:He 2:17' },
+      { id: 'c5', l: '1 Ti 2:5', g: 'verso', ir: 'verso:1 Ti 2:5' },
+      { id: 'c6', l: 'He 1:1', g: 'verso', ir: 'verso:He 1:1' },
+      { id: 'c7', l: 'He 4:14', g: 'verso', ir: 'verso:He 4:14' },
+      { id: 'c8', l: 'Sal 2:6', g: 'verso', ir: 'verso:Sal 2:6' }
+    ],
+    enlaces: [
+      ['cristo','dios'], ['cristo','homb'], ['cristo','union'], ['cristo','med'],
+      ['dios','c1'], ['dios','c2'],
+      ['homb','c3'], ['homb','c4'],
+      ['union','dios'], ['union','homb'],
+      ['med','prof'], ['med','sac'], ['med','rey'], ['med','c5'],
+      ['prof','c6'], ['sac','c7'], ['rey','c8'],
+      ['nic','dios'], ['calc','union'], ['ata','union'], ['west','med']
+    ]
   }
+
 };
 </script>
 <script src="videos.js"></script>
