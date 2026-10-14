@@ -226,6 +226,67 @@ const PASAJES = {
     { t:'Moisés bendice a las tribus', ac:33, av:1, bc:33, bv:29 },
     { t:'La muerte de Moisés', ac:34, av:1, bc:34, bv:12 }
   ],
+
+  'Josué': [
+    { t:'Dios comisiona a Josué', ac:1, av:1, bc:1, bv:18 },
+    { t:'Rahab y los espías en Jericó', ac:2, av:1, bc:2, bv:24 },
+    { t:'Israel cruza el Jordán', ac:3, av:1, bc:3, bv:17 },
+    { t:'Las doce piedras del memorial', ac:4, av:1, bc:4, bv:24 },
+    { t:'Circuncisión y pascua en Gilgal', ac:5, av:1, bc:5, bv:12 },
+    { t:'El Príncipe del ejército de Jehová', ac:5, av:13, bc:5, bv:15 },
+    { t:'La toma de Jericó', ac:6, av:1, bc:6, bv:27 },
+    { t:'El pecado de Acán y la derrota en Hai', ac:7, av:1, bc:7, bv:26 },
+    { t:'La conquista de Hai', ac:8, av:1, bc:8, bv:29 },
+    { t:'La ley leída en el monte Ebal', ac:8, av:30, bc:8, bv:35 },
+    { t:'El engaño de los gabaonitas', ac:9, av:1, bc:9, bv:27 },
+    { t:'Victoria en Gabaón; el sol se detiene', ac:10, av:1, bc:10, bv:15 },
+    { t:'La conquista del sur de Canaán', ac:10, av:16, bc:10, bv:43 },
+    { t:'La conquista de los reyes del norte', ac:11, av:1, bc:11, bv:23 },
+    { t:'Los reyes vencidos por Israel', ac:12, av:1, bc:12, bv:24 },
+    { t:'La tierra por poseer; reparto al oriente', ac:13, av:1, bc:13, bv:33 },
+    { t:'Caleb recibe Hebrón', ac:14, av:1, bc:14, bv:15 },
+    { t:'El territorio de Judá', ac:15, av:1, bc:15, bv:63 },
+    { t:'Las porciones de Efraín y Manasés', ac:16, av:1, bc:17, bv:18 },
+    { t:'Reparto en Silo; el territorio de Benjamín', ac:18, av:1, bc:18, bv:28 },
+    { t:'Las heredades de las tribus restantes', ac:19, av:1, bc:19, bv:51 },
+    { t:'Las ciudades de refugio', ac:20, av:1, bc:20, bv:9 },
+    { t:'Las ciudades de los levitas', ac:21, av:1, bc:21, bv:45 },
+    { t:'El altar junto al Jordán', ac:22, av:1, bc:22, bv:34 },
+    { t:'La exhortación final de Josué', ac:23, av:1, bc:23, bv:16 },
+    { t:'El pacto renovado en Siquem', ac:24, av:1, bc:24, bv:28 },
+    { t:'Muerte de Josué y de Eleazar', ac:24, av:29, bc:24, bv:33 }
+  ],
+
+  'Jueces': [
+    { t:'Conquista incompleta de Canaán', ac:1, av:1, bc:1, bv:36 },
+    { t:'El ángel de Jehová; una generación que no conoció a Dios', ac:2, av:1, bc:2, bv:23 },
+    { t:'Otoniel, Aod y Samgar', ac:3, av:1, bc:3, bv:31 },
+    { t:'Débora y Barac', ac:4, av:1, bc:4, bv:24 },
+    { t:'El cántico de Débora', ac:5, av:1, bc:5, bv:31 },
+    { t:'El llamado de Gedeón', ac:6, av:1, bc:6, bv:40 },
+    { t:'Gedeón vence a Madián', ac:7, av:1, bc:7, bv:25 },
+    { t:'El efod de Gedeón y su muerte', ac:8, av:1, bc:8, bv:35 },
+    { t:'Abimelec, rey de Siquem', ac:9, av:1, bc:9, bv:57 },
+    { t:'Tola, Jair y la opresión amonita', ac:10, av:1, bc:10, bv:18 },
+    { t:'Jefté y su voto', ac:11, av:1, bc:11, bv:40 },
+    { t:'Jefté y Efraín; jueces menores', ac:12, av:1, bc:12, bv:15 },
+    { t:'El nacimiento de Sansón anunciado', ac:13, av:1, bc:13, bv:25 },
+    { t:'Sansón y la mujer de Timnat', ac:14, av:1, bc:14, bv:20 },
+    { t:'Sansón se venga de los filisteos', ac:15, av:1, bc:15, bv:20 },
+    { t:'Sansón y Dalila; su muerte', ac:16, av:1, bc:16, bv:31 },
+    { t:'Los ídolos de Micaía', ac:17, av:1, bc:17, bv:13 },
+    { t:'La tribu de Dan y el santuario de Micaía', ac:18, av:1, bc:18, bv:31 },
+    { t:'El levita y su concubina en Gabaa', ac:19, av:1, bc:19, bv:30 },
+    { t:'La guerra contra Benjamín', ac:20, av:1, bc:20, bv:48 },
+    { t:'Esposas para los benjamitas restantes', ac:21, av:1, bc:21, bv:25 }
+  ],
+
+  'Rut': [
+    { t:'Noemí y Rut regresan a Belén', ac:1, av:1, bc:1, bv:22 },
+    { t:'Rut espiga en el campo de Booz', ac:2, av:1, bc:2, bv:23 },
+    { t:'Rut en la era de Booz', ac:3, av:1, bc:3, bv:18 },
+    { t:'Booz redime a Rut; nace Obed', ac:4, av:1, bc:4, bv:22 }
+  ],
 };
 
 /* ---- Utilidades de pericopas (usan VERSOS de planes.js) ---- */
