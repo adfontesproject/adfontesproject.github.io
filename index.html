@@ -454,5 +454,20 @@ html[data-theme="dark"] input,html[data-theme="dark"] textarea,html[data-theme="
 html[data-theme="dark"] input::placeholder,html[data-theme="dark"] textarea::placeholder{color:var(--soft)!important}
 </style>
 
+
+<script>
+(function(){
+ if(!window.firebase||!firebase.auth) return;
+ var ADM=['adfontesproject@gmail.com','mariowillow9717@gmail.com'];
+ function addLink(){
+   var nav=document.querySelector('.drawer-nav'); if(!nav||document.getElementById('af-admin-link')) return;
+   var a=document.createElement('a'); a.id='af-admin-link'; a.href='sugerencias.html';
+   a.innerHTML='<span class="ic">📥</span>Sugerencias <small style="font-size:.6rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-left:.3rem">admin</small>';
+   nav.appendChild(a);
+ }
+ try{ firebase.auth().onAuthStateChanged(function(u){ if(u && ADM.indexOf((u.email||'').toLowerCase())>=0) addLink(); }); }catch(e){}
+})();
+</script>
+
 </body>
 </html>
