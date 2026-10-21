@@ -1131,5 +1131,31 @@ html[data-theme="dark"] input::placeholder,html[data-theme="dark"] textarea::pla
 })();
 </script>
 
+<script>
+/* af-menu: ajustes del menú deslizante (quitar items + 📖 Planes junto a colores) */
+(function(){
+  function fix(){
+    var quitar=['plan.html','videos.html','planes.html'];
+    document.querySelectorAll('.drawer-nav a').forEach(function(a){
+      var h=(a.getAttribute('href')||'').split('?')[0].split('#')[0];
+      if(quitar.indexOf(h)>=0) a.remove();
+    });
+    var eye=document.querySelector('.lupa.ojito');
+    if(!eye){ eye=[].slice.call(document.querySelectorAll('.topbar .lupa, .topbar a, .topbar button'))
+      .filter(function(e){return (e.textContent||'').trim()==='👁';})[0]; }
+    if(eye && eye.parentNode && !document.getElementById('af-planes-btn')){
+      var b=document.createElement('a');
+      b.id='af-planes-btn'; b.className='lupa'; b.href='planes.html';
+      b.setAttribute('role','button'); b.setAttribute('tabindex','0');
+      b.title='Planes de lectura'; b.setAttribute('aria-label','Planes de lectura');
+      b.textContent='📖';
+      eye.parentNode.insertBefore(b, eye);
+    }
+  }
+  var n=0, iv=setInterval(function(){ fix(); if(++n>14) clearInterval(iv); },300);
+  if(document.readyState!=='loading') fix(); else document.addEventListener('DOMContentLoaded',fix);
+})();
+</script>
+
 </body>
 </html>
