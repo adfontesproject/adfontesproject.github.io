@@ -416,5 +416,70 @@ html[data-theme="dark"] .ficha-tog{ color:var(--ink)!important; }
 })();
 </script>
 
+<style id="af-planmodal">
+.pm-ov{position:fixed;inset:0;background:rgba(10,10,12,.6);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.2rem;animation:pmIn .18s ease}
+@keyframes pmIn{from{opacity:0}to{opacity:1}}
+.pm-card{background:var(--card,#fbf7ee);color:var(--ink,#1c1c1c);border:1px solid var(--line2,#e0d5bd);border-radius:18px;max-width:430px;width:100%;padding:1.5rem 1.5rem 1.6rem;box-shadow:0 18px 50px rgba(0,0,0,.45);position:relative;font-family:'Inter',sans-serif}
+.pm-x{position:absolute;top:.6rem;right:.85rem;background:none;border:none;font-size:1.25rem;color:var(--soft,#8a7f68);cursor:pointer;line-height:1}
+.pm-h{font-family:Georgia,'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;margin:.1rem 0 .7rem}
+.pm-p{font-size:1rem;line-height:1.5;margin:0 0 .8rem;color:var(--ink,#1c1c1c)}
+.pm-steps{list-style:none;padding:0;margin:0 0 1.1rem}
+.pm-steps li{font-size:.95rem;line-height:1.45;color:var(--ink2,#3a342a);padding:.4rem 0 .4rem 1.5rem;position:relative;border-bottom:1px dashed var(--line,#ece2cc)}
+.pm-steps li:before{content:'✦';position:absolute;left:0;color:var(--gold,#b0842f);font-size:.8rem;top:.55rem}
+.pm-btns{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:flex-end}
+.pm-btns button{border:none;border-radius:22px;padding:.65rem 1.2rem;font-family:'Inter',sans-serif;font-size:.92rem;font-weight:600;cursor:pointer}
+.pm-cancel{background:transparent;color:var(--soft,#8a7f68);border:1px solid var(--line2,#e0d5bd)!important}
+.pm-restart{background:transparent;color:var(--gold,#b0842f);border:1px solid var(--gold,#b0842f)!important}
+.pm-go{background:var(--ink,#1c1c1c);color:var(--paper,#f6f1e7)}
+html[data-theme="dark"] .pm-go{background:var(--gold,#d2a24a);color:#17130c}
+</style>
+<script>
+(function(){
+  function hoyISO(){ var n=new Date(); return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0'); }
+  function skOf(id){ return id==='cronologico'?'biblia365_start':'af_'+id+'_start'; }
+  function dkOf(id){ return id==='cronologico'?'biblia365_done':'af_'+id+'_done'; }
+  function info(id){
+    var p=(typeof PLANES_IDX!=='undefined'&&PLANES_IDX[id])?PLANES_IDX[id]:null;
+    var nombre=p?p.nombre:id, dias=p?p.dias:365;
+    var start=localStorage.getItem(skOf(id)), done=[];
+    try{ done=JSON.parse(localStorage.getItem(dkOf(id))||'[]')||[]; }catch(e){}
+    var dia=1; if(start){ var s=new Date(start+'T00:00:00'),n=new Date(); n.setHours(0,0,0,0); dia=Math.min(Math.max(Math.floor((n-s)/86400000)+1,1),dias); }
+    return {id:id,nombre:nombre,dias:dias,hasProgress:done.length>0,dia:dia,activo:localStorage.getItem('af_plan_activo')===id};
+  }
+  function aplicar(id,restart){
+    localStorage.setItem('af_plan_activo',id);
+    localStorage.setItem('af_plan_elegido','1');
+    if(restart){ localStorage.setItem(skOf(id),hoyISO()); localStorage.removeItem(dkOf(id)); localStorage.removeItem(id==='cronologico'?'biblia365_current':'af_'+id+'_current'); }
+    else if(!localStorage.getItem(skOf(id))){ localStorage.setItem(skOf(id),hoyISO()); }
+    try{ sessionStorage.removeItem('af_biblia_pos'); }catch(e){}
+    localStorage.setItem('af_ir_hoy','1');
+    location.href='index.html';
+  }
+  window.__pmClose=function(){ var o=document.getElementById('pm-ov'); if(o) o.remove(); };
+  window.__pmGo=function(id,restart){ window.__pmClose(); aplicar(id,restart); };
+  function modal(id){
+    if(document.getElementById('pm-ov')) return;
+    var i=info(id), cuerpo;
+    if(i.activo){
+      cuerpo='<p class="pm-p">Ya estás en <b>«'+i.nombre+'»</b> — vas en el <b>Día '+i.dia+'</b> de '+i.dias+'.</p>'
+        +'<div class="pm-btns"><button class="pm-cancel" onclick="__pmClose()">Cerrar</button><button class="pm-go" onclick="__pmGo(\''+id+'\',false)">Ir a la lectura de hoy →</button></div>';
+    } else if(i.hasProgress){
+      cuerpo='<p class="pm-p">Ya habías empezado <b>«'+i.nombre+'»</b> (vas en el Día '+i.dia+').</p>'
+        +'<ul class="pm-steps"><li><b>Continuar:</b> sigues donde quedaste.</li><li><b>Reiniciar:</b> empiezas de nuevo desde hoy, en el Día 1.</li></ul>'
+        +'<div class="pm-btns"><button class="pm-cancel" onclick="__pmClose()">Cancelar</button><button class="pm-restart" onclick="__pmGo(\''+id+'\',true)">Reiniciar</button><button class="pm-go" onclick="__pmGo(\''+id+'\',false)">Continuar →</button></div>';
+    } else {
+      cuerpo='<p class="pm-p">Vas a empezar <b>«'+i.nombre+'»</b>.</p>'
+        +'<ul class="pm-steps"><li>Son <b>'+i.dias+' días</b> de lectura.</li><li>Empiezas <b>hoy, en el Día 1</b>.</li><li>Cada día verás la <b>lectura del día</b> para abrirla y <b>marcarla como leída</b>.</li><li>Tu racha 🔥 crece al leer cada día.</li></ul>'
+        +'<div class="pm-btns"><button class="pm-cancel" onclick="__pmClose()">Cancelar</button><button class="pm-go" onclick="__pmGo(\''+id+'\',true)">Empezar plan →</button></div>';
+    }
+    var ov=document.createElement('div'); ov.className='pm-ov'; ov.id='pm-ov';
+    ov.innerHTML='<div class="pm-card"><button class="pm-x" onclick="__pmClose()">✕</button><h3 class="pm-h">📖 '+(i.activo?'Tu plan':'Plan de lectura')+'</h3>'+cuerpo+'</div>';
+    document.body.appendChild(ov);
+    ov.addEventListener('click',function(e){ if(e.target===ov) window.__pmClose(); });
+  }
+  window.elegir=function(id){ modal(id); };
+})();
+</script>
+
 </body>
 </html>
