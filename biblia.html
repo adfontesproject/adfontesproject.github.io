@@ -886,7 +886,10 @@ function restaurarPos(){
   return true;
 }
 const v0 = leerHash();
-if(location.hash){
+if(localStorage.getItem('af_ir_hoy')){
+  localStorage.removeItem('af_ir_hoy');
+  if(abrirLecturaDeHoy()){ cargarCapitulo(null); } else { cargarCapitulo(v0); }
+} else if(location.hash){
   cargarCapitulo(v0);
 } else if(restaurarPos()){
   cargarCapitulo(null);
