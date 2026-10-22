@@ -1209,5 +1209,21 @@ html[data-theme="dark"] .ficha-tog{ color:var(--ink)!important; }
 })();
 </script>
 
+<script>
+/* af-sbt-dark: Biblia SBT en oscuro cuando la app está en modo oscuro (filtro de inversión) */
+(function(){
+  function apply(){
+    var ifr=document.getElementById('sbtFrame'); if(!ifr) return;
+    var dark=document.documentElement.getAttribute('data-theme')==='dark';
+    if(dark){ ifr.style.filter='invert(0.92) hue-rotate(180deg)'; ifr.style.background='#16191d'; }
+    else { ifr.style.filter=''; ifr.style.background=''; }
+  }
+  if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded', apply);
+  setTimeout(apply,600); setTimeout(apply,1800);
+  try{ new MutationObserver(apply).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']}); }catch(e){}
+  document.addEventListener('load', function(e){ if(e.target && e.target.id==='sbtFrame') apply(); }, true);
+})();
+</script>
+
 </body>
 </html>
