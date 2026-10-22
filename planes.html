@@ -106,6 +106,7 @@ function elegir(id){
   localStorage.setItem('af_plan_elegido','1');
   const sk = (id === 'cronologico') ? 'biblia365_start' : 'af_'+id+'_start';
   if(!localStorage.getItem(sk)) localStorage.setItem(sk, hoyISO());
+  try{ sessionStorage.removeItem('af_biblia_pos'); }catch(e){} localStorage.setItem('af_ir_hoy','1');
   location.href = 'index.html';
 }
 /* Configurador */
@@ -133,6 +134,7 @@ function crearMi(){
   localStorage.setItem('af_plan_activo','mi');
   localStorage.setItem('af_plan_elegido','1');
   if(!localStorage.getItem('af_mi_start')) localStorage.setItem('af_mi_start', hoyISO());
+  try{ sessionStorage.removeItem('af_biblia_pos'); }catch(e){} localStorage.setItem('af_ir_hoy','1');
   location.href = 'index.html';
 }
 pintarTabs(); pintarCards();
