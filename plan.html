@@ -736,5 +736,15 @@ html[data-theme="dark"] .ficha-tog{ color:var(--ink)!important; }
 })();
 </script>
 
+<script>
+/* af-nozoom: desactiva el zoom (pellizco) para que la lectura no se trabe */
+(function(){
+  try{ var mv=document.querySelector('meta[name="viewport"]'); if(mv) mv.setAttribute('content','width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'); }catch(e){}
+  ['gesturestart','gesturechange','gestureend'].forEach(function(ev){
+    document.addEventListener(ev, function(e){ e.preventDefault(); }, {passive:false});
+  });
+})();
+</script>
+
 </body>
 </html>
