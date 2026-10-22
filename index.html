@@ -561,5 +561,54 @@ html[data-theme="dark"] input::placeholder,html[data-theme="dark"] textarea::pla
 })();
 </script>
 
+<style id="af-dpol2">
+html[data-theme="dark"] .sec,
+html[data-theme="dark"] .btn-sec,
+html[data-theme="dark"] .banner-ok,
+html[data-theme="dark"] .plan-pill,
+html[data-theme="dark"] .vid-card,
+html[data-theme="dark"] .ficha{ background-color:var(--card)!important; background-image:none!important; color:var(--ink)!important; }
+html[data-theme="dark"] .btn-sec{ border:1px solid var(--line2)!important; }
+html[data-theme="dark"] .plan-pill.act{ background-color:#2b3038!important; border:1px solid var(--gold)!important; color:var(--ink)!important; }
+html[data-theme="dark"] .vid-tit,
+html[data-theme="dark"] .ficha-tog{ color:var(--ink)!important; }
+</style>
+<script>
+(function(){
+  function lum(c){ var m=c.match(/[\d.]+/g); if(!m)return null; var a=m.slice(0,3).map(function(x){x/=255;return x<=0.03928?x/12.92:Math.pow((x+0.055)/1.055,2.4);}); return 0.2126*a[0]+0.7152*a[1]+0.0722*a[2]; }
+  function ratio(a,b){ var L1=lum(a),L2=lum(b); if(L1==null||L2==null)return 99; var hi=Math.max(L1,L2),lo=Math.min(L1,L2); return (hi+0.05)/(lo+0.05); }
+  function effBg(el){ var e=el; while(e){ var c=getComputedStyle(e).backgroundColor; if(c){ var m=c.match(/[\d.]+/g); if(m&&(m.length<4||parseFloat(m[3])>0.5)) return {bg:c,el:e}; } e=e.parentElement; } return {bg:getComputedStyle(document.body).backgroundColor, el:document.body}; }
+  function run(){
+    var root=document.documentElement;
+    if(root.getAttribute('data-theme')!=='dark') return;
+    var cs=getComputedStyle(root);
+    var INK=(cs.getPropertyValue('--ink').trim()||'#ece4d3');
+    var CARD=(cs.getPropertyValue('--card').trim()||'#1e2229');
+    var INKD='#17130c';
+    document.querySelectorAll('body *').forEach(function(el){
+      if(el.children.length>0) return;
+      var t=(el.textContent||'').trim(); if(!t) return;
+      var st=getComputedStyle(el);
+      if(st.display==='none'||st.visibility==='hidden'||parseFloat(st.opacity)<0.1) return;
+      var r=el.getBoundingClientRect(); if(r.width<2||r.height<2) return;
+      var b=effBg(el); var cr=ratio(st.color,b.bg); if(cr>=3.5) return;
+      var L=lum(b.bg);
+      if(L!=null && L>0.5){
+        b.el.style.setProperty('background-color',CARD,'important');
+        b.el.style.setProperty('background-image','none','important');
+        if(ratio(st.color,CARD)<3.5) el.style.setProperty('color',INK,'important');
+      } else if(L!=null && L>0.33){
+        el.style.setProperty('color',INKD,'important');
+      } else {
+        el.style.setProperty('color',INK,'important');
+      }
+    });
+  }
+  function boot(){ run(); setTimeout(run,400); }
+  if(document.readyState!=='loading') boot(); else document.addEventListener('DOMContentLoaded', boot);
+  try{ new MutationObserver(function(){ setTimeout(run,60); }).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','data-tone']}); }catch(e){}
+})();
+</script>
+
 </body>
 </html>
