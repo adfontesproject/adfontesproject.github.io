@@ -186,6 +186,15 @@ const PLANES = [
     gen: () => repartir(AT.concat(NT), 365)
   },
   {
+    id: 'capxdia',
+    nombre: 'Lectio Continua',
+    sub: 'Un capítulo al día, de Génesis a Apocalipsis',
+    desc: 'La lectura continua de la Escritura, a paso sereno: un solo capítulo cada día, en el orden de los libros, de Génesis a Apocalipsis. Pensado para meditar sin prisa. Son 1189 días, algo más de tres años.',
+    dias: 1189,
+    estudio: false,
+    gen: () => repartir(AT.concat(NT), 1189)
+  },
+  {
     id: 'nt90',
     nombre: 'Nuevo Testamento',
     sub: 'Mateo a Apocalipsis en 90 días',
