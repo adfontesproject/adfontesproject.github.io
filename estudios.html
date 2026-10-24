@@ -259,7 +259,7 @@
 <script>
   // Tema desde localStorage (coherente con el resto del sitio)
   try{ var t=JSON.parse(localStorage.getItem('af_tema')||'null');
-    if(t && t.mode==='oscuro'){ document.documentElement.setAttribute('data-theme','dark');
+    if(t && (t.mode==='dark'||t.mode==='oscuro')){ document.documentElement.setAttribute('data-theme','dark');
       document.documentElement.setAttribute('data-tone', t.tone||'carbon'); } }catch(e){}
 
   // Lightbox
