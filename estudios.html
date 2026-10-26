@@ -1,1 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estudios — Ad Fontes</title>
+<link rel="icon" href="icon-adfontes.png">
+<style>
+  :root{
+    --paper:#f6f1e7; --card:#fbf7ee; --ink:#1c1c1c; --ink2:#34302a; --soft:#8a7f68;
+    --faint:#a99a78; --gold:#b0842f; --gold-light:#c79a3e; --line:#ece2cc; --line2:#e0d5bd;
+  }
+  html[data-theme="dark"]{
+    --paper:#16191d; --card:#1e2229; --ink:#ece4d3; --ink2:#cdc5b4; --soft:#9b927e;
+    --faint:#7d7566; --gold:#d2a24a; --gold-light:#e0b45e; --line:#2c3139; --line2:#39404a;
+  }
+  html[data-theme="dark"][data-tone="calida"]{ --paper:#1c1813; --card:#241d15; }
+  html[data-theme="dark"][data-tone="tinta"]{ --paper:#131722; --card:#1b2031; }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:720px;margin:0 auto}
+  .topbar{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;border-bottom:1px solid var(--line);
+    background:var(--card);position:sticky;top:0;z-index:5}
+  .tb-back{background:none;border:none;font-size:1.4rem;color:var(--soft);cursor:pointer;line-height:1;
+    padding:.1rem .4rem;text-decoration:none}
+  .brand{display:flex;align-items:center;gap:.5rem;margin:0 auto}
+  .brand img{width:30px;height:30px;border-radius:7px}
+  .brand .bt{font-family:Georgia,serif;font-weight:600;font-size:1.05rem;line-height:1}
+  .brand .bt small{display:block;font-family:'Inter',sans-serif;font-weight:400;font-size:.66rem;
+    letter-spacing:.14em;color:var(--gold);margin-top:2px}
+  .tb-spacer{width:1.6rem}
 
+  .head{text-align:center;padding:2.2rem 1.4rem 1rem}
+  .head .ic{font-size:2.2rem}
+  .head h1{font-family:Georgia,serif;font-weight:600;font-size:2rem;margin:.3rem 0 .2rem}
+  .head p{font-family:Georgia,serif;font-style:italic;color:var(--soft);font-size:1rem;margin:0}
+
+  .list{padding:1rem 1.2rem 3.5rem;display:flex;flex-direction:column;gap:1rem}
+  .study{display:flex;align-items:center;gap:1rem;text-decoration:none;color:inherit;
+    background:var(--card);border:1px solid var(--line2);border-radius:16px;padding:1.1rem 1.2rem;
+    transition:border-color .15s, transform .15s}
+  .study:hover{border-color:var(--gold);transform:translateY(-1px)}
+  .study .em{font-size:1.9rem;flex:0 0 auto;width:2.4rem;text-align:center}
+  .study .tx{flex:1;min-width:0}
+  .study .tt{font-family:Georgia,serif;font-weight:600;font-size:1.18rem;line-height:1.25}
+  .study .au{font-family:Georgia,serif;font-style:italic;color:var(--gold);font-size:.95rem;margin:.1rem 0 .25rem}
+  .study .ds{color:var(--soft);font-size:.86rem;line-height:1.45}
+  .study .ar{color:var(--faint);font-size:1.3rem;flex:0 0 auto}
+  .soon{opacity:.6;pointer-events:none}
+  .soon .ar{font-size:.72rem;font-style:italic;color:var(--faint)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a class="tb-back" href="index.html" title="Volver">‹</a>
+    <div class="brand"><img src="icon-adfontes.png" alt=""><div class="bt">Ad Fontes<small>ESTUDIOS</small></div></div>
+    <span class="tb-spacer"></span>
+  </div>
+
+  <div class="head">
+    <div class="ic">📚</div>
+    <h1>Estudios</h1>
+    <p>Grandes obras de la fe, en formato de estudio.</p>
+  </div>
+
+  <div class="list">
+    <a class="study" href="estudio-mortificacion.html">
+      <span class="em">📖</span>
+      <span class="tx">
+        <span class="tt">La Mortificación del Pecado</span>
+        <span class="au">John Owen</span>
+        <span class="ds">La necesidad perpetua de mortificar el pecado, sus reglas, el diagnóstico del alma y su remedio en Cristo.</span>
+      </span>
+      <span class="ar">›</span>
+    </a>
+
+    <a class="study" href="estudio-peregrino.html">
+      <span class="em">🧭</span>
+      <span class="tx">
+        <span class="tt">El Progreso del Peregrino</span>
+        <span class="au">John Bunyan</span>
+        <span class="ds">La alegoría del viaje del alma, desde la Ciudad de Destrucción hasta la Ciudad Celestial.</span>
+      </span>
+      <span class="ar">›</span>
+    </a>
+  </div>
+</div>
+
+<script>
+  try{ var t=JSON.parse(localStorage.getItem('af_tema')||'null');
+    if(t && (t.mode==='dark'||t.mode==='oscuro')){ document.documentElement.setAttribute('data-theme','dark');
+      document.documentElement.setAttribute('data-tone', t.tone||'carbon'); } }catch(e){}
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
+</script>
+<script src="ui2.js"></script>
+</body>
+</html>
