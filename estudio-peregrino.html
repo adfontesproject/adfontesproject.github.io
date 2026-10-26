@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Progreso del Peregrino — Ad Fontes</title>
+<link rel="icon" href="icon-adfontes.png">
+<style>
+  :root{
+    --paper:#f6f1e7; --card:#fbf7ee; --ink:#1c1c1c; --ink2:#34302a; --soft:#8a7f68;
+    --faint:#a99a78; --gold:#b0842f; --gold-light:#c79a3e; --line:#ece2cc; --line2:#e0d5bd;
+  }
+  html[data-theme="dark"]{
+    --paper:#16191d; --card:#1e2229; --ink:#ece4d3; --ink2:#cdc5b4; --soft:#9b927e;
+    --faint:#7d7566; --gold:#d2a24a; --gold-light:#e0b45e; --line:#2c3139; --line2:#39404a;
+  }
+  html[data-theme="dark"][data-tone="calida"]{ --paper:#1c1813; --card:#241d15; }
+  html[data-theme="dark"][data-tone="tinta"]{ --paper:#131722; --card:#1b2031; }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+  .wrap{max-width:720px;margin:0 auto}
+  .topbar{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;border-bottom:1px solid var(--line);
+    background:var(--card);position:sticky;top:0;z-index:5}
+  .tb-back{background:none;border:none;font-size:1.4rem;color:var(--soft);cursor:pointer;line-height:1;
+    padding:.1rem .4rem;text-decoration:none}
+  .brand{display:flex;align-items:center;gap:.5rem;margin:0 auto}
+  .brand img{width:30px;height:30px;border-radius:7px}
+  .brand .bt{font-family:Georgia,serif;font-weight:600;font-size:1.05rem;line-height:1}
+  .brand .bt small{display:block;font-family:'Inter',sans-serif;font-weight:400;font-size:.66rem;
+    letter-spacing:.14em;color:var(--gold);margin-top:2px}
+  .tb-spacer{width:1.6rem}
+
+  .cover{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    padding:2.6rem 1.4rem 2rem;min-height:70vh}
+  .cover .ic{font-size:2.6rem;margin-bottom:.4rem}
+  .cover h1{font-family:Georgia,serif;font-weight:600;font-size:2.3rem;line-height:1.12;margin:.2rem 0 .1rem}
+  .cover .aut{font-family:Georgia,serif;font-style:italic;color:var(--gold);font-size:1.12rem}
+  .cover .sub{color:var(--soft);font-size:.9rem;margin-bottom:1.1rem}
+  .cover .intro{max-width:480px;font-family:Georgia,serif;font-size:1.07rem;line-height:1.62;color:var(--ink2);margin-bottom:1.6rem}
+  .btn{display:inline-flex;align-items:center;background:var(--ink);color:var(--paper);border:none;border-radius:26px;
+    padding:.82rem 1.9rem;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;font-family:'Inter',sans-serif}
+  html[data-theme="dark"] .btn{background:var(--gold);color:#17130c}
+  .cue{margin-top:1.4rem;color:var(--faint);font-size:1.4rem;animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+  .estudio{padding:.5rem 1.3rem 3.5rem}
+  .sec{display:flex;align-items:baseline;gap:.7rem;margin:2.3rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid var(--line2)}
+  .sec .n{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#17130c;
+    font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-family:'Inter',sans-serif}
+  .sec h2{font-family:Georgia,serif;font-size:1.45rem;font-weight:600;line-height:1.2;margin:0}
+  h3{font-family:Georgia,serif;font-size:1.2rem;font-weight:600;color:var(--ink);margin:1.7rem 0 .4rem}
+  .lead{font-family:Georgia,serif;font-style:italic;color:var(--soft);font-size:1.02rem;line-height:1.55;margin:.2rem 0 1rem}
+  p{font-family:Georgia,'EB Garamond',serif;font-size:1.08rem;line-height:1.7;color:var(--ink2);margin:.7rem 0}
+  .ref{color:var(--gold);font-style:italic}
+  blockquote{margin:1.4rem 0;padding:1rem 1.2rem;border-left:3px solid var(--gold);background:var(--card);
+    font-family:Georgia,serif;font-style:italic;font-size:1.1rem;line-height:1.55;color:var(--ink)}
+  blockquote .q-aut{display:block;font-style:normal;font-size:.85rem;color:var(--soft);margin-top:.5rem;text-align:right}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a class="tb-back" href="estudios.html" title="Volver a Estudios">‹</a>
+    <div class="brand"><img src="icon-adfontes.png" alt=""><div class="bt">Ad Fontes<small>ESTUDIOS</small></div></div>
+    <span class="tb-spacer"></span>
+  </div>
+
+  <section class="cover">
+    <div class="ic">🧭</div>
+    <h1>El Progreso del Peregrino</h1>
+    <div class="aut">John Bunyan</div>
+    <div class="sub">Estudio · Hebreos 11:13-16</div>
+    <div class="intro">“Confesaron que eran extranjeros y peregrinos sobre la tierra.” El viaje del alma, bajo la figura de un sueño: de la Ciudad de Destrucción a la Ciudad Celestial, por el único Camino.</div>
+    <a class="btn" href="#estudio">Comenzar el Estudio</a>
+    <div class="cue">⌄</div>
+  </section>
+
+  <section class="estudio" id="estudio">
+
+    <p class="lead">John Bunyan, predicador bautista de Bedford, pasó doce años en prisión por predicar sin licencia del rey. Allí escribió esta alegoría, la obra más leída de la lengua inglesa después de la Biblia. Su genio fue traducir toda la vida cristiana —conversión, lucha, perseverancia y gloria— en un solo viaje, para que el más sencillo lo entendiera y el más sabio lo sintiera.</p>
+
+    <div class="sec"><span class="n">1</span><h2>La huida de la Ciudad de Destrucción</h2></div>
+    <p>El sueño comienza con un hombre, Cristiano, vestido de harapos, de espaldas a su casa, con un libro en la mano y una pesada carga a la espalda. Lee, tiembla y clama: «¿Qué debo hacer para ser salvo?» <span class="ref">(Hechos 16:30)</span>. La carga es la culpa del pecado; el libro es la Palabra, que primero mata antes de sanar. Esta es la obra de la ley y del Espíritu: una convicción real que no deja dormir.</p>
+    <p>Aparece Evangelista, que no le da consuelo barato, sino una dirección: le señala una Puerta Angosta a lo lejos y una luz brillante. Cristiano echa a correr, tapándose los oídos a los gritos de su mujer y vecinos que lo llaman loco. Así empieza todo peregrino: no por mejorar la Ciudad de Destrucción, sino por huir de ella hacia Cristo.</p>
+
+    <h3>El Pantano del Desaliento</h3>
+    <p>Pronto cae en un lodazal, el Pantano del Desaliento, donde se hunde bajo el peso de sus temores y su culpa. Bunyan enseña que la convicción de pecado, sin la vista clara del Evangelio, puede hundir al alma en la desesperación. Un hombre llamado Auxilio lo saca; pero nota que hay escalones firmes —las promesas de Dios— que muchos no ven por el miedo.</p>
+
+    <div class="sec"><span class="n">2</span><h2>La Puerta Angosta y la Cruz</h2></div>
+    <p>Antes de llegar a la Puerta, un falso consejero, el Sr. Sabio-Según-el-Mundo, intenta desviarlo hacia la aldea de Moralidad, para que se quite la carga por sus propias obras. Es el camino de la ley como medio de salvación, y casi lo aplasta bajo un monte que amenaza derrumbarse —el Sinaí. Evangelista vuelve, lo reprende y lo reencamina.</p>
+    <p>Cristiano entra por fin por la Puerta Angosta <span class="ref">(Mateo 7:13-14)</span>; Buena-Voluntad lo recibe y lo tira adentro. Pero la carga sigue en su espalda. Solo más adelante, al llegar a un lugar elevado donde hay una cruz, la carga se desata sola, rueda hasta un sepulcro y desaparece para siempre. Cristiano da tres saltos de gozo y canta. Aquí está el corazón de todo: no es la decisión, ni la puerta, ni el esfuerzo, sino la cruz la que quita el pecado. Es la justificación por la fe: la carga cae a la vista del Crucificado <span class="ref">(Romanos 5:1; Gálatas 6:14)</span>.</p>
+    <blockquote>Tres seres resplandecientes lo saludan: uno le da paz, otro le quita los harapos y lo viste de gala, y el tercero le sella la frente y le entrega un rollo para el camino.<span class="q-aut">— El perdón, la justicia imputada y el sello del Espíritu</span></blockquote>
+
+    <div class="sec"><span class="n">3</span><h2>Las pruebas del camino</h2></div>
+    <p class="lead">Justificado no es lo mismo que glorificado. El resto del viaje es la santificación: una guerra real, con subidas, caídas y enemigos.</p>
+
+    <h3>La Colina Dificultad y el Palacio Hermoso</h3>
+    <p>El camino sube por la Colina Dificultad, tan empinada que Cristiano acaba gateando. Dos cobardes, Timidez y Desconfianza, bajan corriendo porque vieron leones. Cristiano descubre que los leones están encadenados: los temores del creyente suelen ser más grandes que el peligro real. Arriba lo acoge el Palacio Hermoso —figura de la Iglesia local— donde es alimentado, armado y descansa en la cámara llamada Paz.</p>
+
+    <h3>El Valle de Humillación y Apolión</h3>
+    <p>Al bajar, enfrenta a Apolión, el destructor, que le reclama como súbdito suyo. Hay un combate feroz que dura casi todo un día; Cristiano es herido y pierde la espada, pero la alcanza de nuevo y clava la estocada citando la Palabra: «me levantaré» <span class="ref">(Miqueas 7:8)</span>. Apolión huye. La lección es sobria: habrá batallas donde el creyente casi cae, y vence no por su fuerza sino por la Escritura y la gracia que sostiene.</p>
+
+    <h3>El Valle de Sombra de Muerte</h3>
+    <p>Luego atraviesa, a oscuras, el Valle de Sombra de Muerte, con un foso a un lado y un cenagal al otro, entre voces blasfemas que le susurran al oído y que él cree suyas. Avanza por un solo recurso: la oración, «Andaré en tu verdad». Al amanecer ve por dónde pasó, y tiembla. Son las horas de tiniebla espiritual que muchos santos conocen <span class="ref">(Salmo 23:4)</span>.</p>
+
+    <div class="sec"><span class="n">4</span><h2>La Feria de la Vanidad</h2></div>
+    <p>Cristiano halla a un compañero, Fiel, y juntos entran en la Feria de la Vanidad, un gran mercado donde se vende de todo —honores, placeres, reinos, almas— durante todo el año. Los dos peregrinos no compran nada; solo buscan «la verdad». Su ropa extraña, su habla celestial y su desprecio por la mercancía provocan un tumulto. Son juzgados por un tribunal amañado, con jurados como Odio, Crueldad y Enemistad.</p>
+    <p>Fiel es condenado y muere mártir, azotado y quemado; pero un carro de fuego lo lleva directo a la Ciudad Celestial. El mundo odia al peregrino que no se deja comprar <span class="ref">(Juan 15:19; 2 Timoteo 3:12)</span>. De la cárcel sale Esperanza, ganado por el testimonio de Fiel, que será el nuevo compañero de Cristiano: de la sangre del mártir nace otro creyente.</p>
+
+    <div class="sec"><span class="n">5</span><h2>El Castillo de la Duda y el Gigante Desesperación</h2></div>
+    <p>Cansados del camino áspero, Cristiano y Esperanza se desvían a un prado más cómodo, el Camino del Desvío. Es de noche, los sorprende la lluvia y amanecen en terrenos del Gigante Desesperación, señor del Castillo de la Duda. El gigante los arroja a un calabozo oscuro, los golpea y los tienta a quitarse la vida. Casi ceden.</p>
+    <p>Entonces Cristiano recuerda algo que llevaba consigo todo el tiempo: una llave llamada Promesa, que abre cualquier puerta del castillo. La seguridad del creyente no está en sus sentimientos, sino en las promesas del Pacto, que son suyas aun en el calabozo <span class="ref">(2 Pedro 1:4)</span>. Escapan, y levantan un pilar para advertir a otros peregrinos del peligro del desvío y de la duda.</p>
+
+    <div class="sec"><span class="n">6</span><h2>Las Montañas Deleitosas y el Río</h2></div>
+    <p>Llegan a las Montañas Deleitosas, cuidadas por pastores —Conocimiento, Experiencia, Vigilancia y Sincero— que los alimentan, les muestran a lo lejos la Ciudad Celestial por un catalejo, y les advierten de los últimos peligros. Son los medios de gracia y el ministerio fiel que consuelan al creyente ya cerca del fin.</p>
+    <p>Por último llegan al borde de un Río profundo, sin puente, que todos deben cruzar: la muerte. Cristiano entra y comienza a hundirse, abrumado por sus pecados y terrores; Esperanza lo sostiene y le recuerda: «Cuando pases por las aguas, yo estaré contigo» <span class="ref">(Isaías 43:2)</span>. Al poner pie firme en la promesa, halla suelo, y ambos salen a la otra orilla, donde los esperan huestes resplandecientes. Suben a la Ciudad entre trompetas, reciben vestiduras de gloria y entran por las puertas, para no salir jamás <span class="ref">(Apocalipsis 21:2; 22:4)</span>.</p>
+
+    <blockquote>“He peleado la buena batalla, he acabado la carrera, he guardado la fe.”<span class="q-aut">— 2 Timoteo 4:7</span></blockquote>
+
+    <h3>La lectura del Pacto</h3>
+    <p>Bunyan no narra el esfuerzo de un hombre que se salva a sí mismo, sino la obra de la gracia que guarda a los suyos hasta el fin. La carga cae en la cruz y no se vuelve a cargar; la llave de la Promesa estuvo siempre en el pecho; el río no vence porque Otro sostiene. Es la perseverancia de los santos, no como mérito del peregrino, sino como fidelidad del Dios del Pacto que, habiendo comenzado la buena obra, la perfecciona hasta el día de Cristo <span class="ref">(Filipenses 1:6)</span>.</p>
+
+  </section>
+</div>
+
+<script>
+  try{ var t=JSON.parse(localStorage.getItem('af_tema')||'null');
+    if(t && (t.mode==='dark'||t.mode==='oscuro')){ document.documentElement.setAttribute('data-theme','dark');
+      document.documentElement.setAttribute('data-tone', t.tone||'carbon'); } }catch(e){}
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
+</script>
+<script src="ui2.js"></script>
+</body>
+</html>
