@@ -240,11 +240,19 @@ function pintarPlanes(){
   document.getElementById('planesBarra').innerHTML = PLANES.map(p => {
     const hechos = JSON.parse(localStorage.getItem(claveP(p.id,'done')) || '[]').length;
     const pct = Math.round(hechos / p.dias * 100);
-    return '<button class="plan-pill' + (p.id === PID ? ' act' : '') + '" onclick="cambiarPlan(\'' + p.id + '\')" title="' + p.desc.replace(/"/g,'&quot;') + '">' +
+    return '<button class="plan-pill' + (p.id === PID ? ' act' : '') + '" style="position:relative" onclick="cambiarPlan(\'' + p.id + '\')" title="' + p.desc.replace(/"/g,'&quot;') + '">' +
       '<b>' + p.nombre + '</b><small>' + p.sub + '</small>' +
-      (hechos ? '<i>' + hechos + '/' + p.dias + ' · ' + pct + '%</i>' : '<i class="cero">sin empezar</i>') +
+      (hechos ? '<i>' + hechos + '/' + p.dias + ' · ' + pct + '%</i>' : '<i class="cero">sin empezar</i>') + (hechos ? '<span class="plan-del" title="Borrar mi progreso de este plan" onclick="event.stopPropagation();borrarPlan(\'' + p.id + '\');return false;" style="position:absolute;top:3px;right:6px;width:20px;height:20px;line-height:18px;text-align:center;border-radius:50%;background:rgba(0,0,0,.18);font-size:12px;opacity:.7;cursor:pointer">✕</span>' : '') +
       '</button>';
   }).join('');
+}
+
+function borrarPlan(id){
+  var p = PLANES_IDX[id]; if(!p) return;
+  if(!confirm('¿Borrar tu progreso del plan "' + p.nombre + '"? Esto no se puede deshacer.')) return;
+  ['done','start','current'].forEach(function(k){ localStorage.removeItem(claveP(id,k)); });
+  if(id === PID){ var destino = (id !== 'mi' && PLANES_IDX['mi']) ? 'mi' : 'cronologico'; PID = destino; localStorage.setItem('af_plan_activo', destino); cargarEstado(); }
+  pintarDia(); pintarPlanes();
 }
 
 /* ===== firebase: sincronía silenciosa ===== */
