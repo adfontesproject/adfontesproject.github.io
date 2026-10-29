@@ -100,7 +100,7 @@
   };
   var INST='<svg '+W+'><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M4 14v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>';
   function enhanceNav(){
-    var nav=document.querySelector('.drawer-nav'); if(!nav) return; if(!nav.querySelector('.af-hoy')){ var hy=document.createElement('a'); hy.className='af-hoy'; hy.href='biblia.html'; hy.innerHTML='<span class="ic"><svg '+W+'><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>Mi lectura de hoy'; hy.addEventListener('click',function(){ try{ localStorage.setItem('af_ir_hoy','1'); }catch(e){} }); nav.insertBefore(hy, nav.firstChild); }
+    var nav=document.querySelector('.drawer-nav'); if(!nav) return; if(!nav.querySelector('.af-hoy')){ var hy=document.createElement('a'); hy.className='af-hoy'; hy.href='biblia.html'; hy.innerHTML='<span class="ic"><svg '+W+'><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>Mi lectura de hoy'; hy.addEventListener('click',function(){ try{ localStorage.setItem('af_ir_hoy','1'); sessionStorage.setItem('af_plan_view','1'); }catch(e){} }); nav.insertBefore(hy, nav.firstChild); }
     nav.querySelectorAll('a').forEach(function(a){
       var href=(a.getAttribute('href')||'').split('?')[0].split('#')[0];
       var ic=a.querySelector('.ic'); if(!ic) return;
@@ -119,3 +119,52 @@
   var n=0, iv=setInterval(function(){ enhanceNav(); buildPicker(); if(++n>20) clearInterval(iv); },300);
   if(document.readyState!=='loading'){ enhanceNav(); buildPicker(); } else document.addEventListener('DOMContentLoaded', function(){ enhanceNav(); buildPicker(); });
 })();
+
+/* ===== Biblia: cinta de plan solo en modo plan + boton copiar ===== */
+(function(){
+  var pth=(location.pathname||'');
+  if(pth.indexOf('biblia')<0) return;
+  var planView=false;
+  try{ planView=sessionStorage.getItem('af_plan_view')==='1'; sessionStorage.removeItem('af_plan_view'); }catch(e){}
+  if(!planView){
+    if(!document.getElementById('af-cinta-hide')){ var st=document.createElement('style'); st.id='af-cinta-hide'; st.textContent='#cinta{display:none!important}'; (document.head||document.documentElement).appendChild(st); }
+  }
+  function refActual(){
+    var h=''; try{ h=decodeURIComponent(location.hash||''); }catch(e){ h=location.hash||''; }
+    if(h.charAt(0)==='#') h=h.slice(1);
+    h=h.split('/').join(' ').trim();
+    if(h) return h;
+    var er=document.getElementById('enfRef'); if(er && er.textContent.trim()) return er.textContent.trim();
+    return '';
+  }
+  function textoActual(){
+    var sel=''; try{ sel=(window.getSelection&&window.getSelection().toString())||''; }catch(e){}
+    sel=sel.trim(); if(sel) return sel;
+    var et=document.getElementById('enfTexto'); if(et && et.offsetParent!==null && et.textContent.trim()) return et.textContent.trim();
+    return '';
+  }
+  function toast(msg){
+    var t=document.getElementById('af-toast');
+    if(!t){ t=document.createElement('div'); t.id='af-toast'; t.style.cssText='position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:rgba(20,20,22,.92);color:#fff;padding:.6rem 1rem;border-radius:12px;font-family:Inter,system-ui,sans-serif;font-size:.85rem;z-index:99999;opacity:0;transition:opacity .2s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.35)'; document.body.appendChild(t); }
+    t.textContent=msg; t.style.opacity='1'; clearTimeout(t.__h); t.__h=setTimeout(function(){ t.style.opacity='0'; },1600);
+  }
+  function fallbackCopy(s){ try{ var ta=document.createElement('textarea'); ta.value=s; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); var r=document.execCommand('copy'); document.body.removeChild(ta); return r; }catch(e){ return false; } }
+  function copiar(){
+    var txt=textoActual();
+    if(!txt){ toast('Selecciona el texto primero'); return; }
+    var ref=refActual(); var NL=String.fromCharCode(10);
+    var out='«'+txt+'»'; if(ref) out+=NL+'— '+ref+' (Reina-Valera 1909)';
+    function ok(){ toast('Copiado ✓'); try{ var s=window.getSelection&&window.getSelection(); if(s&&s.removeAllRanges) s.removeAllRanges(); }catch(e){} }
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(out).then(ok,function(){ if(fallbackCopy(out)) ok(); else toast('No se pudo copiar'); }); }
+    else { if(fallbackCopy(out)) ok(); else toast('No se pudo copiar'); }
+  }
+  function addFab(){
+    if(document.getElementById('af-copy-fab')) return;
+    var b=document.createElement('button'); b.id='af-copy-fab'; b.type='button'; b.setAttribute('aria-label','Copiar pasaje');
+    b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+    b.style.cssText='position:fixed;right:16px;bottom:84px;width:52px;height:52px;border-radius:50%;border:none;background:var(--gold,#b0842f);color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.35);cursor:pointer;z-index:9998;display:flex;align-items:center;justify-content:center';
+    b.addEventListener('click',copiar); document.body.appendChild(b);
+  }
+  if(document.readyState!=='loading') addFab(); else document.addEventListener('DOMContentLoaded',addFab);
+})();
+
