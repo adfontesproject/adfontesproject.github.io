@@ -150,7 +150,7 @@
   }
   function fallbackCopy(s){ try{ var ta=document.createElement('textarea'); ta.value=s; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); var r=document.execCommand('copy'); document.body.removeChild(ta); return r; }catch(e){ return false; } }
   function copiar(){
-    var txt=textoActual();
+    var sbt=document.getElementById('sbtFrame'); if(sbt && sbt.offsetParent!==null){ toast('Para copiar, cambia a la versión RV 1909 (el texto RV-SBT viene de un sitio externo)'); return; } var txt=textoActual();
     if(!txt){ toast('Selecciona el texto primero'); return; }
     var ref=refActual(); var NL=String.fromCharCode(10);
     var out='«'+txt+'»'; if(ref) out+=NL+'— '+ref+' (Reina-Valera 1909)';
