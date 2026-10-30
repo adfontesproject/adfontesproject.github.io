@@ -366,7 +366,7 @@ async function empujarNube(){
 /* ================= Navegación ================= */
 function irA(l, c, v){
   L = l; C = Math.min(Math.max(1, c), LIBROS[l][1]);
-  location.hash = encodeURIComponent(LIBROS[L][0]) + '/' + C + (v ? '/' + v : '');
+  location.replace('#'+(encodeURIComponent(LIBROS[L][0]) + '/' + C + (v ? '/' + v : '')));
   document.querySelectorAll('.overlay').forEach(o => o.classList.remove('abierto'));
   cargarCapitulo(v || null);
 }
@@ -750,7 +750,7 @@ function abrirPanel(v){
 
   document.getElementById('panelCapas').innerHTML = h;
   document.getElementById('panel').classList.add('abierto');
-  location.hash = encodeURIComponent(nombre) + '/' + C + '/' + v;
+  location.replace('#'+(encodeURIComponent(nombre) + '/' + C + '/' + v));
 }
 function irARef(r){
   const m = r.trim().match(/^([123]?\s?[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+)\s+(\d+)(?::(\d+))?/);
@@ -870,7 +870,7 @@ function abrirLecturaDeHoy(){
   const idx = IDX_LIBRO[normTxt(m[1])];
   if(idx === undefined) return false;
   L = idx; C = parseInt(m[2], 10);
-  location.hash = encodeURIComponent(LIBROS[L][0]) + '/' + C;
+  location.replace('#'+(encodeURIComponent(LIBROS[L][0]) + '/' + C));
   return true;
 }
 /* Recuerda el capítulo donde estabas al cambiar de pestaña y volver (dentro de la sesión) */
@@ -882,7 +882,7 @@ function restaurarPos(){
   const idx = IDX_LIBRO[normTxt(m[1])];
   if(idx === undefined) return false;
   L = idx; C = parseInt(m[2], 10);
-  location.hash = encodeURIComponent(LIBROS[L][0]) + '/' + C;
+  location.replace('#'+(encodeURIComponent(LIBROS[L][0]) + '/' + C));
   return true;
 }
 const v0 = leerHash();
