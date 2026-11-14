@@ -168,3 +168,10 @@
   if(document.readyState!=='loading') addFab(); else document.addEventListener('DOMContentLoaded',addFab);
 })();
 
+/* ===== Lectura mas suave en oscuro (confesiones y catecismos) ===== */
+(function(){
+  if(document.getElementById('af-soft')) return;
+  var st=document.createElement('style'); st.id='af-soft';
+  st.textContent='html[data-theme="dark"] .doc p.par, html[data-theme="dark"] .doc .qa-r, html[data-theme="dark"] .doc .credo-texto, html[data-theme="dark"] .doc .credo-intro{color:var(--ink2)!important} .enfoque .doc p.par, .enfoque .qa-r, .enfoque .credo-intro, .enfoque .credo-texto{color:#cfc9bc!important}';
+  (document.head||document.documentElement).appendChild(st);
+})();
