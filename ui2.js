@@ -236,3 +236,9 @@
   window.addEventListener('hashchange',function(){ setTimeout(start,60); });
   var kick=function(){ setTimeout(start,1200); }; if(document.readyState==='complete') kick(); else window.addEventListener('load',kick);
 })();
+
+/* ===== Oscuro: ventanas y botones que quedaban blancos en la Biblioteca ===== */
+(function(){ if(document.getElementById("af-fix2")) return; var st=document.createElement("style"); st.id="af-fix2";
+  st.textContent='html[data-theme="dark"] #vBox{background:var(--card)!important;color:var(--ink)!important;border:1px solid var(--line2)!important} html[data-theme="dark"] #vAbrir{color:var(--gold-light)!important;border-color:var(--line2)!important;background:transparent!important} html[data-theme="dark"] .num-grid button{background:var(--card)!important;color:var(--ink)!important;border-color:var(--line2)!important} html[data-theme="dark"] .num-grid button.act{background:var(--gold)!important;color:#17130c!important;border-color:var(--gold)!important} html[data-theme="dark"] .ficha-tog.on{background:rgba(200,155,92,.14)!important;color:var(--gold-light)!important;border-color:var(--gold)!important} html[data-theme="dark"] .qa-n{background:var(--gold)!important;color:#17130c!important} html[data-theme="dark"] .dialogo{background:rgba(255,255,255,.05)!important;color:var(--ink)!important;border-color:var(--line2)!important} html[data-theme="dark"] .tarjeta-cab{background:var(--card)!important;color:var(--ink-soft)!important} html[data-theme="dark"] .ref-chip{background:rgba(200,155,92,.13)!important;color:var(--gold-light)!important;border-color:rgba(200,155,92,.35)!important}';
+  (document.head||document.documentElement).appendChild(st);
+})();
