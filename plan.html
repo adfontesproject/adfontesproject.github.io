@@ -230,7 +230,6 @@ function diaHoy(){
 function cambiarPlan(id){
   if(!PLANES_IDX[id]) return;
   PID = id;
-  localStorage.setItem('af_plan_activo', id);
   cargarEstado();
   cfgAbierta = false;
   pintarDia();
@@ -241,17 +240,24 @@ function pintarPlanes(){
     const hechos = JSON.parse(localStorage.getItem(claveP(p.id,'done')) || '[]').length;
     const pct = Math.round(hechos / p.dias * 100);
     return '<button class="plan-pill' + (p.id === PID ? ' act' : '') + '" style="position:relative" onclick="cambiarPlan(\'' + p.id + '\')" title="' + p.desc.replace(/"/g,'&quot;') + '">' +
-      '<b>' + p.nombre + '</b><small>' + p.sub + '</small>' +
+      '<b>' + (p.id === planLectura() ? '★ ' : '') + p.nombre + '</b><small>' + p.sub + '</small>' +
       (hechos ? '<i>' + hechos + '/' + p.dias + ' · ' + pct + '%</i>' : '<i class="cero">sin empezar</i>') + (hechos ? '<span class="plan-del" title="Borrar mi progreso de este plan" onclick="event.stopPropagation();borrarPlan(\'' + p.id + '\');return false;" style="position:absolute;top:3px;right:6px;width:20px;height:20px;line-height:18px;text-align:center;border-radius:50%;background:rgba(0,0,0,.18);font-size:12px;opacity:.7;cursor:pointer">✕</span>' : '') +
       '</button>';
   }).join('');
+  var act = planLectura();
+  var u = document.getElementById('planUso');
+  if(!u){ u = document.createElement('div'); u.id = 'planUso'; u.style.cssText = 'margin:-.7rem 0 1.2rem;font-family:Inter,sans-serif;font-size:.8rem;line-height:1.5;color:var(--ink-soft);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap'; var bb = document.getElementById('planesBarra'); bb.parentNode.insertBefore(u, bb.nextSibling); }
+  u.innerHTML = (PID === act)
+    ? '<span>★ Tu plan de lectura: <b>' + PLANES_IDX[act].nombre + '</b> — es el que abre «Continuar» y «Mi lectura de hoy».</span>'
+    : '<span>Estás viendo <b>' + PLANES_IDX[PID].nombre + '</b>. Tu plan de lectura sigue siendo <b>' + PLANES_IDX[act].nombre + '</b>.</span><button onclick="usarPlan()" style="font-family:Inter,sans-serif;font-size:.78rem;font-weight:600;padding:.4rem .75rem;border-radius:9px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer">Usar este como mi plan</button>';
 }
-
+function planLectura(){ var a = localStorage.getItem('af_plan_activo') || 'cronologico'; return PLANES_IDX[a] ? a : 'cronologico'; }
+function usarPlan(){ localStorage.setItem('af_plan_activo', PID); localStorage.setItem('af_plan_elegido', '1'); pintarPlanes(); }
 function borrarPlan(id){
   var p = PLANES_IDX[id]; if(!p) return;
   if(!confirm('¿Borrar tu progreso del plan "' + p.nombre + '"? Esto no se puede deshacer.')) return;
   ['done','start','current'].forEach(function(k){ localStorage.removeItem(claveP(id,k)); });
-  if(id === PID){ var destino = (id !== 'mi' && PLANES_IDX['mi']) ? 'mi' : 'cronologico'; PID = destino; localStorage.setItem('af_plan_activo', destino); cargarEstado(); }
+  if(id === planLectura()){ var destino = (id !== 'mi' && PLANES_IDX['mi']) ? 'mi' : 'cronologico'; localStorage.setItem('af_plan_activo', destino); } if(id === PID){ cargarEstado(); }
   pintarDia(); pintarPlanes();
 }
 
@@ -458,7 +464,7 @@ document.addEventListener('keydown', e => {
 /* Permite enlazar un plan concreto: plan.html#nt90 */
 if(location.hash){
   const h = location.hash.slice(1);
-  if(PLANES_IDX[h]){ PID = h; localStorage.setItem('af_plan_activo', h); }
+  if(PLANES_IDX[h]){ PID = h; }
 }
 cargarEstado();
 pintarDia();
