@@ -1,5 +1,5 @@
 /* Service Worker — La Biblia en un Año (PWA: sin conexión + notificaciones) */
-const CACHE = "adfontes-v102";
+const CACHE = "adfontes-v103";
 const FILES = ['./', 'index.html', 'ui2.js', 'biblia.html', 'plan.html', 'biblioteca.html', 'comunidad.html', 'estudios.html', 'estudio-mortificacion.html', 'estudio-peregrino.html', 'sugerencias.html', 'videos.html', 'notas.html', 'plan.js', 'planes.js', 'pasajes.js', 'comentarios.js', 'credos.js', 'dossier.js', 'confesiones.js', 'catecismos.js', 'fundamentos.js', 'historia.js', 'estudio.js', 'contextos.js', 'referencias.js', 'videos.js', 'recursos.js', 'manifest.json', 'icon-adfontes.png', 'Ad Fontes Logo Origen.png'];
 
 self.addEventListener('install', e => {
@@ -24,7 +24,7 @@ self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (url.origin !== location.origin) return;
   e.respondWith(
-    fetch(e.request).then(r => {
+    fetch(e.request, { cache: 'no-cache' }).then(r => {
       const copia = r.clone();
       caches.open(CACHE).then(c => c.put(e.request, copia));
       return r;
